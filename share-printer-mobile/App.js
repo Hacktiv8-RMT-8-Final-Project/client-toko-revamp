@@ -1,6 +1,11 @@
-import { StatusBar } from "expo-status-bar"
-import React from "react"
-import { StyleSheet, Text, View } from "react-native"
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Login from './src/screens/Login'
+import Register from './src/screens/Register'
+
+const Stack = createStackNavigator();
 
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import { NavigationContainer } from "@react-navigation/native"
@@ -24,6 +29,7 @@ function Register_Screen() {
 
 function DashBoard_Screen() {
   return (
+<<<<<<< HEAD
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Dashboard Screen!</Text>
     </View>
@@ -58,3 +64,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 })
+=======
+    <NavigationContainer>
+      <Stack.Navigator>
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+          <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+>>>>>>> bbb003fb1878c87b90d26d5b5c1495639cb0c960
