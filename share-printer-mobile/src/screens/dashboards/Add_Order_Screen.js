@@ -1,11 +1,23 @@
 import React from "react"
-import { StyleSheet, Text, View } from "react-native"
+import { TouchableOpacity, StyleSheet, Text, View } from "react-native"
 
-function Add_Order_Screen() {
+import { createStackNavigator } from "@react-navigation/stack"
+
+import { Google_Map_Shop_Screen, Shop_Profile_Screen, Form_Order_Print_Screen, Order_Receipt_Screen } from "../add_print_orders"
+
+const Stack = createStackNavigator()
+function Add_Order_Screen(props) {
   return (
-    <View style={styles.container}>
-      <Text>Add_Order_Screen!</Text>
-    </View>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Google Map Shop" component={Google_Map_Shop_Screen} />
+      <Stack.Screen name="Shop Profile" component={Shop_Profile_Screen} />
+      <Stack.Screen name="Form Order Print" component={Form_Order_Print_Screen} />
+      <Stack.Screen name="Order Receipt" component={Order_Receipt_Screen} />
+    </Stack.Navigator>
   )
 }
 
