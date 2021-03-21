@@ -1,48 +1,48 @@
 import React from "react"
-import { StyleSheet, Text, View } from "react-native"
-import { DataTable } from "react-native-paper"
+import { Subscribe } from "unstated"
+import { TouchableOpacity, Text, Button, View, StyleSheet } from "react-native"
 
-function Transaction_History_Screen(props) {
+import CounterContainer from "../containers/counter"
+
+const Counter = () => {
   return (
-    <View style={styles.container}>
-      <DataTable>
-        <DataTable.Header>
-          <DataTable.Title>Dessert</DataTable.Title>
-          <DataTable.Title numeric>Calories</DataTable.Title>
-          <DataTable.Title numeric>Fat</DataTable.Title>
-        </DataTable.Header>
-
-        <DataTable.Row>
-          <DataTable.Cell>Frozen yogurt</DataTable.Cell>
-          <DataTable.Cell numeric>159</DataTable.Cell>
-          <DataTable.Cell numeric>6.0</DataTable.Cell>
-        </DataTable.Row>
-
-        <DataTable.Row>
-          <DataTable.Cell>Ice cream sandwich</DataTable.Cell>
-          <DataTable.Cell numeric>237</DataTable.Cell>
-          <DataTable.Cell numeric>8.0</DataTable.Cell>
-        </DataTable.Row>
-
-        <DataTable.Pagination
-          page={1}
-          numberOfPages={3}
-          onPageChange={(page) => {
-            console.log(page)
-          }}
-          label="1-2 of 6"
-        />
-      </DataTable>
-    </View>
+    <Subscribe to={[CounterContainer]}>
+      {(counterContainer) => (
+        <View style={styles.container}>
+          <Text>The current count value Count: {counterContainer.state.count}</Text>
+          {/* <Button onClick={counterContainer.increment}>Increment</Button>
+          <Button onClick={counterContainer.decrement}>Decrement</Button> */}
+          <TouchableOpacity onPress={counterContainer.increment} style={styles.button}>
+            <Text style={styles.button_text}>Increment</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={counterContainer.decrement} style={styles.button}>
+            <Text style={styles.button_text}>Decrement</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </Subscribe>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  container: { flex: 1, justifyContent: "center", alignItems: "center" },
+  button: {
+    display: "flex",
+    height: 40,
+    borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
+    minWidth: 150,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: "blue",
+
+    backgroundColor: "white",
+  },
+  button_text: {
+    fontSize: 16,
+    textTransform: "uppercase",
   },
 })
 
-export default Transaction_History_Screen
+export default Counter
