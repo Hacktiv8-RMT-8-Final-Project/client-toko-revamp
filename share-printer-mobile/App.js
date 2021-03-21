@@ -1,38 +1,43 @@
-import { StatusBar } from "expo-status-bar"
 import React from "react"
-import { StyleSheet, Text, View } from "react-native"
+import { DefaultTheme, Provider as PaperProvider } from "react-native-paper"
 
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
+import { Provider } from "unstated"
 
 import { Test_Screen, Login_Screen, Register_Screen, Dashboard_Screen } from "./src/screens"
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "tomato",
+    accent: "yellow",
+  },
+}
 
 const Stack = createStackNavigator()
 export default function App() {
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          {/* <Stack.Screen name="Test" component={Test_Screen} /> */}
-          <Stack.Screen name="Login" component={Login_Screen} />
-          <Stack.Screen name="Register" component={Register_Screen} />
-          <Stack.Screen name="Dashboard" component={Dashboard_Screen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Provider>
+        <PaperProvider theme={theme}>
+          <NavigationContainer>
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+              }}
+            >
+              {/* <Stack.Screen name="Test" component={Test_Screen} /> */}
+              <Stack.Screen name="Login" component={Login_Screen} />
+              <Stack.Screen name="Register" component={Register_Screen} />
+              <Stack.Screen name="Dashboard" component={Dashboard_Screen} />
+              <Stack.Screen name="Test" component={Test_Screen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </PaperProvider>
+      </Provider>
     </SafeAreaProvider>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-})
