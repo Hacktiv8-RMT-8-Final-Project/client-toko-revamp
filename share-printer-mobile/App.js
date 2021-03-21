@@ -32,6 +32,7 @@ export default function App() {
             <Stack.Navigator
               screenOptions={{
                 headerShown: false,
+                // cardStyleInterpolator: forFade,
               }}
             >
               {/* <Stack.Screen name="Test" component={Test_Screen} /> */}
