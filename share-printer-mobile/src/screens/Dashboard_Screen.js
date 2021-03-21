@@ -1,11 +1,43 @@
 import React from "react"
 import { TouchableOpacity, Text, View, StyleSheet } from "react-native"
 
+import Ionicons from "react-native-vector-icons/Ionicons"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+
+import { Add_Order_Screen, Current_Orders_Screen, Transaction_History_Screen, Profile_Settings_Screen } from "./dashboards"
+
+const Tab = createBottomTabNavigator()
 function Dashboard_Screen(props) {
   return (
-    <View style={styles.container}>
-      <Text>Dashboard Screen!</Text>
-    </View>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName
+
+          if (route.name === "Form_Add_Order") {
+            iconName = focused ? "add-circle" : "add-circle-outline"
+          } else if (route.name === "Current_Orders") {
+            iconName = focused ? "document-text" : "document-text-outline"
+          } else if (route.name === "Transaction_History") {
+            iconName = focused ? "cube" : "cube-outline"
+          } else if (route.name === "Profile_Settings") {
+            iconName = focused ? "book" : "book-outline"
+          }
+
+          // You can return any component that you like here!
+          return <Ionicons name={iconName} size={size} color={color} />
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: "black",
+        inactiveTintColor: "gray",
+      }}
+    >
+      <Tab.Screen name="Form_Add_Order" component={Add_Order_Screen} />
+      <Tab.Screen name="Current_Orders" component={Current_Orders_Screen} />
+      <Tab.Screen name="Transaction_History" component={Transaction_History_Screen} />
+      <Tab.Screen name="Profile_Settings" component={Profile_Settings_Screen} />
+    </Tab.Navigator>
   )
 }
 
