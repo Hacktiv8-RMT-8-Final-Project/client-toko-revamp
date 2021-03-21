@@ -1,18 +1,23 @@
 import React from "react"
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native"
 
-function Profile_Settings_Screen(props) {
-  const log_out_go_to_home = () => {
-    props.navigation.navigate("Login")
+function Shop_Profile_Screen(props) {
+  const fill_add_form = () => {
+    props.navigation.navigate("Form Order Print")
+  }
+  const chatting_with_shop = () => {
+    console.log(`chatting_with_shop`)
   }
   return (
     <View style={styles.container}>
-      <Text>User profile screen!</Text>
-
-      <TouchableOpacity onPress={log_out_go_to_home} style={styles.button}>
-        <Text style={styles.button_text}>Log Out</Text>
+      <Text>Detail table product print Shop here!</Text>
+      <TouchableOpacity onPress={fill_add_form} style={styles.button}>
+        <Text style={styles.button_text}>Fill add Form</Text>
       </TouchableOpacity>
-      <Text>Profile_Settings_Screen!</Text>
+      <TouchableOpacity onPress={chatting_with_shop} style={styles.button}>
+        <Text style={styles.button_text}>Chat shop</Text>
+      </TouchableOpacity>
+      <Text>Shop_Profile_Screen!</Text>
     </View>
   )
 }
@@ -42,4 +47,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Profile_Settings_Screen
+export default Shop_Profile_Screen

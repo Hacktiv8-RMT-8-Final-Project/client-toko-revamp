@@ -1,7 +1,7 @@
 import React from "react"
 import { StyleSheet, Text, View } from "react-native"
 
-function Transaction_History_Screen() {
+function Transaction_History_Screen(props) {
   return (
     <View style={styles.container}>
       <Text>Transaction_History_Screen!</Text>

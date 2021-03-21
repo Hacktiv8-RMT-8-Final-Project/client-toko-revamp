@@ -1,7 +1,7 @@
 import React from "react"
 import { StyleSheet, Text, View } from "react-native"
 
-function Current_Orders_Screen() {
+function Current_Orders_Screen(props) {
   return (
     <View style={styles.container}>
       <Text>Current_Orders_Screen!</Text>

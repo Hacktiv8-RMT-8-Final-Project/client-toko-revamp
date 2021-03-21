@@ -1,18 +1,17 @@
 import React from "react"
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native"
 
-function Profile_Settings_Screen(props) {
-  const log_out_go_to_home = () => {
-    props.navigation.navigate("Login")
+function Google_Map_Shop_Screen(props) {
+  const confirm_choose_shop = () => {
+    props.navigation.navigate("Shop Profile")
   }
   return (
     <View style={styles.container}>
-      <Text>User profile screen!</Text>
-
-      <TouchableOpacity onPress={log_out_go_to_home} style={styles.button}>
-        <Text style={styles.button_text}>Log Out</Text>
+      <Text>Choose shop first - Google Map Here</Text>
+      <TouchableOpacity onPress={confirm_choose_shop} style={styles.button}>
+        <Text style={styles.button_text}>Confirm Shop</Text>
       </TouchableOpacity>
-      <Text>Profile_Settings_Screen!</Text>
+      <Text>Google_Map_Shop_Screen!</Text>
     </View>
   )
 }
@@ -42,4 +41,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Profile_Settings_Screen
+export default Google_Map_Shop_Screen

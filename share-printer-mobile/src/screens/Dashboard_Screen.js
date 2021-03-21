@@ -14,13 +14,13 @@ function Dashboard_Screen(props) {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName
 
-          if (route.name === "Form_Add_Order") {
+          if (route.name === "Order Print") {
             iconName = focused ? "add-circle" : "add-circle-outline"
-          } else if (route.name === "Current_Orders") {
+          } else if (route.name === "Current Orders") {
             iconName = focused ? "document-text" : "document-text-outline"
-          } else if (route.name === "Transaction_History") {
+          } else if (route.name === "Transaction History") {
             iconName = focused ? "cube" : "cube-outline"
-          } else if (route.name === "Profile_Settings") {
+          } else if (route.name === "Profile Settings") {
             iconName = focused ? "book" : "book-outline"
           }
 
@@ -33,10 +33,10 @@ function Dashboard_Screen(props) {
         inactiveTintColor: "gray",
       }}
     >
-      <Tab.Screen name="Form_Add_Order" component={Add_Order_Screen} />
-      <Tab.Screen name="Current_Orders" component={Current_Orders_Screen} />
-      <Tab.Screen name="Transaction_History" component={Transaction_History_Screen} />
-      <Tab.Screen name="Profile_Settings" component={Profile_Settings_Screen} />
+      <Tab.Screen name="Order Print" component={Add_Order_Screen} />
+      <Tab.Screen name="Current Orders" component={Current_Orders_Screen} />
+      <Tab.Screen name="Transaction History" component={Transaction_History_Screen} />
+      <Tab.Screen name="Profile Settings" component={Profile_Settings_Screen} />
     </Tab.Navigator>
   )
 }
