@@ -1,16 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Image, TextInput, Button } from 'react-native';
+import axios from 'axios'
 
 export default function Home({ navigation }) {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  function onChangeUsername(text) {
+    console.log(text);
+    setUsername(text)
+  }
   function onChangeEmail(text) {
+    console.log(text);
     setEmail(text)
   }
   function onChangePassword(text) {
+    console.log(text);
     setPassword(text)
+  }
+
+  function register() {
+    axios({
+      method: 'POST',
+      url: 'http://192.168.0.102:3000/user/register',
+      data: { username, email, password }
+    }).then(res => {
+      console.log(res);
+    }).catch(err => {
+      alert(err)
+      console.log(err);
+    })
   }
 
   return (
@@ -34,7 +54,7 @@ export default function Home({ navigation }) {
               backgroundColor: 'whitesmoke',
               color: "#4B250F"
             }}
-            onChangeText={text => onChangeEmail(text)}
+            onChangeText={text => onChangeUsername(text)}
           />
           <Text style={styles.name}>Email:</Text>
           <TextInput
@@ -72,10 +92,10 @@ export default function Home({ navigation }) {
             <Button 
               title="Register"
               onPress={() => {
-                if (email && password) {
-
+                if (username && email && password) {
+                  register()
                   // navigation.navigate('Game')
-                } else if (email === "" || !email || password === "" || !email) {
+                } else if (username === "" || !username || email === "" || !email || password === "" || !email) {
                   alert('You must insert your email & password')
                 }
               }}

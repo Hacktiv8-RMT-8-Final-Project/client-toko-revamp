@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, Image, TextInput, Button } from 'react-native';
+import axios from 'axios'
 
 export default function Home({ navigation }) {
   const [email, setEmail] = useState('')
@@ -10,6 +11,19 @@ export default function Home({ navigation }) {
   }
   function onChangePassword(text) {
     setPassword(text)
+  }
+
+  function login() {
+    axios({
+      method: 'POST',
+      url: 'http://192.168.0.102:3000/user/login',
+      data: { email, password }
+    }).then(res => {
+      console.log(res);
+    }).catch(err => {
+      alert(err)
+      console.log(err);
+    })
   }
 
   return (
@@ -57,7 +71,7 @@ export default function Home({ navigation }) {
               title="Login"
               onPress={() => {
                 if (email && password) {
-
+                  login()
                   // navigation.navigate('Game')
                 } else if (email === "" || !email || password === "" || !email) {
                   alert('You must insert your email & password')
