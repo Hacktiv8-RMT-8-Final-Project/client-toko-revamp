@@ -1,16 +1,47 @@
-import React from "react"
+import React, {useState} from "react"
+import { AsyncStorage } from 'react-native';
+import axios from 'axios'
 import { TouchableOpacity, Text, TextInput, View, StyleSheet, ImageBackground } from "react-native"
 
 // import bgImage from "../images/background_login_register.jpg"
 // <ImageBackground source={bgImage} style={styles.backgroundContainer}>
 
 function Login_Screen(props) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  function onChangeEmail(text) {
+    console.log(text);
+    setEmail(text)
+  }
+  function onChangePassword(text) {
+    console.log(text);
+    setPassword(text)
+  }
+
   const go_to_register_screen = () => {
     props.navigation.navigate("Register")
   }
-  const go_to_dashboard_screen = () => {
-    props.navigation.navigate("Dashboard")
+  const go_to_dashboard_screen =  () => {
+    axios({
+      method: 'POST',
+      url: 'http://192.168.0.102:3000/user/login',
+      data: { email, password }
+    }).then(({data}) => {
+      // console.log(data.access_token);
+      AsyncStorage.setItem('access_token', JSON.stringify(data.access_token))
+      // props.navigation.navigate("Dashboard")
+    }).catch(err => {
+      alert(err)
+      console.log(err);
+    })
+
   }
+  
+  AsyncStorage.clear()
+  AsyncStorage.getItem('access_token', (err, result) => {
+    console.log(result, 'ini dari asyncstorage diluar');
+  });
 
   return (
     <>
@@ -18,10 +49,10 @@ function Login_Screen(props) {
         <Text style={styles.title}>Share Printer</Text>
 
         <View style={styles.inputView}>
-          <TextInput style={styles.inputText} placeholder="Email" placeholderTextColor="#003f5c" />
+          <TextInput onChangeText={onChangeEmail} style={styles.inputText} placeholder="Email" placeholderTextColor="#003f5c" />
         </View>
         <View style={styles.inputView}>
-          <TextInput style={styles.inputText} placeholder="Password" placeholderTextColor="#003f5c" />
+          <TextInput onChangeText={onChangePassword} style={styles.inputText} placeholder="Password" placeholderTextColor="#003f5c" />
         </View>
         <TouchableOpacity style={styles.loginBtn} onPress={go_to_dashboard_screen}>
           <Text style={styles.loginText}>LOGIN</Text>
