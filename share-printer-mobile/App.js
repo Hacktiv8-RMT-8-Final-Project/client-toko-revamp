@@ -1,11 +1,6 @@
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import Login from './src/screens/Login'
-import Register from './src/screens/Register'
-
-const Stack = createStackNavigator();
 
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import { NavigationContainer } from "@react-navigation/native"
@@ -39,6 +34,7 @@ function DashBoard_Screen() {
 const Stack = createStackNavigator()
 export default function App() {
   return (
+<<<<<<< HEAD
     <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator
@@ -74,3 +70,20 @@ const styles = StyleSheet.create({
   );
 }
 >>>>>>> bbb003fb1878c87b90d26d5b5c1495639cb0c960
+=======
+    <View style={styles.container}>
+      <Text>Open up App.js to start working on your app!</Text>
+      <StatusBar style="auto" />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+>>>>>>> 18dc7c9ff9788c77d788a2984ebaf9a8d60a8d01
