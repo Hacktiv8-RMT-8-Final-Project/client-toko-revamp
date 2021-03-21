@@ -1,22 +1,16 @@
 import React from "react"
 import { TouchableOpacity, Text, View, StyleSheet } from "react-native"
 
-function Login_Screen(props) {
-  const go_to_register_screen = () => {
-    props.navigation.navigate("Register")
-  }
-  const go_to_dashboard_screen = () => {
-    props.navigation.navigate("Dashboard")
+function Register_Screen(props) {
+  const go_to_login_screen = () => {
+    props.navigation.navigate("Login")
   }
 
   return (
     <View style={styles.container}>
-      <Text>Login Screen!</Text>
-      <TouchableOpacity onPress={go_to_dashboard_screen} style={styles.button}>
-        <Text style={styles.button_text}>Dashboard</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={go_to_register_screen} style={styles.button}>
-        <Text style={styles.button_text}>Register</Text>
+      <Text>Register Screen!</Text>
+      <TouchableOpacity onPress={go_to_login_screen} style={styles.button}>
+        <Text style={styles.button_text}>Login</Text>
       </TouchableOpacity>
     </View>
   )
@@ -43,4 +37,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Login_Screen
+export default Register_Screen

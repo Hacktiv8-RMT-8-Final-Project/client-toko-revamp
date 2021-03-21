@@ -6,29 +6,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context"
 import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 
-function Login_Screen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Login Screen!</Text>
-    </View>
-  )
-}
-
-function Register_Screen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Register Screen!</Text>
-    </View>
-  )
-}
-
-function DashBoard_Screen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Dashboard Screen!</Text>
-    </View>
-  )
-}
+import { Test_Screen, Login_Screen, Register_Screen, Dashboard_Screen } from "./src/screens"
 
 const Stack = createStackNavigator()
 export default function App() {
@@ -43,7 +21,7 @@ export default function App() {
           {/* <Stack.Screen name="Test" component={Test_Screen} /> */}
           <Stack.Screen name="Login" component={Login_Screen} />
           <Stack.Screen name="Register" component={Register_Screen} />
-          <Stack.Screen name="DashBoard" component={DashBoard_Screen} />
+          <Stack.Screen name="Dashboard" component={Dashboard_Screen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
