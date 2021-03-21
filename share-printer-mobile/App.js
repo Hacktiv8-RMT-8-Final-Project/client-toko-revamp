@@ -16,6 +16,11 @@ const theme = {
     accent: "yellow",
   },
 }
+const forFade = ({ current }) => ({
+  cardStyle: {
+    opacity: current.progress,
+  },
+})
 
 const Stack = createStackNavigator()
 export default function App() {
@@ -33,7 +38,6 @@ export default function App() {
               <Stack.Screen name="Login" component={Login_Screen} />
               <Stack.Screen name="Register" component={Register_Screen} />
               <Stack.Screen name="Dashboard" component={Dashboard_Screen} />
-              <Stack.Screen name="Test" component={Test_Screen} />
             </Stack.Navigator>
           </NavigationContainer>
         </PaperProvider>
