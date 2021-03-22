@@ -1,21 +1,21 @@
-import React, { useState } from "react"
-import { AsyncStorage } from "react-native"
-import axios from "axios"
+import React, {useState} from "react"
+import { AsyncStorage } from 'react-native';
+import axios from 'axios'
 import { TouchableOpacity, Text, TextInput, View, StyleSheet, ImageBackground } from "react-native"
 
 // import bgImage from "../images/background_login_register.jpg"
 // <ImageBackground source={bgImage} style={styles.backgroundContainer}>
 
 function Login_Screen(props) {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   function onChangeEmail(text) {
-    console.log(text)
+    console.log(text);
     setEmail(text)
   }
   function onChangePassword(text) {
-    console.log(text)
+    console.log(text);
     setPassword(text)
   }
 
@@ -43,10 +43,12 @@ function Login_Screen(props) {
       })
   }
 
+  }
+  
   AsyncStorage.clear()
-  AsyncStorage.getItem("access_token", (err, result) => {
-    console.log(result, "ini dari asyncstorage diluar")
-  })
+  AsyncStorage.getItem('access_token', (err, result) => {
+    console.log(result, 'ini dari asyncstorage diluar');
+  });
 
   return (
     <>
