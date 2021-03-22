@@ -30,7 +30,7 @@ function Login_Screen(props) {
     }).then(({data}) => {
       // console.log(data.access_token);
       AsyncStorage.setItem('access_token', JSON.stringify(data.access_token))
-      // props.navigation.navigate("Dashboard")
+      props.navigation.navigate("Dashboard")
     }).catch(err => {
       alert(err)
       console.log(err);
@@ -38,9 +38,9 @@ function Login_Screen(props) {
 
   }
   
-  AsyncStorage.clear()
+  // AsyncStorage.clear()
   AsyncStorage.getItem('access_token', (err, result) => {
-    console.log(result, 'ini dari asyncstorage diluar');
+    // console.log(result, 'ini dari asyncstorage diluar');
   });
 
   return (
