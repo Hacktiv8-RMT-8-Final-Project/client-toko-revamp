@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import axios from '../config/axios'
 import { TouchableOpacity, Text, TextInput, View, StyleSheet, ImageBackground } from "react-native"
-
+ 
 function Register_Screen(props) {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
