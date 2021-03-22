@@ -24,18 +24,18 @@ function Login_Screen(props) {
   }
   const go_to_dashboard_screen =  () => {
     props.navigation.navigate("Dashboard")
-    // axios({
-    //   method: 'POST',
-    //   url: 'http://192.168.0.102:3002/user/login',
-    //   data: { email, password }
-    // }).then(({data}) => {
-    //   // console.log(data.access_token);
-    //   AsyncStorage.setItem('access_token', JSON.stringify(data.access_token))
-    //   // props.navigation.navigate("Dashboard")
-    // }).catch(err => {
-    //   alert(err)
-    //   console.log(err);
-    // })
+  //   axios({
+  //     method: 'POST',
+  //     url: 'http://192.168.0.102:3000/user/login',
+  //     data: { email, password }
+  //   }).then(({data}) => {
+  //     // console.log(data.access_token);
+  //     AsyncStorage.setItem('access_token', JSON.stringify(data.access_token))
+  //     // props.navigation.navigate("Dashboard")
+  //   }).catch(err => {
+  //     alert(err)
+  //     console.log(err);
+  //   })
 
   }
   

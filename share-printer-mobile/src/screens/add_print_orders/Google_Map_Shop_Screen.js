@@ -1,7 +1,6 @@
-import React, { useEffect } from "react"
-import { TouchableOpacity, StyleSheet, Text, View, Dimensions } from "react-native"
-
-import {MapView, Marker} from "react-native-maps"
+import React, { useEffect, useState } from "react"
+import { TouchableOpacity, StyleSheet, Text, View, Dimensions, PermissionsAndroid } from "react-native"
+import MapView, {Marker} from "react-native-maps"
 
 let data_backend = {
   msg: "Successfully read list of shop including the details near your area",
@@ -11,7 +10,7 @@ let data_backend = {
       name: "MercuAna Printer",
       products: null,
       location: "{id: 0, lat: -6.21367608579002, lng: 106.73623643541197}",
-      status_open: true,
+      status_open: false,
       email: "mercuana_printer@mail.com",
       password: "$2a$10$no8mKFggsEZBKAVm/8zbTeMbu8KYvSxDvM5K0s5OFiwsSurcAAjce",
       createdAt: "2021-03-21T00:41:34.009Z",
@@ -33,7 +32,7 @@ let data_backend = {
       name: "Kubar Printer",
       products: null,
       location: "{id: 0, lat: -6.229305035258377, lng: 106.78892301623551}",
-      status_open: true,
+      status_open: false,
       email: "kubar_printer@mail.com",
       password: "$2a$10$no8mKFggsEZBKAVm/8zbTeMbu8KYvSxDvM5K0s5OFiwsSurcAAjce",
       createdAt: "2021-03-21T00:41:34.009Z",
@@ -80,21 +79,67 @@ let data_backend = {
 }
 
 function Google_Map_Shop_Screen(props) {
+  const [shops, setshops] = useState([])
+  const [currentPosition, setCurrentPosition] = useState({
+    longitude: 106.7699829,
+    latitude: -6.1837949,
+    longitudeDelta: 0.6,
+    latitudeDelta: 0.7
+  })
+
+  const [selectedShop, setSelectedShop] = useState({})
   const confirm_choose_shop = () => {
     props.navigation.navigate("Shop Profile")
   }
 
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition(position => {
+      setCurrentPosition({
+        longitude: position.coords.longitude,
+        latitude: position.coords.latitude,
+        longitudeDelta: 0.6,
+        latitudeDelta: 0.7
+      })
+		});
+    let shops = [...data_backend.data] // Data ini Dari Server
+    let map = shops.map(item => {
+      if(typeof item.location === 'string'){
+        let latitude = +item.location.split('lat: ').slice(1).join('').split(', ')[0]
+        let longitude = +item.location.split('lng: ').slice(1).join('').split('}')[0]
+        item.location = {latitude, longitude}
+      }
 
+      return item
+    })
+
+    setshops(map)
   }, [])
+
+  const selectShop = (shop) => {
+    console.log(shop)
+    setSelectedShop(shop)
+  }
+
   return (
     <>
       <View style={styles.container}>
         <View style={styles.container_map}>
-          <MapView style={styles.map}>
-          <Marker
-            coordinate={{latitude: 6, longitude: -107}}
-          />
+          <MapView style={styles.map} initialRegion={currentPosition}>
+              <Marker coordinate={currentPosition} pinColor={"purple"} title="this is You" />
+            {
+              shops.map(shop => {
+                return (
+                  <Marker
+                    key={shop.id}
+                    coordinate={shop.location}
+                    onPress={() => selectShop(shop)}
+                    title={shop.name}
+                    description= {shop.status_open === true ? 'This Shop is Open' : 'This Shop is Closed'}
+                    pinColor = {shop.status_open === true ? 'green' : 'red'}
+                  />
+                )
+              })
+            }
           </MapView>
         </View>
         <View style={styles.container_shop}>

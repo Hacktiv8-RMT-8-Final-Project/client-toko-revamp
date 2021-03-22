@@ -1,5 +1,5 @@
 import React from "react"
-import { ImageBackground, TouchableOpacity, StyleSheet, Text, View } from "react-native"
+import { ImageBackground, TouchableOpacity, StyleSheet, Text, View, PermissionsAndroid } from "react-native"
 import bgImage from "../../images/background_login_register.jpg"
 
 function Landing_Page_Screen(props) {

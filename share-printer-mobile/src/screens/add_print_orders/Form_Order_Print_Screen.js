@@ -87,6 +87,7 @@ function Form_Order_Print_Screen(props) {
       await bucket.put(blob)
       const url = await bucket.getDownloadURL()
       console.log(url)
+      set_file_url_link(url)
       console.log('upload File')
     } catch(err) {
       console.log(err)
