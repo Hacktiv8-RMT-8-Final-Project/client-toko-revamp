@@ -1,5 +1,6 @@
 import React from "react"
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper"
+import app from './src/firebaseConfig/base'
 
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import { NavigationContainer } from "@react-navigation/native"
