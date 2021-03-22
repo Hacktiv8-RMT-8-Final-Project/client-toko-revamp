@@ -84,7 +84,7 @@ function Google_Map_Shop_Screen(props) {
     longitude: 106.7699829,
     latitude: -6.1837949,
     longitudeDelta: 0.6,
-    latitudeDelta: 0.7
+    latitudeDelta: 0.6
   })
 
   const [selectedShop, setSelectedShop] = useState({})
