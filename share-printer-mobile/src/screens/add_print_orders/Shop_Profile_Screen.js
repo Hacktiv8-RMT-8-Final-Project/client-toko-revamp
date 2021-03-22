@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
-import axios from '../../config/axios'
-import { Title, Chip, Card, Paragraph } from "react-native-paper";
+import axios from "../../config/axios"
+import { Title, Chip, Card, Paragraph } from "react-native-paper"
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native"
 
 let data_backend = {
@@ -40,7 +40,7 @@ function Shop_Profile_Screen(props) {
   //   setLoading(true)
   //   axios({
   //     method: 'GET',
-      // url: `/shop/detail`,
+  // url: `/shop/detail`,
   //   }).then(({data}) => {
   //     setShopDetail(data)
   //   }).catch(err => {
@@ -50,49 +50,40 @@ function Shop_Profile_Screen(props) {
   //     setLoading(false)
   //   })
   // },[])
-  console.log(shopDetail);
+  console.log(shopDetail)
   const fill_add_form = () => {
     props.navigation.navigate("Form Order Print")
   }
   const chatting_with_shop = () => {
     console.log(`chatting_with_shop`)
   }
-  if(loading){
-    return(
-      <ActivityIndicator size="large" />
-    )
+  if (loading) {
+    return <ActivityIndicator size="large" />
   }
   return (
     <View style={styles.container}>
-
       <View style={styles.header}>
-        <Text style={styles.storeName}>{ data_backend.data.name }</Text>
+        <Text style={styles.storeName}>{data_backend.data.name}</Text>
         <View style={styles.info}>
           <Text>Lokasi</Text>
-          {
-            data_backend.data.status_open ?
-            <Chip icon="information">Open</Chip>
-            : <Chip icon="information">Closed</Chip>
-          }
+          {data_backend.data.status_open ? <Chip icon="information">Open</Chip> : <Chip icon="information">Closed</Chip>}
         </View>
       </View>
       <View style={styles.products}>
-        {
-          data_backend.data.products.map((e, index) =>{
-            let temp = Object.keys(e)[0]
-            // let newData = Object.values(temp)
-            return (
-              <View style={{width: 330, marginBottom: 5}} key={index}>
-                <Card>
-                  <Card.Content>
-                  <Title>{ e[temp].display_name }</Title>
-                  <Paragraph>{ e[temp].price }</Paragraph>
-                  </Card.Content>
-                </Card>
-              </View>
-            )
-          })
-        }
+        {data_backend.data.products.map((e, index) => {
+          let temp = Object.keys(e)[0]
+          // let newData = Object.values(temp)
+          return (
+            <View style={{ width: 330, marginBottom: 5 }} key={index}>
+              <Card>
+                <Card.Content>
+                  <Title>{e[temp].display_name}</Title>
+                  <Paragraph>{e[temp].price}</Paragraph>
+                </Card.Content>
+              </Card>
+            </View>
+          )
+        })}
       </View>
 
       <View style={styles.buttonContainer}>
@@ -144,19 +135,19 @@ const styles = StyleSheet.create({
   //   alignItems: "center",
   // },
   info: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
     width: 530,
   },
   header: {
     alignItems: "center",
     justifyContent: "center",
   },
-  storeName:{
+  storeName: {
     fontSize: 50,
     marginBottom: 5,
-    fontWeight: 'bold'
-  }
+    fontWeight: "bold",
+  },
 })
 
 export default Shop_Profile_Screen
