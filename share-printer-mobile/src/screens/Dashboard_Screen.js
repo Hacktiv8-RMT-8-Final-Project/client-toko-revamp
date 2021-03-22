@@ -13,7 +13,7 @@ function Dashboard_Screen(props) {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName
 
-          if (route.name === "Order Print") {
+          if (route.name === "Dashboard") {
             iconName = focused ? "add-circle" : "add-circle-outline"
           } else if (route.name === "Current Orders") {
             iconName = focused ? "document-text" : "document-text-outline"
@@ -32,7 +32,7 @@ function Dashboard_Screen(props) {
         inactiveTintColor: "gray",
       }}
     >
-      <Tab.Screen name="Order Print" component={Add_Order_Screen} />
+      <Tab.Screen name="Dashboard" component={Add_Order_Screen} />
       <Tab.Screen name="Current Orders" component={Current_Orders_Screen} />
       <Tab.Screen name="Transaction History" component={Transaction_History_Screen} />
       <Tab.Screen name="Profile Settings" component={Profile_Settings_Screen} />
