@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import { AsyncStorage } from 'react-native';
-import axios from 'axios'
+import axios from '../config/axios'
 import { TouchableOpacity, Text, TextInput, View, StyleSheet, ImageBackground } from "react-native"
 
 // import bgImage from "../images/background_login_register.jpg"
@@ -25,7 +25,7 @@ function Login_Screen(props) {
   const go_to_dashboard_screen =  () => {
     axios({
       method: 'POST',
-      url: 'http://192.168.0.102:3000/user/login',
+      url: `/user/login`,
       data: { email, password }
     }).then(({data}) => {
       // console.log(data.access_token);

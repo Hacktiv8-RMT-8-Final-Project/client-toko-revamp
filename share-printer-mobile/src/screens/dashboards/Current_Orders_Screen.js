@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import axios from 'axios'
+import axios from '../../config/axios'
 import { StyleSheet, Text, SafeAreaView, ScrollView, View } from "react-native"
 import Constants from "expo-constants"
 import { Chip, Avatar, Button, Card, Title, Paragraph, DataTable } from "react-native-paper"
@@ -31,7 +31,7 @@ function Current_Orders_Screen(props) {
   //   setLoading(true)
   //   axios({
   //     method: 'GET',
-  //     url: 'http://192.168.0.102:3000/user/transaction_history',
+  //     url: `user/transaction_history`,
   //   }).then(({data}) => {
   //     setCurrentOrders(data)
   //   }).catch(err => {

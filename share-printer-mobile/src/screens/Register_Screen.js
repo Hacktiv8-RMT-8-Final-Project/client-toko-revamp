@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import axios from 'axios'
+import axios from '../config/axios'
 import { TouchableOpacity, Text, TextInput, View, StyleSheet, ImageBackground } from "react-native"
 
 function Register_Screen(props) {
@@ -26,7 +26,7 @@ function Register_Screen(props) {
   const submit_register_account = () => {
     axios({
       method: 'POST',
-      url: 'http://192.168.0.102:3000/user/register',
+      url: `/user/register`,
       data: { username, email, password }
     }).then(res => {
       console.log(res);

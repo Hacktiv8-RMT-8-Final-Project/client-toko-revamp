@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import axios from 'axios'
+import axios from '../../config/axios'
 import { Title, Chip, Card, Paragraph } from "react-native-paper";
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native"
 
@@ -40,7 +40,7 @@ function Shop_Profile_Screen(props) {
   //   setLoading(true)
   //   axios({
   //     method: 'GET',
-  //     url: 'http://192.168.0.102:3000/shop/detail',
+      // url: `/shop/detail`,
   //   }).then(({data}) => {
   //     setShopDetail(data)
   //   }).catch(err => {
