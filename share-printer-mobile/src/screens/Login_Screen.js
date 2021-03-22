@@ -22,7 +22,11 @@ function Login_Screen(props) {
   const go_to_register_screen = () => {
     props.navigation.navigate("Register")
   }
-  const go_to_dashboard_screen =  () => {
+
+  const go_to_dashboard_screen = () => {
+    // ! comment for login with access_token
+    // props.navigation.navigate("Dashboard")
+
     axios({
       method: 'POST',
       url: `/user/login`,
@@ -35,12 +39,22 @@ function Login_Screen(props) {
       alert(err)
       console.log(err);
     })
+      .then(({ data }) => {
+        // console.log(data.access_token);
+        AsyncStorage.setItem("access_token", JSON.stringify(data.access_token))
+        props.navigation.navigate("Dashboard")
+      })
+      .catch((err) => {
+        alert(err)
+        console.log(err)
+      })
+  }
 
   }
   
-  // AsyncStorage.clear()
+  AsyncStorage.clear()
   AsyncStorage.getItem('access_token', (err, result) => {
-    // console.log(result, 'ini dari asyncstorage diluar');
+    console.log(result, 'ini dari asyncstorage diluar');
   });
 
   return (
@@ -52,12 +66,12 @@ function Login_Screen(props) {
           <TextInput onChangeText={onChangeEmail} style={styles.inputText} placeholder="Email" placeholderTextColor="#003f5c" />
         </View>
         <View style={styles.inputView}>
-          <TextInput secureTextEntry={true} onChangeText={onChangePassword} style={styles.inputText} placeholder="Password" placeholderTextColor="#003f5c" />
+          <TextInput onChangeText={onChangePassword} style={styles.inputText} placeholder="Password" placeholderTextColor="#003f5c" />
         </View>
         <TouchableOpacity style={styles.loginBtn} onPress={go_to_dashboard_screen}>
           <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.registerBtn} onPress={go_to_register_screen}>
+        <TouchableOpacity style={styles.button} onPress={go_to_register_screen}>
           <Text style={styles.loginText}>REGISTER</Text>
         </TouchableOpacity>
 
@@ -117,7 +131,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
   },
-  registerBtn: {
+  button: {
     width: "80%",
     backgroundColor: "#fb0b5a",
     borderRadius: 25,
@@ -126,20 +140,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 10,
     marginBottom: 10,
-  },
-
-  button: {
-    display: "flex",
-    height: 40,
-    borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    minWidth: 150,
-    margin: 5,
-    borderWidth: 1,
-    borderColor: "blue",
-
-    backgroundColor: "black",
   },
   button_text: {
     fontSize: 16,

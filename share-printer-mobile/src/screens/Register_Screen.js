@@ -30,7 +30,7 @@ function Register_Screen(props) {
       data: { username, email, password }
     }).then(res => {
       console.log(res);
-      props.navigation.navigate("Login")
+      // props.navigation.navigate("Login")
     }).catch(err => {
       alert(err)
       console.log(err);
@@ -49,7 +49,7 @@ function Register_Screen(props) {
           <TextInput onChangeText={onChangeEmail} style={styles.inputText} placeholder="Email" placeholderTextColor="#003f5c" />
         </View>
         <View style={styles.inputView}>
-          <TextInput secureTextEntry={true} onChangeText={onChangePassword} style={styles.inputText} placeholder="Password" placeholderTextColor="#003f5c" />
+          <TextInput onChangeText={onChangePassword} style={styles.inputText} placeholder="Password" placeholderTextColor="#003f5c" />
         </View>
         <TouchableOpacity style={styles.loginBtn} onPress={submit_register_account}>
           <Text style={styles.loginText}>REGISTER</Text>
