@@ -52,7 +52,7 @@ function Login_Screen(props) {
           <TextInput onChangeText={onChangeEmail} style={styles.inputText} placeholder="Email" placeholderTextColor="#003f5c" />
         </View>
         <View style={styles.inputView}>
-          <TextInput onChangeText={onChangePassword} style={styles.inputText} placeholder="Password" placeholderTextColor="#003f5c" />
+          <TextInput secureTextEntry={true} onChangeText={onChangePassword} style={styles.inputText} placeholder="Password" placeholderTextColor="#003f5c" />
         </View>
         <TouchableOpacity style={styles.loginBtn} onPress={go_to_dashboard_screen}>
           <Text style={styles.loginText}>LOGIN</Text>

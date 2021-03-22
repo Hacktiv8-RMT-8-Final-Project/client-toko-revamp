@@ -48,7 +48,6 @@ function Checkout_Order_Screen(props) {
   //     method: 'GET',
   //     url: 'http://192.168.0.102:3000/shop/detail',
   //   }).then(({data}) => {
-  //     // console.log(data.access_token);
   //     setReceipt(data)
   //   }).catch(err => {
   //     alert(err)
@@ -94,7 +93,6 @@ function Checkout_Order_Screen(props) {
                       )
                     })
                   }
-
                 </DataTable>
               </Card.Content>
               <Card.Actions></Card.Actions>
