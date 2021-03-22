@@ -1,5 +1,6 @@
 import React from "react"
-import { TouchableOpacity, StyleSheet, Text, View } from "react-native"
+import { ImageBackground, TouchableOpacity, StyleSheet, Text, View } from "react-native"
+import bgImage from "../../images/background_login_register.jpg"
 
 function Landing_Page_Screen(props) {
   const goto_form_order_print = () => {
@@ -7,20 +8,35 @@ function Landing_Page_Screen(props) {
   }
   return (
     <View style={styles.container}>
-      <Text>Landing page here!</Text>
-
-      <TouchableOpacity onPress={goto_form_order_print} style={styles.button}>
-        <Text style={styles.button_text}>Make an order</Text>
-      </TouchableOpacity>
+      <ImageBackground source={bgImage} style={styles.backgroundContainer}>
+        <Text>Landing page here!</Text>
+        <View style={styles.button_near_bottom}>
+          <TouchableOpacity onPress={goto_form_order_print} style={styles.button}>
+            <Text style={styles.button_text}>Make an order</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 6,
+  },
+  backgroundContainer: {
     flex: 1,
+    width: null,
+    height: null,
     justifyContent: "center",
     alignItems: "center",
+  },
+  button_near_bottom: {
+    flex: 1,
+    width: "100%",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    paddingBottom: 20,
   },
   button: {
     width: "80%",
