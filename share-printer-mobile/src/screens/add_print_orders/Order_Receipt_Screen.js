@@ -1,4 +1,6 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import axios from '../../config/axios'
+
 import { TouchableOpacity, StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native"
 import Constants from "expo-constants"
 import { Card, Title, Paragraph } from "react-native-paper"
@@ -39,6 +41,28 @@ function Checkout_Order_Screen(props) {
   const go_to_your_print_order_List = () => {
     props.navigation.navigate("Current Orders")
   }
+  
+  // useEffect(() => {
+  //   setLoading(true)
+  //   axios({
+  //     method: 'GET',
+  //     url: `/shop/detail`,
+  //   }).then(({data}) => {
+  //     setReceipt(data)
+  //   }).catch(err => {
+  //     alert(err)
+  //     console.log(err);
+  //   }).finally(_ => {
+  //     setLoading(false)
+  //   })
+  // },[])
+
+  console.log(receipt);
+
+  if(loading){
+    <ActivityIndicator size="large" />
+  }
+
   return (
     <>
       <SafeAreaView style={styles.container}>

@@ -1,4 +1,7 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
+import axios from '../../config/axios'
+import { Title, Chip, Card, Paragraph } from "react-native-paper";
+
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native"
 
 let data_backend = {
@@ -32,6 +35,25 @@ let data_backend = {
 }
 
 function Shop_Profile_Screen(props) {
+
+  const [loading, setLoading] = useState(false)
+  const [shopDetail, setShopDetail] = useState({})
+  // useEffect(() => {
+  //   setLoading(true)
+  //   axios({
+  //     method: 'GET',
+      // url: `/shop/detail`,
+  //   }).then(({data}) => {
+  //     setShopDetail(data)
+  //   }).catch(err => {
+  //     alert(err)
+  //     console.log(err);
+  //   }).finally(_ => {
+  //     setLoading(false)
+  //   })
+  // },[])
+  console.log(shopDetail);
+
   const fill_add_form = () => {
     props.navigation.navigate("Form Order Print")
   }
