@@ -18,6 +18,86 @@ function Current_Orders_Screen(props) {
               <Button>Ok</Button>
             </Card.Actions>
           </Card>
+          <Card>
+            <Card.Content>
+              <Title>UUID</Title>
+              <Paragraph>Card content</Paragraph>
+            </Card.Content>
+            <Card.Actions>
+              <Button>Cancel</Button>
+              <Button>Ok</Button>
+            </Card.Actions>
+          </Card>
+          <Card>
+            <Card.Content>
+              <Title>UUID</Title>
+              <Paragraph>Card content</Paragraph>
+            </Card.Content>
+            <Card.Actions>
+              <Button>Cancel</Button>
+              <Button>Ok</Button>
+            </Card.Actions>
+          </Card>
+          <Card>
+            <Card.Content>
+              <Title>UUID</Title>
+              <Paragraph>Card content</Paragraph>
+            </Card.Content>
+            <Card.Actions>
+              <Button>Cancel</Button>
+              <Button>Ok</Button>
+            </Card.Actions>
+          </Card>
+          <Card>
+            <Card.Content>
+              <Title>UUID</Title>
+              <Paragraph>Card content</Paragraph>
+            </Card.Content>
+            <Card.Actions>
+              <Button>Cancel</Button>
+              <Button>Ok</Button>
+            </Card.Actions>
+          </Card>
+          <Card>
+            <Card.Content>
+              <Title>UUID</Title>
+              <Paragraph>Card content</Paragraph>
+            </Card.Content>
+            <Card.Actions>
+              <Button>Cancel</Button>
+              <Button>Ok</Button>
+            </Card.Actions>
+          </Card>
+          <Card>
+            <Card.Content>
+              <Title>UUID</Title>
+              <Paragraph>Card content</Paragraph>
+            </Card.Content>
+            <Card.Actions>
+              <Button>Cancel</Button>
+              <Button>Ok</Button>
+            </Card.Actions>
+          </Card>
+          <Card>
+            <Card.Content>
+              <Title>UUID</Title>
+              <Paragraph>Card content</Paragraph>
+            </Card.Content>
+            <Card.Actions>
+              <Button>Cancel</Button>
+              <Button>Ok</Button>
+            </Card.Actions>
+          </Card>
+          <Card>
+            <Card.Content>
+              <Title>UUID</Title>
+              <Paragraph>Card content</Paragraph>
+            </Card.Content>
+            <Card.Actions>
+              <Button>Cancel</Button>
+              <Button>Ok</Button>
+            </Card.Actions>
+          </Card>
         </ScrollView>
       </SafeAreaView>
     </>

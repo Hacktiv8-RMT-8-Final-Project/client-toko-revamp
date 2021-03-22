@@ -1,12 +1,40 @@
-import React from "react"
+import React, {useState} from "react"
+import axios from 'axios'
 import { TouchableOpacity, Text, TextInput, View, StyleSheet, ImageBackground } from "react-native"
 
 function Register_Screen(props) {
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  function onChangeUsername(text) {
+    console.log(text);
+    setUsername(text)
+  }
+  function onChangeEmail(text) {
+    console.log(text);
+    setEmail(text)
+  }
+  function onChangePassword(text) {
+    console.log(text);
+    setPassword(text)
+  }
+
   const go_to_login_screen = () => {
     props.navigation.navigate("Login")
   }
   const submit_register_account = () => {
-    // props.navigation.navigate("Login")
+    axios({
+      method: 'POST',
+      url: 'http://192.168.0.102:3000/user/register',
+      data: { username, email, password }
+    }).then(res => {
+      console.log(res);
+      // props.navigation.navigate("Login")
+    }).catch(err => {
+      alert(err)
+      console.log(err);
+    })
   }
 
   return (
@@ -15,10 +43,13 @@ function Register_Screen(props) {
         <Text style={styles.title}>Register</Text>
 
         <View style={styles.inputView}>
-          <TextInput style={styles.inputText} placeholder="Email" placeholderTextColor="#003f5c" />
+          <TextInput onChangeText={onChangeUsername} style={styles.inputText} placeholder="Username" placeholderTextColor="#003f5c" />
         </View>
         <View style={styles.inputView}>
-          <TextInput style={styles.inputText} placeholder="Password" placeholderTextColor="#003f5c" />
+          <TextInput onChangeText={onChangeEmail} style={styles.inputText} placeholder="Email" placeholderTextColor="#003f5c" />
+        </View>
+        <View style={styles.inputView}>
+          <TextInput onChangeText={onChangePassword} style={styles.inputText} placeholder="Password" placeholderTextColor="#003f5c" />
         </View>
         <TouchableOpacity style={styles.loginBtn} onPress={submit_register_account}>
           <Text style={styles.loginText}>REGISTER</Text>
