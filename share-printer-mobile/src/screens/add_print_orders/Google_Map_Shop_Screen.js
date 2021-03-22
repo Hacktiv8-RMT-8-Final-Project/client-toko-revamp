@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { TouchableOpacity, StyleSheet, Text, View, Dimensions } from "react-native"
 
-import MapView from "react-native-maps"
+import {MapView, Marker} from "react-native-maps"
 
 function Google_Map_Shop_Screen(props) {
   const confirm_choose_shop = () => {
@@ -16,6 +16,9 @@ function Google_Map_Shop_Screen(props) {
       <View style={styles.container}>
         <View style={styles.container_map}>
           <MapView style={styles.map}>
+          <Marker
+            coordinate={{latitude: 6, longitude: -107}}
+          />
           </MapView>
         </View>
         <View style={styles.container_shop}>
