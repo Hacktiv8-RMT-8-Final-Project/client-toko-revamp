@@ -38,10 +38,10 @@ let data_backend = {
 function Form_Order_Print_Screen(props) {
   const [select_product, set_select_product] = useState([])
   const [data_product, set_data_product] = useState([])
+
   const [loading, set_loading] = useState(false)
   const [error, set_error] = useState(null)
 
-  const [selectedValue, setSelectedValue] = useState("java")
   const [file_url_link, set_file_url_link] = useState(null)
 
   useEffect(() => {
