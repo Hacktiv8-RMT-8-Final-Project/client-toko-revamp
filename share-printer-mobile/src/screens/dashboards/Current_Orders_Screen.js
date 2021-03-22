@@ -52,9 +52,18 @@ function Current_Orders_Screen(props) {
       })
       .catch((err) => {
         console.log(err)
+        // setError(err)
       })
       .finally((_) => setLoading(false))
   }, [access_token])
+
+  const upload_file_button = (order_number) => {
+    console.log(`upload file button`, order_number)
+  }
+
+  const recipe_transaction_button = (order_number) => {
+    console.log(`upload file button`, order_number)
+  }
 
   if (loading) return <Loading_Component />
   if (error) return <Error_Component />
@@ -63,59 +72,84 @@ function Current_Orders_Screen(props) {
     <>
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          {/* <Text>{JSON.stringify(currentOrders)}</Text> */}
+          <Text>{JSON.stringify(currentOrders)}</Text>
 
-          {currentOrders.map((e) => {
-            return (
-              <Card style={styles.card} key={e.id}>
-                <Card.Content>
-                  <View>
-                    <Title style={styles.uuid}>{e.order_number}</Title>
-                  </View>
-                  <View style={styles.content}>
-                    <View style={styles.leftContent}>
-                      <Paragraph>{e.files_url}</Paragraph>
-                      <Paragraph>Store</Paragraph>
+          {/* { currentOrders.length === 0 ? (
+             <Card>
+              <Card.Content>
+                <Title>Your current orders are empty</Title>
+                <Paragraph>Start printing!</Paragraph>
+              </Card.Content>
+              <Card.Actions>
+              </Card.Actions>
+            </Card>
+          ) : (
+            currentOrders.map((e) => {
+              return (
+                <Card style={styles.card} key={e.id}>
+                  <Card.Content>
+                    <View>
+                      <Title style={styles.uuid}>Order Number: </Title>
+                      <Paragraph>{e.order_number}</Paragraph>
                     </View>
-                    <View style={styles.rightContent}>
-                      <Button style={styles.btnUpload} icon="upload" mode="outlined" onPress={() => console.log("Pressed")}>
-                        Upload File
-                      </Button>
-                      {e.payment_status === 1 ? (
-                        <Chip icon="information" type="outlined">
-                          Order requested
-                        </Chip>
-                      ) : e.payment_status === 2 ? (
-                        <Chip icon="information" type="outlined">
-                          Paid
-                        </Chip>
-                      ) : e.payment_status === 3 ? (
-                        <Chip icon="information" type="outlined">
-                          Confirm
-                        </Chip>
-                      ) : e.payment_status === 4 ? (
-                        <Chip icon="information" type="outlined">
-                          On Progress
-                        </Chip>
-                      ) : e.payment_status === 5 ? (
-                        <Chip icon="information" type="outlined">
-                          Completed
-                        </Chip>
-                      ) : (
-                        <Chip icon="information" type="outlined">
-                          Canceled
-                        </Chip>
-                      )}
+                    <View style={styles.content}>
+                      <View style={styles.leftContent}>
+                        <Title>Summary</Title>
+                        <View style={styles.current_order_container}>
+                          <ScrollView style={styles.scrollView}>
+                            <Text>{JSON.stringify(e.order_content)}</Text>
+                          </ScrollView>
+                        </View>
+                        <Text style={{ color: "blue" }} onPress={() => Linking.openURL("http://google.com")}>
+                          File PDF
+                        </Text>
+                        <Text style={{ color: "blue" }} onPress={() => Linking.openURL("http://google.com")}>
+                          Receipt transaction
+                        </Text>
+                      </View>
+                      <View style={styles.rightContent}>
+                        <Button style={styles.btnUpload} icon="upload" mode="outlined" onPress={() => upload_file_button(e.order_number)}>
+                          Upload File
+                        </Button>
+                        <Button style={styles.btnUpload} icon="upload" mode="outlined" onPress={() => recipe_transaction_button(e.order_number)}>
+                          Receipt
+                        </Button>
+                        {e.payment_status === 1 ? (
+                          <Chip icon="information" type="outlined">
+                            Order requested
+                          </Chip>
+                        ) : e.payment_status === 2 ? (
+                          <Chip icon="information" type="outlined">
+                            Paid
+                          </Chip>
+                        ) : e.payment_status === 3 ? (
+                          <Chip icon="information" type="outlined">
+                            Confirm
+                          </Chip>
+                        ) : e.payment_status === 4 ? (
+                          <Chip icon="information" type="outlined">
+                            On Progress
+                          </Chip>
+                        ) : e.payment_status === 5 ? (
+                          <Chip icon="information" type="outlined">
+                            Completed
+                          </Chip>
+                        ) : (
+                          <Chip icon="information" type="outlined">
+                            Canceled
+                          </Chip>
+                        )}
+                      </View>
                     </View>
-                  </View>
-                </Card.Content>
-                <Card.Actions>
-                  <Button>Cancel</Button>
-                  <Button>Ok</Button>
-                </Card.Actions>
-              </Card>
-            )
-          })}
+                  </Card.Content>
+                  <Card.Actions>
+                    <Button>Cancel</Button>
+                    <Button>Ok</Button>
+                  </Card.Actions>
+                </Card>
+              )
+            })
+          )} */}
         </ScrollView>
       </SafeAreaView>
     </>
@@ -126,6 +160,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,
+  },
+  current_order_container: {
+    maxHeight: 50,
   },
   scrollView: {
     marginHorizontal: 20,
@@ -147,7 +184,7 @@ const styles = StyleSheet.create({
     width: 150,
   },
   uuid: {
-    fontSize: 14,
+    fontSize: 18,
   },
   btnUpload: {
     marginVertical: 10,

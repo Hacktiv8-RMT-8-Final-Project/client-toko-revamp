@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react"
 import axios from "../../config/axios"
-import { StyleSheet, Text, SafeAreaView, ScrollView, View } from "react-native"
+import { AsyncStorage, StyleSheet, Text, SafeAreaView, ScrollView, View } from "react-native"
 import Constants from "expo-constants"
 import { Chip, Avatar, Button, Card, Title, Paragraph, DataTable } from "react-native-paper"
+
+import { Loading_Component, Error_Component } from "../../components"
 
 function Transaction_History_Screen(props) {
   let data_backend = {
@@ -25,37 +27,71 @@ function Transaction_History_Screen(props) {
       },
     ],
   }
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [completedOrder, setCompletedOrder] = useState({})
 
-  // useEffect(() => {
-  //   setLoading(true)
-  //   axios({
-  //     method: 'GET',
-  //     url: `/shop/detail`,
-  //   }).then(({data}) => {
-  //     setReceipt(data)
-  //   }).catch(err => {
-  //     alert(err)
-  //     console.log(err);
-  //   }).finally(_ => {
-  //     setLoading(false)
-  //   })
-  // },[])
+  const [access_token, set_access_token] = useState("")
+  useEffect(() => {
+    AsyncStorage.getItem("access_token").then((data) => set_access_token(data))
+  }, [])
+
+  useEffect(() => {
+    setLoading(true)
+    axios({
+      method: "GET",
+      url: `/user/transaction_history`,
+      headers: {
+        access_token: access_token || "",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        setCompletedOrder(response.data.data)
+      })
+      .catch((err) => {
+        console.log(err)
+        // setError(err)
+      })
+      .finally((_) => setLoading(false))
+  }, [access_token])
+
+  if (loading) return <Loading_Component />
+  if (error) return <Error_Component />
 
   return (
     <>
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          {data_backend.data.map((e) => {
+          <Text>{JSON.stringify(completedOrder)}</Text>
+
+          {/* { {completedOrder.length === 0 ? (
+             <Card>
+              <Card.Content>
+                <Title>Your transaction history is empty</Title>
+                <Paragraph>Start printing!</Paragraph>
+              </Card.Content>
+              <Card.Actions>
+              </Card.Actions>
+            </Card>
+          ) : (
+            (completedOrder.map((e) => {
             return (
               <Card style={styles.card} key={e.id}>
                 <Card.Content>
                   <View>
-                    <Title style={styles.uuid}>{e.order_number}</Title>
+                    <Title style={styles.uuid}>Order Number: </Title>
+                    <Paragraph>{e.order_number}</Paragraph>
                   </View>
                   <View style={styles.content}>
                     <View style={styles.leftContent}>
-                      <Paragraph>{e.files_url}</Paragraph>
                       <Paragraph>Store</Paragraph>
+                      <Text style={{ color: "blue" }} onPress={() => Linking.openURL("http://google.com")}>
+                        File PDF
+                      </Text>
+                      <Text style={{ color: "blue" }} onPress={() => Linking.openURL("http://google.com")}>
+                        Receipt transaction
+                      </Text>
                     </View>
                     <View style={styles.rightContent}>
                       {e.payment_status === 1 ? (
@@ -87,13 +123,12 @@ function Transaction_History_Screen(props) {
                     </View>
                   </View>
                 </Card.Content>
-                <Card.Actions>
-                  <Button>Cancel</Button>
-                  <Button>Ok</Button>
-                </Card.Actions>
+                <Card.Actions></Card.Actions>
               </Card>
             )
-          })}
+          })
+          )
+          } */}
         </ScrollView>
       </SafeAreaView>
     </>
@@ -125,7 +160,7 @@ const styles = StyleSheet.create({
     width: 140,
   },
   uuid: {
-    fontSize: 19,
+    fontSize: 18,
   },
 })
 export default Transaction_History_Screen
