@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1084297895847",
+    "project_id": "share-printer-7dbd0",
+    "storage_bucket": "share-printer-7dbd0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084297895847:android:c95bceb5487f22edb4e082",
+        "android_client_info": {
+          "package_name": "com.final.sharePrinter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084297895847-k8q44mmbtr1916k53v6cksi6kn22eeaf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfxGqJP29vm7cLTfVmOgRvV6QJWEl1V4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1084297895847-k8q44mmbtr1916k53v6cksi6kn22eeaf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
