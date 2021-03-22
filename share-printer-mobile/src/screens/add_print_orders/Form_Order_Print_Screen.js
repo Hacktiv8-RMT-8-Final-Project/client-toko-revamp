@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { TouchableOpacity, StyleSheet, TextInput, SafeAreaView, Text, View, ScrollView, Picker } from "react-native"
+import { TouchableOpacity, StyleSheet, TextInput, SafeAreaView, Text, View, ScrollView, Picker, Alert } from "react-native"
 import Constants from "expo-constants"
 import { Card, Title, Paragraph } from "react-native-paper"
 
@@ -36,15 +36,7 @@ let data_backend = {
 }
 
 function Form_Order_Print_Screen(props) {
-  const [select_product, set_select_product] = useState([
-    {
-      "2f12710a-f518-48e4-beed-05f5fba81d7a": {
-        display_name: "Print Warna A3 (Per Halaman)",
-        price: 2000,
-        description: "some description",
-      },
-    },
-  ])
+  const [select_product, set_select_product] = useState([])
   const [data_product, set_data_product] = useState([])
   const [loading, set_loading] = useState(false)
   const [error, set_error] = useState(null)
@@ -60,7 +52,73 @@ function Form_Order_Print_Screen(props) {
     set_data_product(data_products)
   }, [])
 
-  const go_to_current_orders = () => {
+  const on_change_picker = (product) => {
+    const new_selected_product = [...select_product]
+    // console.log(product)
+    let key = Object.keys(product)[0]
+    let objProduct = { ...product }
+    objProduct[key].amount = 0
+    // console.log(objProduct)
+    // new_selected_product.push({ ...product, amount: 0 })
+    set_select_product([...select_product, objProduct])
+  }
+
+  const set_amount = (text, uuid_product) => {
+    const new_selected_product = [...select_product]
+    // console.log(text, uuid_product)
+    // console.log(new_selected_product)
+    new_selected_product.map((detail_product) => {
+      // console.log(detail_product, `<<<`)
+      let key = Object.keys(detail_product)[0]
+      let objProduct = { ...detail_product }
+      // console.log(key)
+      if (key === uuid_product) {
+        objProduct[key].amount = +text
+      }
+      // console.log(objProduct, `<<<`)
+    })
+    set_select_product(new_selected_product)
+  }
+
+  const remove_product = (uuid_product) => {
+    console.log(uuid_product)
+    Alert.alert(
+      "Delete selected product?",
+      "You can re add it again",
+      [
+        {
+          text: "OK",
+          onPress: () => {
+            const existing_selected_product = [...select_product]
+            const updated_product_finder = existing_selected_product.filter((product) => {
+              let key = Object.keys(product)[0]
+              if (key !== uuid_product) return product
+            })
+            set_select_product(updated_product_finder)
+          },
+        },
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+      ],
+      { cancelable: false }
+    )
+    // ! without alert
+    // const existing_selected_product = [...select_product]
+    // // console.log(existing_selected_product)
+    // const updated_product_finder = existing_selected_product.filter((product) => {
+    //   let key = Object.keys(product)[0]
+    //   // console.log(product)
+    //   if (key !== uuid_product) return product
+    // })
+    // set_select_product(updated_product_finder)
+  }
+
+  const submit_form = () => {
+    console.log(`submit here`)
+    console.log(select_product)
     props.navigation.navigate("Order Receipt")
   }
   const upload_your_pdf_file = () => {
@@ -77,45 +135,56 @@ function Form_Order_Print_Screen(props) {
           <View style={styles.picker_container}>
             <Picker
               selectedValue={selectedValue}
-              style={{ height: 50, width: 150, alignItems: "center" }}
-              onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+              style={styles.picker_select}
+              onValueChange={(data_product, index) => on_change_picker(data_product)}
             >
-              <Picker.Item label="Java" value="java" />
-              <Picker.Item label="JavaScript" value="js" />
+              <Picker.Item label="Choose product service here" enabled="false" />
+              {data_product.map((e, index) => {
+                let detail_product = Object.values(e)[0]
+                return <Picker.Item key={index} label={detail_product.display_name} value={e} />
+              })}
             </Picker>
           </View>
           <ScrollView style={styles.scrollView}>
             {select_product.length === 0 ? (
               <>
-                <Text>Choose your product</Text>
+                <Card style={styles.form_card}>
+                  <Card.Content>
+                    <Title>Your orders will be displayed here</Title>
+                  </Card.Content>
+                </Card>
               </>
             ) : (
-              select_product.map((product_detail) => {
+              select_product.map((product_detail, index) => {
                 let uuid_product = Object.keys(product_detail)[0]
                 let detail_product = Object.values(product_detail)[0]
-                // console.log(product_detail)
-                // console.log(uuid_product)
-                // console.log(detail_product)
                 return (
-                  <>
-                    <Card style={styles.form_card}>
-                      <View style={styles.inputView}>
-                        <TextInput style={styles.inputText} placeholder="Input quantity product here" placeholderTextColor="#003f5c" />
-                      </View>
-                      <Card.Content>
-                        <Title>{detail_product.display_name}</Title>
-                        <Paragraph>Harga : Rp {detail_product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00</Paragraph>
-                        <Text>Total Harga : Rp {detail_product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00</Text>
-                      </Card.Content>
-                    </Card>
-                  </>
+                  <Card style={styles.form_card} key={index}>
+                    <View style={styles.inputView}>
+                      <TextInput
+                        onChangeText={(text) => set_amount(text, uuid_product)}
+                        style={styles.inputText}
+                        placeholder="Input quantity product here"
+                        placeholderTextColor="#003f5c"
+                        keyboardType="numeric"
+                        value={detail_product.amount}
+                      />
+                    </View>
+                    <Card.Content>
+                      <Title>{detail_product.display_name}</Title>
+                      <Paragraph>Harga : Rp {detail_product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00</Paragraph>
+                      <TouchableOpacity onPress={() => remove_product(uuid_product)} style={styles.button}>
+                        <Text style={styles.button_text}>Remove product</Text>
+                      </TouchableOpacity>
+                    </Card.Content>
+                  </Card>
                 )
               })
             )}
           </ScrollView>
         </View>
         <View style={styles.bottom_screen_container}>
-          <Text>Your PDF file link here:</Text>
+          <Text>Your PDF file link here :</Text>
           {file_url_link !== undefined ? (
             <Text>Click this link to see your link PDF here</Text>
           ) : (
@@ -125,7 +194,10 @@ function Form_Order_Print_Screen(props) {
             <Text style={styles.button_text}>Upload PDF File</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={go_to_current_orders} style={styles.button}>
+          <Text>Total order price :</Text>
+          {file_url_link === 0 ? <Text>Rp 0,00</Text> : <Text>Rp {"1000".toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00 </Text>}
+
+          <TouchableOpacity onPress={submit_form} style={styles.button}>
             <Text style={styles.button_text}>Confirm Print Order</Text>
           </TouchableOpacity>
         </View>
@@ -145,9 +217,21 @@ const styles = StyleSheet.create({
   },
   picker_container: {
     alignItems: "center",
+    borderRadius: 10,
+    borderWidth: 1,
+    marginHorizontal: 30,
+  },
+  picker_select: {
+    width: 250,
+    height: 44,
+    borderWidth: 1,
+    borderColor: "black",
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    textAlign: "center",
+    justifyContent: "center",
   },
   bottom_screen_container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "flex-end",
     backgroundColor: "white",
@@ -157,9 +241,12 @@ const styles = StyleSheet.create({
   scrollView: {
     marginHorizontal: 20,
   },
+  scrollViewBottom: {
+    marginHorizontal: 0,
+  },
   form_card: {
+    flex: 1,
     margin: 10,
-    alignItems: "center",
   },
   inputView: {
     width: "70%",
