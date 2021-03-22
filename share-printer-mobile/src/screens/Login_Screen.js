@@ -22,27 +22,28 @@ function Login_Screen(props) {
   const go_to_register_screen = () => {
     props.navigation.navigate("Register")
   }
-
-  const go_to_dashboard_screen =  () => {
-    axios({
-      method: 'POST',
-      url: 'http://192.168.0.102:3000/user/login',
-      data: { email, password }
-    }).then(({data}) => {
-      // console.log(data.access_token);
-      AsyncStorage.setItem('access_token', JSON.stringify(data.access_token))
-      props.navigation.navigate("Dashboard")
-    }).catch(err => {
-      alert(err)
-      console.log(err);
-    })
-
+  const go_to_dashboard_screen = () => {
+    props.navigation.navigate("Dashboard")
+    // axios({
+    //   method: "POST",
+    //   url: "http://192.168.0.102:3000/user/login",
+    //   data: { email, password },
+    // })
+    //   .then(({ data }) => {
+    //     // console.log(data.access_token);
+    //     AsyncStorage.setItem("access_token", JSON.stringify(data.access_token))
+    //     props.navigation.navigate("Dashboard")
+    //   })
+    //   .catch((err) => {
+    //     alert(err)
+    //     console.log(err)
+    //   })
   }
-  
-  // AsyncStorage.clear()
-  AsyncStorage.getItem('access_token', (err, result) => {
-    // console.log(result, 'ini dari asyncstorage diluar');
-  });
+
+  AsyncStorage.clear()
+  AsyncStorage.getItem("access_token", (err, result) => {
+    console.log(result, "ini dari asyncstorage diluar")
+  })
 
   return (
     <>
