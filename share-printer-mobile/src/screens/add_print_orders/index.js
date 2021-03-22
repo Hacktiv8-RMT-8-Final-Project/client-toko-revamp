@@ -1,3 +1,4 @@
+export { default as Landing_Page_Screen } from "./Landing_Page_Screen.js"
 export { default as Google_Map_Shop_Screen } from "./Google_Map_Shop_Screen.js"
 
 export { default as Shop_Profile_Screen } from "./Shop_Profile_Screen.js"

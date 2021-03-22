@@ -33,7 +33,7 @@ let data_backend = {
   },
 }
 
-function Form_Print_Order_Screen(props) {
+function Form_Order_Print_Screen(props) {
   const [select_product, set_select_product] = useState([])
 
   const go_to_current_orders = () => {
@@ -104,4 +104,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Form_Print_Order_Screen
+export default Form_Order_Print_Screen
