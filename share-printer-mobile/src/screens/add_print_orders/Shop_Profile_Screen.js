@@ -42,6 +42,7 @@ function Shop_Profile_Screen(props) {
   //     method: 'GET',
   //     url: 'http://192.168.0.102:3000/shop/detail',
   //   }).then(({data}) => {
+  //     // console.log(data.access_token);
   //     setShopDetail(data)
   //   }).catch(err => {
   //     alert(err)
