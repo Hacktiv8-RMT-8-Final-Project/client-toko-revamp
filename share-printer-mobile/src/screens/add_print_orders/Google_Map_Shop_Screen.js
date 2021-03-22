@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { TouchableOpacity, StyleSheet, Text, View, Dimensions } from "react-native"
 
 import MapView from "react-native-maps"
@@ -83,16 +83,11 @@ function Google_Map_Shop_Screen(props) {
   const confirm_choose_shop = () => {
     props.navigation.navigate("Shop Profile")
   }
-
-  useEffect(() => {
-
-  }, [])
   return (
     <>
       <View style={styles.container}>
         <View style={styles.container_map}>
-          <MapView style={styles.map}>
-          </MapView>
+          <MapView style={styles.map} />
         </View>
         <View style={styles.container_shop}>
           <TouchableOpacity onPress={confirm_choose_shop} style={styles.registerBtn}>
