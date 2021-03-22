@@ -125,7 +125,7 @@ function Google_Map_Shop_Screen(props) {
       <View style={styles.container}>
         <View style={styles.container_map}>
           <MapView style={styles.map} initialRegion={currentPosition}>
-              <Marker coordinate={currentPosition} pinColor={"purple"} title="this is You" />
+              <Marker coordinate={currentPosition} image={require('../../images/person.png')} title="this is You" />
             {
               shops.map(shop => {
                 return (
@@ -135,7 +135,7 @@ function Google_Map_Shop_Screen(props) {
                     onPress={() => selectShop(shop)}
                     title={shop.name}
                     description= {shop.status_open === true ? 'This Shop is Open' : 'This Shop is Closed'}
-                    pinColor = {shop.status_open === true ? 'green' : 'red'}
+                    image={shop.status_open === true ? require('../../images/print_open.png') : require('../../images/printer_closed.png')}
                   />
                 )
               })
@@ -143,6 +143,7 @@ function Google_Map_Shop_Screen(props) {
           </MapView>
         </View>
         <View style={styles.container_shop}>
+          <Text>{selectedShop.name}</Text>
           <TouchableOpacity onPress={confirm_choose_shop} style={styles.registerBtn}>
             <Text style={styles.button_text}>Confirm Shop</Text>
           </TouchableOpacity>
