@@ -7,12 +7,10 @@ function Profile_Settings_Screen(props) {
   }
   return (
     <View style={styles.container}>
-      <Text>User profile screen!</Text>
-
+      <Text>Profile Settings!</Text>
       <TouchableOpacity onPress={log_out_go_to_home} style={styles.button}>
         <Text style={styles.button_text}>Log Out</Text>
       </TouchableOpacity>
-      <Text>Profile_Settings_Screen!</Text>
     </View>
   )
 }
@@ -24,17 +22,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    display: "flex",
-    height: 40,
-    borderRadius: 5,
-    justifyContent: "center",
+    width: "80%",
+    backgroundColor: "#fb0b5a",
+    borderRadius: 25,
+    height: 50,
     alignItems: "center",
-    minWidth: 150,
-    margin: 5,
-    borderWidth: 1,
-    borderColor: "blue",
-
-    backgroundColor: "white",
+    justifyContent: "center",
+    marginTop: 10,
+    marginBottom: 10,
   },
   button_text: {
     fontSize: 16,

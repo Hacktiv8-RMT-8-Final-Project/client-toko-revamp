@@ -12,8 +12,8 @@ const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: "tomato",
-    accent: "yellow",
+    primary: "black",
+    accent: "grey",
   },
 }
 const forFade = ({ current }) => ({
