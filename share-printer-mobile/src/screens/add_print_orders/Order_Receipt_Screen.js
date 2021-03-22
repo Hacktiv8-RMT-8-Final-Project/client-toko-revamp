@@ -1,5 +1,8 @@
+import * as DocumentPicker from 'expo-document-picker';
+import app from '../../firebaseConfig/base'
 import React, { useState, useEffect } from "react"
 import axios from 'axios'
+
 import { TouchableOpacity, StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native"
 import Constants from "expo-constants"
 import { Card, Title, Paragraph, DataTable } from "react-native-paper"
@@ -36,9 +39,35 @@ let data_backend = {
 function Checkout_Order_Screen(props) {
   const [loading, setLoading] = useState(false)
   const [receipt, setReceipt] = useState({})
-  const upload_your_proof_receipt_transaction = () => {
+
+  const upload_your_proof_receipt_transaction = async () => {
     console.log(`upload_your_proof_receipt_transaction`)
+    try {
+      const file = await DocumentPicker.getDocumentAsync()
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+          resolve(xhr.response);
+        };
+        xhr.onerror = function(e) {
+          console.log(e);
+          reject(new TypeError('Network request failed'));
+        };
+        xhr.responseType = 'blob';
+        xhr.open('GET', file.uri, true);
+        xhr.send(null);
+      });
+      const storageRef = await app.storage().ref()
+      const bucket = storageRef.child(file.name)
+      await bucket.put(blob)
+      const url = await bucket.getDownloadURL()
+      console.log(url)
+      console.log('upload Receipt Order')
+    } catch(err) {
+      console.log(err)
+    }
   }
+  
   const go_to_your_print_order_List = () => {
     props.navigation.navigate("Current Orders")
   }

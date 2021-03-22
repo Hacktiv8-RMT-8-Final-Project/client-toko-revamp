@@ -3,7 +3,7 @@ import { TouchableOpacity, StyleSheet, Text, View } from "react-native"
 
 import { createStackNavigator } from "@react-navigation/stack"
 
-import { Google_Map_Shop_Screen, Shop_Profile_Screen, Form_Order_Print_Screen, Order_Receipt_Screen } from "../add_print_orders"
+import { Landing_Page_Screen, Google_Map_Shop_Screen, Shop_Profile_Screen, Form_Order_Print_Screen, Order_Receipt_Screen } from "../add_print_orders"
 
 const Stack = createStackNavigator()
 function Add_Order_Screen(props) {
@@ -13,6 +13,7 @@ function Add_Order_Screen(props) {
         headerShown: false,
       }}
     >
+      <Stack.Screen name="Landing Page" component={Landing_Page_Screen} />
       <Stack.Screen name="Google Map Shop" component={Google_Map_Shop_Screen} />
       <Stack.Screen name="Shop Profile" component={Shop_Profile_Screen} />
       <Stack.Screen name="Form Order Print" component={Form_Order_Print_Screen} />
