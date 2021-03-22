@@ -1,4 +1,6 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
+import axios from '../../config/axios'
+import { Title, Chip, Card, Paragraph } from "react-native-paper";
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native"
 
 let data_backend = {
@@ -32,21 +34,76 @@ let data_backend = {
 }
 
 function Shop_Profile_Screen(props) {
+  const [loading, setLoading] = useState(false)
+  const [shopDetail, setShopDetail] = useState({})
+  // useEffect(() => {
+  //   setLoading(true)
+  //   axios({
+  //     method: 'GET',
+      // url: `/shop/detail`,
+  //   }).then(({data}) => {
+  //     setShopDetail(data)
+  //   }).catch(err => {
+  //     alert(err)
+  //     console.log(err);
+  //   }).finally(_ => {
+  //     setLoading(false)
+  //   })
+  // },[])
+  console.log(shopDetail);
   const fill_add_form = () => {
     props.navigation.navigate("Form Order Print")
   }
   const chatting_with_shop = () => {
     console.log(`chatting_with_shop`)
   }
+  if(loading){
+    return(
+      <ActivityIndicator size="large" />
+    )
+  }
   return (
     <View style={styles.container}>
-      <Text>Detail table product print Shop here!</Text>
-      <TouchableOpacity onPress={fill_add_form} style={styles.button}>
-        <Text style={styles.button_text}>Fill add Form</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={chatting_with_shop} style={styles.button}>
-        <Text style={styles.button_text}>Chat with shop</Text>
-      </TouchableOpacity>
+
+      <View style={styles.header}>
+        <Text style={styles.storeName}>{ data_backend.data.name }</Text>
+        <View style={styles.info}>
+          <Text>Lokasi</Text>
+          {
+            data_backend.data.status_open ?
+            <Chip icon="information">Open</Chip>
+            : <Chip icon="information">Closed</Chip>
+          }
+        </View>
+      </View>
+      <View style={styles.products}>
+        {
+          data_backend.data.products.map((e, index) =>{
+            let temp = Object.keys(e)[0]
+            // let newData = Object.values(temp)
+            return (
+              <View style={{width: 330, marginBottom: 5}} key={index}>
+                <Card>
+                  <Card.Content>
+                  <Title>{ e[temp].display_name }</Title>
+                  <Paragraph>{ e[temp].price }</Paragraph>
+                  </Card.Content>
+                </Card>
+              </View>
+            )
+          })
+        }
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <Text>Detail table product print Shop here!</Text>
+        <TouchableOpacity onPress={fill_add_form} style={styles.button}>
+          <Text style={styles.button_text}>Fill add Form</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={chatting_with_shop} style={styles.button}>
+          <Text style={styles.button_text}>Chat with shop</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
@@ -54,7 +111,7 @@ function Shop_Profile_Screen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
   },
   button: {
@@ -73,6 +130,33 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textTransform: "uppercase",
   },
+  buttonContainer: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  product: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  // products: {
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
+  info: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    width: 530,
+  },
+  header: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  storeName:{
+    fontSize: 50,
+    marginBottom: 5,
+    fontWeight: 'bold'
+  }
 })
 
 export default Shop_Profile_Screen

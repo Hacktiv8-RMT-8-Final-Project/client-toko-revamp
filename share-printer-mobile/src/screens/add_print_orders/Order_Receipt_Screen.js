@@ -1,7 +1,8 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import axios from '../../config/axios'
 import { TouchableOpacity, StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native"
 import Constants from "expo-constants"
-import { Card, Title, Paragraph } from "react-native-paper"
+import { Card, Title, Paragraph, DataTable } from "react-native-paper"
 
 let data_backend = {
   id: 1,
@@ -33,12 +34,35 @@ let data_backend = {
 }
 
 function Checkout_Order_Screen(props) {
+  const [loading, setLoading] = useState(false)
+  const [receipt, setReceipt] = useState({})
   const upload_your_proof_receipt_transaction = () => {
     console.log(`upload_your_proof_receipt_transaction`)
   }
   const go_to_your_print_order_List = () => {
     props.navigation.navigate("Current Orders")
   }
+  // useEffect(() => {
+  //   setLoading(true)
+  //   axios({
+  //     method: 'GET',
+  //     url: `/shop/detail`,
+  //   }).then(({data}) => {
+  //     setReceipt(data)
+  //   }).catch(err => {
+  //     alert(err)
+  //     console.log(err);
+  //   }).finally(_ => {
+  //     setLoading(false)
+  //   })
+  // },[])
+
+  console.log(receipt);
+
+  if(loading){
+    <ActivityIndicator size="large" />
+  }
+
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -47,8 +71,29 @@ function Checkout_Order_Screen(props) {
             <Card style={styles.form_card}>
               <Card.Content>
                 <Title>Your Order Receipt</Title>
-                <Paragraph>UUID</Paragraph>
-                <Text></Text>
+                <Paragraph>UUID: {data_backend.order_number}</Paragraph>
+                <Paragraph>Store: Store Name</Paragraph>
+                <Paragraph>Date: {data_backend.updatedAt.slice(0,10)}</Paragraph>
+                <DataTable>
+                  <DataTable.Header>
+                    <DataTable.Title>Product</DataTable.Title>
+                    <DataTable.Title numeric>Price</DataTable.Title>
+                    {/* <DataTable.Title>Description</DataTable.Title> */}
+                  </DataTable.Header>
+
+                  {
+                    data_backend.order_content.map((e, index) => {
+                      let temp = Object.keys(e)
+                      return(
+                        <DataTable.Row key={index}>
+                          <DataTable.Cell>{e[temp].display_name}</DataTable.Cell>
+                          <DataTable.Cell numeric>{e[temp].price}</DataTable.Cell>
+                          {/* <DataTable.Cell>{e[temp].description}</DataTable.Cell> */}
+                        </DataTable.Row>
+                      )
+                    })
+                  }
+                </DataTable>
               </Card.Content>
               <Card.Actions></Card.Actions>
             </Card>
@@ -58,7 +103,7 @@ function Checkout_Order_Screen(props) {
               </TouchableOpacity>
 
               <Text>Your proof receipt payment transaction here:</Text>
-              <Text>XXX</Text>
+              <Text>{ data_backend.files_url }</Text>
 
               <TouchableOpacity onPress={go_to_your_print_order_List} style={styles.button}>
                 <Text style={styles.button_text}>Show Status Orders</Text>
@@ -81,6 +126,7 @@ const styles = StyleSheet.create({
   },
   form_card: {
     margin: 10,
+    height: 450,
   },
   button_container: {
     alignItems: "center",
