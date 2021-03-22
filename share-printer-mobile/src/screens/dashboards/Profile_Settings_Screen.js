@@ -3,13 +3,9 @@ import { AsyncStorage } from "react-native"
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native"
 
 function Profile_Settings_Screen(props) {
-  let access_token
-  AsyncStorage.getItem("access_token").then((data) => (access_token = data))
-
   const log_out_go_to_home = () => {
     // const access_token = AsyncStorage.getItem("access_token").then((data) => console.log(data))
     // console.log(access_token)
-
     AsyncStorage.removeItem("access_token")
     props.navigation.navigate("Login")
   }
