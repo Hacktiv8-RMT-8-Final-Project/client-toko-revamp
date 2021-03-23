@@ -81,7 +81,7 @@ function Checkout_Order_Screen(props) {
       console.log(url)
       set_proof_transaction_link(url)
       console.log("upload File")
-      // ! printed into database after upload
+      // ! Printed into database after upload
       const input = {
         proof_receipt_transaction: url,
         order_Id: data_receipt.id,
