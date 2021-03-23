@@ -38,36 +38,10 @@ let data_backend = {
 function Shop_Profile_Screen(props) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [shopDetail, setShopDetail] = useState({})
-
-  const [access_token, set_access_token] = useState("")
-  useEffect(() => {
-    AsyncStorage.getItem("access_token").then((data) => set_access_token(data))
-  }, [])
-
-  useEffect(() => {
-    setLoading(true)
-    axios({
-      method: "GET",
-      url: `/user/shop_list`,
-      headers: {
-        access_token: access_token || "",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        console.log(response.data.data)
-        // setShopDetail(response.data.data)
-      })
-      .catch((err) => {
-        // console.log(err)
-        // setError(err)
-      })
-      .finally((_) => setLoading(false))
-  }, [access_token])
+  const [shopDetail, setShopDetail] = useState(props.route.params.shop)
 
   const fill_add_form = () => {
-    props.navigation.navigate("Form Order Print")
+    props.navigation.navigate("Form Order Print", { shop: shopDetail })
   }
   const chatting_with_shop = () => {
     console.log(`chatting_with_shop`)
@@ -81,16 +55,16 @@ function Shop_Profile_Screen(props) {
       <SafeAreaView style={styles.container}>
         <View style={styles.container_detail}>
           <View style={styles.header}>
-            <Text style={styles.storeName}>{data_backend.data.name}</Text>
+            <Text style={styles.storeName}>{shopDetail.name}</Text>
             <View style={styles.info}>
               <Text>Lokasi</Text>
-              {data_backend.data.status_open ? <Chip icon="information">Open</Chip> : <Chip icon="information">Closed</Chip>}
+              {shopDetail.status_open ? <Chip icon="information">Open</Chip> : <Chip icon="information">Closed</Chip>}
             </View>
           </View>
           <Text style={{ marginVertical: 10 }}>Displaying all products that are avaiable</Text>
           <ScrollView style={styles.scrollView}>
             <View style={styles.products}>
-              {data_backend.data.products.map((e, index) => {
+              {shopDetail.products.map((e, index) => {
                 let temp = Object.keys(e)[0]
                 // let newData = Object.values(temp)
                 return (
@@ -98,7 +72,7 @@ function Shop_Profile_Screen(props) {
                     <Card>
                       <Card.Content>
                         <Title>{e[temp].display_name}</Title>
-                        <Paragraph>{e[temp].price}</Paragraph>
+                        <Paragraph>Price : Rp {e[temp].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00</Paragraph>
                       </Card.Content>
                     </Card>
                   </View>
@@ -149,7 +123,6 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     justifyContent: "space-evenly",
     alignItems: "center",
-    backgroundColor: "blue",
   },
   scrollView: {
     marginHorizontal: 20,

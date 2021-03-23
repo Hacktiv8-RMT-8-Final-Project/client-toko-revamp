@@ -29,7 +29,7 @@ function Current_Orders_Screen(props) {
   }
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [currentOrders, setCurrentOrders] = useState({})
+  const [currentOrders, setCurrentOrders] = useState([])
 
   const [access_token, set_access_token] = useState("")
   useEffect(() => {
@@ -72,16 +72,15 @@ function Current_Orders_Screen(props) {
     <>
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          <Text>{JSON.stringify(currentOrders)}</Text>
+          {/* <Text>{JSON.stringify(currentOrders)}</Text> */}
 
-          {/* { currentOrders.length === 0 ? (
-             <Card>
+          {currentOrders.length === 0 ? (
+            <Card>
               <Card.Content>
                 <Title>Your current orders are empty</Title>
                 <Paragraph>Start printing!</Paragraph>
               </Card.Content>
-              <Card.Actions>
-              </Card.Actions>
+              <Card.Actions></Card.Actions>
             </Card>
           ) : (
             currentOrders.map((e) => {
@@ -149,7 +148,7 @@ function Current_Orders_Screen(props) {
                 </Card>
               )
             })
-          )} */}
+          )}
         </ScrollView>
       </SafeAreaView>
     </>

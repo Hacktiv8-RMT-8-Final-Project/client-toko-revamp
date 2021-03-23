@@ -4,6 +4,7 @@ import Constants from "expo-constants"
 import { Card, Title, Paragraph } from "react-native-paper"
 
 import { Loading_Component, Error_Component } from "../../components"
+import axios from "axios"
 
 let data_backend = {
   msg: "Successfully read shop details",
@@ -88,6 +89,11 @@ function Form_Order_Print_Screen(props) {
       "You can re add it again",
       [
         {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
           text: "OK",
           onPress: () => {
             const existing_selected_product = [...select_product]
@@ -97,11 +103,6 @@ function Form_Order_Print_Screen(props) {
             })
             set_select_product(updated_product_finder)
           },
-        },
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
         },
       ],
       { cancelable: false }
@@ -139,7 +140,7 @@ function Form_Order_Print_Screen(props) {
               style={styles.picker_select}
               onValueChange={(data_product, index) => on_change_picker(data_product)}
             >
-              <Picker.Item label="Choose product service here" enabled="false" />
+              <Picker.Item label="Choose product service here" enabled={false} />
               {data_product.map((e, index) => {
                 let detail_product = Object.values(e)[0]
                 return <Picker.Item key={index} label={detail_product.display_name} value={e} />
@@ -173,7 +174,7 @@ function Form_Order_Print_Screen(props) {
                     </View>
                     <Card.Content>
                       <Title>{detail_product.display_name}</Title>
-                      <Paragraph>Harga : Rp {detail_product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00</Paragraph>
+                      <Paragraph>Price : Rp {detail_product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00</Paragraph>
                       <TouchableOpacity onPress={() => remove_product(uuid_product)} style={styles.remove_product_button}>
                         <Text style={styles.button_text}>Remove product</Text>
                       </TouchableOpacity>
