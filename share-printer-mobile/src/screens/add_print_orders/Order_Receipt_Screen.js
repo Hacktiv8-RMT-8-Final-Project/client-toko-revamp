@@ -44,8 +44,32 @@ function Checkout_Order_Screen(props) {
   const [loading, set_loading] = useState(false)
   const [error, set_error] = useState(null)
 
-  const upload_your_proof_receipt_transaction = () => {
-    console.log(`upload_your_proof_receipt_transaction`)
+  const upload_your_proof_receipt_transaction = async () => {
+    try {
+      const file = await DocumentPicker.getDocumentAsync()
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.onload = function () {
+          resolve(xhr.response)
+        }
+        xhr.onerror = function (e) {
+          console.log(e)
+          reject(new TypeError("Network request failed"))
+        }
+        xhr.responseType = "blob"
+        xhr.open("GET", file.uri, true)
+        xhr.send(null)
+      })
+      const storageRef = await app.storage().ref()
+      const bucket = storageRef.child(file.name)
+      await bucket.put(blob)
+      const url = await bucket.getDownloadURL()
+      console.log(url)
+      set_file_url_link(url)
+      console.log("upload File")
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const go_to_your_print_order_List = () => {
@@ -107,7 +131,7 @@ function Checkout_Order_Screen(props) {
           </TouchableOpacity>
 
           <Text>Your proof receipt payment transaction here:</Text>
-          <Text>{data_receipt.files_url}</Text>
+          <Text>{data_receipt.proof_receipt_transaction}</Text>
 
           <TouchableOpacity onPress={go_to_your_print_order_List} style={styles.button}>
             <Text style={styles.button_text}>Show Status Orders</Text>
