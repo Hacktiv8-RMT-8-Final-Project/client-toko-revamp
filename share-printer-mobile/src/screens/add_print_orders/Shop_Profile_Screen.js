@@ -57,8 +57,18 @@ function Shop_Profile_Screen(props) {
           <View style={styles.header}>
             <Text style={styles.storeName}>{shopDetail.name}</Text>
             <View style={styles.info}>
-              <Text>Lokasi</Text>
-              {shopDetail.status_open ? <Chip icon="information">Open</Chip> : <Chip icon="information">Closed</Chip>}
+              <Chip mode="outlined" style={{ backgroundColor: "#EFEFEF" }} icon="map-marker">
+                Location
+              </Chip>
+              {shopDetail.status_open ? (
+                <Chip style={{ backgroundColor: "#72EDFF" }} icon="information">
+                  Open
+                </Chip>
+              ) : (
+                <Chip style={{ backgroundColor: "#FF7272" }} icon="information">
+                  Closed
+                </Chip>
+              )}
             </View>
           </View>
           <Text style={{ marginVertical: 10 }}>Displaying all products that are avaiable</Text>
@@ -83,10 +93,9 @@ function Shop_Profile_Screen(props) {
         </View>
 
         <View style={styles.buttonContainer}>
-          <Text>Welcome, displaying all products</Text>
-          <Text>that avaiable in the printing shop!</Text>
+          <Text>Welcome, to our shop!</Text>
           <TouchableOpacity onPress={fill_add_form} style={styles.button}>
-            <Text style={styles.button_text}>Fill add Form</Text>
+            <Text style={styles.button_text}>Print Request</Text>
           </TouchableOpacity>
           {/* <TouchableOpacity onPress={chatting_with_shop} style={styles.button}>
           <Text style={styles.button_text}>Chat with shop</Text>

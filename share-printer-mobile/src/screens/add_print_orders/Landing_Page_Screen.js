@@ -6,6 +6,7 @@ function Landing_Page_Screen(props) {
   const goto_form_order_print = () => {
     props.navigation.navigate("Google Map Shop")
   }
+
   return (
     <View style={styles.container}>
       <ImageBackground source={bgImage} style={styles.backgroundContainer}>
