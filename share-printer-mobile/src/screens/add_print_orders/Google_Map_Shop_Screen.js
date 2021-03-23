@@ -103,6 +103,8 @@ function Google_Map_Shop_Screen(props) {
 
   const [selectedValue, setSelectedValue] = useState({})
 
+  const [mapRef, setMapref] = useState()
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       setCurrentPosition({
@@ -134,7 +136,6 @@ function Google_Map_Shop_Screen(props) {
       url: `/user/shop_list`,
     })
       .then((response) => {
-        // console.log(response.data.data)
         setShopList(response.data.data)
       })
       .catch((err) => {
@@ -146,13 +147,18 @@ function Google_Map_Shop_Screen(props) {
 
   const selectShop = (shop) => {
     console.log(`pressed`)
-    // console.log(shop)
     setSelectedShop(shop)
     setSelectedValue(shop)
   }
-
+  
   const on_change_picker = (shop) => {
-    console.log(`clicked`)
+    if(shop && shop.location){
+      mapRef.animateToRegion({
+        ...shop.location,
+        latitudeDelta: 0.1,
+        longitudeDelta: 0.1
+      })
+    }
     setSelectedValue(shop)
     setSelectedShop(shop)
   }
@@ -188,7 +194,7 @@ function Google_Map_Shop_Screen(props) {
     <>
       <View style={styles.container}>
         <View style={styles.container_map}>
-          <MapView style={styles.map} initialRegion={currentPosition}>
+          <MapView style={styles.map} initialRegion={currentPosition} showsUserLocation={true} ref={ref => setMapref(ref)}>
             <Marker coordinate={currentPosition} image={require("../../images/person.png")} title="this is You" />
             {shop_map.map((shop) => {
               return (
@@ -208,25 +214,25 @@ function Google_Map_Shop_Screen(props) {
         <View style={styles.container_shop}>
           {/* <Text>{JSON.stringify(shopList)}</Text> */}
 
-          {/* <View style={styles.picker_container}>
+          <View style={styles.picker_container}>
             <Picker selectedValue={selectedValue} style={styles.picker_select} onValueChange={(shop_list, index) => on_change_picker(shop_list)}>
               <Picker.Item label="Choose shop printing shop here" value={null} enabled={false} />
               {shopList.map((e, index) => {
                 return <Picker.Item key={index} label={e.name} value={e} />
               })}
             </Picker>
-          </View> */}
+          </View>
 
-          <View style={styles.display_picker}>
+          {/* <View style={styles.display_picker}>
             <Text>{selectedShop.name}</Text>
-            {/* <Picker selectedValue={selectedValue} style={styles.picker_select} onValueChange={(shop_list, index) => on_change_picker(shop_list)}>
+            <Picker selectedValue={selectedValue} style={styles.picker_select} onValueChange={(shop_list, index) => on_change_picker(shop_list)}>
               <Picker.Item label="Choose shop printing shop here" value={null} enabled={false} />
               {shopList.map((e, index) => {
                 let data_to_string = e.toString()
                 return <Picker.Item key={index} label={e.name} value={e} selectedValue={data_to_string} />
               })}
-            </Picker> */}
-          </View>
+            </Picker>
+          </View> */}
 
           <Text>Choose nearby printing shop</Text>
           {/* <Text>or your personal favourite shop</Text> */}
