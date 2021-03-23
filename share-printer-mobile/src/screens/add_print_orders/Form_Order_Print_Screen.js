@@ -3,8 +3,12 @@ import { TouchableOpacity, StyleSheet, TextInput, SafeAreaView, Text, View, Scro
 import Constants from "expo-constants"
 import { Card, Title, Paragraph } from "react-native-paper"
 
+import * as DocumentPicker from "expo-document-picker"
+import * as Linking from "expo-linking"
+
 import { AsyncStorage } from "react-native"
 import axios from "../../config/axios"
+import app from "../../config/firebase"
 
 import { Loading_Component, Error_Component } from "../../components"
 
@@ -137,13 +141,9 @@ function Form_Order_Print_Screen(props) {
   const submit_form = () => {
     const convert_order_product = JSON.stringify(select_product)
 
-    // ! dummy html
-    set_file_url_link(`http://www.dummy.com`)
-
     let error_bucket = []
     if (!file_url_link) error_bucket.push("Please input your download file link")
     if (!convert_order_product) error_bucket.push("Please input order requirement")
-    if (!shopDetail.id) error_bucket.push("Please choose your printing shop")
     if (error_bucket.length > 0) {
       Alert.alert(
         "Input field form required",
@@ -185,7 +185,7 @@ function Form_Order_Print_Screen(props) {
       .then((response) => {
         // console.log(response.data.data)
         let created_receipt_data = response.data.data
-        props.navigation.navigate("Order Receipt", { receipt: created_receipt_data, shop_name: shopDetail.name })
+        props.navigation.navigate("Order Receipt", { receipt: created_receipt_data, shop_name: shopDetail.name, shop_id: shopDetail.id })
       })
       .catch((err) => {
         console.log(err)
@@ -193,9 +193,32 @@ function Form_Order_Print_Screen(props) {
       })
   }
 
-  const upload_your_pdf_file = () => {
-    console.log("upload_your_pdf_file")
-    // set_file_url_link()
+  const upload_your_pdf_file = async () => {
+    try {
+      const file = await DocumentPicker.getDocumentAsync()
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.onload = function () {
+          resolve(xhr.response)
+        }
+        xhr.onerror = function (e) {
+          console.log(e)
+          reject(new TypeError("Network request failed"))
+        }
+        xhr.responseType = "blob"
+        xhr.open("GET", file.uri, true)
+        xhr.send(null)
+      })
+      const storageRef = await app.storage().ref()
+      const bucket = storageRef.child(file.name)
+      await bucket.put(blob)
+      const url = await bucket.getDownloadURL()
+      console.log(url)
+      set_file_url_link(url)
+      console.log("upload File")
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   if (loading) return <Loading_Component />
@@ -260,11 +283,11 @@ function Form_Order_Print_Screen(props) {
           <Text>Your PDF file link here :</Text>
           {file_url_link === null ? (
             <>
-              <Text>Your PDF URL link download will be displayed here</Text>
+              <Text>Status not file uploaded</Text>
             </>
           ) : (
             <>
-              <Text style={{ color: "blue" }} onPress={() => Linking.openURL("http://google.com")}>
+              <Text style={{ color: "blue" }} onPress={() => Linking.openURL(`${file_url_link}`)}>
                 File PDF
               </Text>
             </>

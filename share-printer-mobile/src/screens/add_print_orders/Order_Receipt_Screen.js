@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react"
-import axios from "../../config/axios"
 import { TouchableOpacity, StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native"
 import Constants from "expo-constants"
 import { Card, Title, Paragraph, DataTable } from "react-native-paper"
 
 import { Loading_Component, Error_Component } from "../../components"
+
+import * as DocumentPicker from "expo-document-picker"
+import * as Linking from "expo-linking"
+
+import { AsyncStorage } from "react-native"
+import axios from "../../config/axios"
+import app from "../../config/firebase"
 
 let data_backend = {
   id: 1,
@@ -36,16 +42,63 @@ let data_backend = {
 }
 
 function Checkout_Order_Screen(props) {
-  console.log(props.route.params)
+  // console.log(props.route.params)
 
   const [shop_name, set_shop_name] = useState(props.route.params.shop_name)
+  const [shop_id, set_shop_id] = useState(props.route.params.shop_id)
   const [data_receipt, set_data_receipt] = useState(props.route.params.receipt)
 
   const [loading, set_loading] = useState(false)
   const [error, set_error] = useState(null)
 
-  const upload_your_proof_receipt_transaction = () => {
-    console.log(`upload_your_proof_receipt_transaction`)
+  const [proof_transaction_link, set_proof_transaction_link] = useState(null)
+
+  const [access_token, set_access_token] = useState("")
+  useEffect(() => {
+    AsyncStorage.getItem("access_token").then((data) => set_access_token(data))
+  }, [])
+
+  const upload_your_proof_receipt_transaction = async () => {
+    try {
+      const file = await DocumentPicker.getDocumentAsync()
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.onload = function () {
+          resolve(xhr.response)
+        }
+        xhr.onerror = function (e) {
+          console.log(e)
+          reject(new TypeError("Network request failed"))
+        }
+        xhr.responseType = "blob"
+        xhr.open("GET", file.uri, true)
+        xhr.send(null)
+      })
+      const storageRef = await app.storage().ref()
+      const bucket = storageRef.child(file.name)
+      await bucket.put(blob)
+      const url = await bucket.getDownloadURL()
+      console.log(url)
+      set_proof_transaction_link(url)
+      console.log("upload File")
+      // ! printed into database after upload
+      const input = {
+        proof_receipt_transaction: url,
+        order_Id: data_receipt.id,
+      }
+      const response = await axios({
+        method: "PUT",
+        url: `/user/upload_receipt`,
+        headers: {
+          access_token: access_token || "",
+          "Content-Type": "application/json",
+        },
+        data: input,
+      })
+      console.log(response.data.data[0].proof_receipt_transaction)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const go_to_your_print_order_List = () => {
@@ -62,8 +115,6 @@ function Checkout_Order_Screen(props) {
           <ScrollView>
             <Card style={styles.form_card}>
               <Card.Content>
-                <Title>Your Order Receipt</Title>
-
                 <Title style={styles.uuid}>Order Number: </Title>
                 <Paragraph>{data_receipt.order_number}</Paragraph>
 
@@ -107,7 +158,17 @@ function Checkout_Order_Screen(props) {
           </TouchableOpacity>
 
           <Text>Your proof receipt payment transaction here:</Text>
-          <Text>{data_receipt.files_url}</Text>
+          {proof_transaction_link === null ? (
+            <>
+              <Text>Status Unpaid</Text>
+            </>
+          ) : (
+            <>
+              <Text style={{ color: "blue" }} onPress={() => Linking.openURL(`${data_receipt.proof_receipt_transaction}`)}>
+                File Proof of Transaction
+              </Text>
+            </>
+          )}
 
           <TouchableOpacity onPress={go_to_your_print_order_List} style={styles.button}>
             <Text style={styles.button_text}>Show Status Orders</Text>

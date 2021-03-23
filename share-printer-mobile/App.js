@@ -1,6 +1,8 @@
 import React from "react"
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper"
 
+import { LogBox } from "react-native"
+
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
@@ -23,6 +25,8 @@ const forFade = ({ current }) => ({
 
 const Stack = createStackNavigator()
 export default function App() {
+  LogBox.ignoreAllLogs()
+
   return (
     <SafeAreaProvider>
       <PaperProvider theme={theme}>
