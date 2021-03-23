@@ -4,7 +4,6 @@ import Constants from "expo-constants"
 import { Card, Title, Paragraph } from "react-native-paper"
 
 import { Loading_Component, Error_Component } from "../../components"
-import axios from "axios"
 
 let data_backend = {
   msg: "Successfully read shop details",
@@ -42,17 +41,26 @@ function Form_Order_Print_Screen(props) {
 
   const [loading, set_loading] = useState(false)
   const [error, set_error] = useState(null)
-  const [selectedValue, setSelectedValue] = useState(null)
+  const [shopDetail, setShopDetail] = useState(props.route.params.shop)
 
+  const [selectedValue, setSelectedValue] = useState(null)
   const [file_url_link, set_file_url_link] = useState(null)
+  const [total_price, set_total_price] = useState(0)
 
   useEffect(() => {
-    // set_loading(true)
-    let bucket = []
-    let data_products = data_backend.data.products
-    // set_error(err)
-    set_data_product(data_products)
+    set_data_product(shopDetail.products)
   }, [])
+
+  useEffect(() => {
+    let temp_total_price = 0
+    select_product.map((e) => {
+      let value = Object.values(e)[0]
+      let total_per_item = value.amount * value.price
+      temp_total_price += total_per_item
+    })
+    set_total_price(temp_total_price)
+    return () => {}
+  }, [select_product])
 
   const on_change_picker = (product) => {
     const new_selected_product = [...select_product]
@@ -121,10 +129,11 @@ function Form_Order_Print_Screen(props) {
   const submit_form = () => {
     console.log(`submit here`)
     console.log(select_product)
-    props.navigation.navigate("Order Receipt")
+    // props.navigation.navigate("Order Receipt")
   }
   const upload_your_pdf_file = () => {
     console.log("upload_your_pdf_file")
+    // set_file_url_link()
   }
 
   if (loading) return <Loading_Component />
@@ -187,20 +196,26 @@ function Form_Order_Print_Screen(props) {
         </View>
         <View style={styles.bottom_screen_container}>
           <Text>Your PDF file link here :</Text>
-          {file_url_link !== undefined ? (
-            <Text>Click this link to see your link PDF here</Text>
+          {file_url_link === null ? (
+            <>
+              <Text>Your PDF URL link download will be displayed here</Text>
+            </>
           ) : (
-            <Text>Your PDF URL link download will be displayed here</Text>
+            <>
+              <Text style={{ color: "blue" }} onPress={() => Linking.openURL("http://google.com")}>
+                File PDF
+              </Text>
+            </>
           )}
           <TouchableOpacity onPress={upload_your_pdf_file} style={styles.upload_button}>
             <Text style={styles.button_text}>Upload PDF File</Text>
           </TouchableOpacity>
 
           <Text>Total order price :</Text>
-          {file_url_link === 0 ? <Text>Rp 0,00</Text> : <Text>Rp {"1000".toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00 </Text>}
+          {total_price === 0 ? <Text>Rp 0,00</Text> : <Text>Rp {total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00 </Text>}
 
           <TouchableOpacity onPress={submit_form} style={styles.button}>
-            <Text style={styles.button_text}>Confirm Print Order</Text>
+            <Text style={styles.button_text}>Confirm Order Print</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -296,6 +311,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     borderColor: "black",
+  },
+  button_text: {
+    fontSize: 16,
+    textTransform: "uppercase",
   },
 })
 
