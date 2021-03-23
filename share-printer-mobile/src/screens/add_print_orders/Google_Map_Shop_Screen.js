@@ -90,7 +90,9 @@ function Google_Map_Shop_Screen(props) {
           <MapView style={styles.map} />
         </View>
         <View style={styles.container_shop}>
-          <TouchableOpacity onPress={confirm_choose_shop} style={styles.registerBtn}>
+          <Text>Choose nearby printing shop</Text>
+          <Text>or your personal favourite shop</Text>
+          <TouchableOpacity onPress={confirm_choose_shop} style={styles.button}>
             <Text style={styles.button_text}>Confirm Shop</Text>
           </TouchableOpacity>
         </View>
@@ -113,14 +115,16 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "#fff",
+    justifyContent: "flex-end",
+    paddingBottom: 10,
   },
   map: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
-  registerBtn: {
+  button: {
     width: "80%",
-    backgroundColor: "#cdcdcd",
+    backgroundColor: "#A7FF72",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -128,7 +132,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     borderColor: "black",
-    borderWidth: 1,
   },
   button_text: {
     fontSize: 16,
