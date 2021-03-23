@@ -185,7 +185,7 @@ function Form_Order_Print_Screen(props) {
       .then((response) => {
         // console.log(response.data.data)
         let created_receipt_data = response.data.data
-        props.navigation.navigate("Order Receipt", { receipt: created_receipt_data, shop_name: shopDetail.name })
+        props.navigation.navigate("Order Receipt", { receipt: created_receipt_data, shop_name: shopDetail.name, shop_id: shopDetail.id })
       })
       .catch((err) => {
         console.log(err)
@@ -283,7 +283,7 @@ function Form_Order_Print_Screen(props) {
           <Text>Your PDF file link here :</Text>
           {file_url_link === null ? (
             <>
-              <Text>Your PDF URL link download will be displayed here</Text>
+              <Text>Status not file uploaded</Text>
             </>
           ) : (
             <>
