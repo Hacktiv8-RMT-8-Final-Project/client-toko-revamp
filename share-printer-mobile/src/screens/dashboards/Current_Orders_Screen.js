@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react"
-import { AsyncStorage, StyleSheet, Text, SafeAreaView, ScrollView, View } from "react-native"
+import { AsyncStorage, StyleSheet, Text, SafeAreaView, ScrollView, View, Alert, Modal, Pressable } from "react-native"
+
 import Constants from "expo-constants"
-import { Chip, Avatar, Button, Card, Title, Paragraph, DataTable } from "react-native-paper"
+import { Chip, Avatar, Button, Card, Title, Paragraph, DataTable, Provider, Portal } from "react-native-paper"
 
 import * as DocumentPicker from "expo-document-picker"
 import * as Linking from "expo-linking"
@@ -20,7 +21,22 @@ function Current_Orders_Screen(props) {
         id: 2,
         order_number: "03ea8590-8912-11eb-a47c-477e9a2cdd7b",
         order_content: {
-          data: "requirement printing options",
+          data: [
+            {
+              "99f15689-6cb2-4ae0-a7b3-4e5b33a6900c": {
+                display_name: "Jilid - A3",
+                price: 5000,
+                description: "hardcover",
+              },
+            },
+            {
+              "2f12710a-f518-48e4-beed-05f5fba81d7a": {
+                display_name: "Print Warna A3 (Per Halaman)",
+                price: 2000,
+                description: "50% coverage color minimal",
+              },
+            },
+          ]
         },
         files_url: "https://dummy.downloadlink.here",
         order_price: 10000,
@@ -38,7 +54,6 @@ function Current_Orders_Screen(props) {
   const [currentOrders, setCurrentOrders] = useState([])
 
   const isFocused = useIsFocused()
-
   const [file_url_link, set_file_url_link] = useState(null)
   const [proof_transaction_link, set_proof_transaction_link] = useState(null)
 
@@ -160,10 +175,10 @@ function Current_Orders_Screen(props) {
       // setError(err)
     }
   }
-
+  
   if (loading) return <Loading_Component />
   if (error) return <Error_Component />
-
+  console.log(currentOrders, 'ini curr orders');
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -298,6 +313,6 @@ const styles = StyleSheet.create({
   },
   btnUpload: {
     marginVertical: 10,
-  },
+  }
 })
 export default Current_Orders_Screen
