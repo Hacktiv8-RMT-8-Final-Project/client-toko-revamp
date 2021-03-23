@@ -185,7 +185,7 @@ function Form_Order_Print_Screen(props) {
       .then((response) => {
         // console.log(response.data.data)
         let created_receipt_data = response.data.data
-        props.navigation.navigate("Order Receipt", { receipt: created_receipt_data })
+        props.navigation.navigate("Order Receipt", { receipt: created_receipt_data, shop_name: shopDetail.name })
       })
       .catch((err) => {
         console.log(err)
@@ -240,7 +240,7 @@ function Form_Order_Print_Screen(props) {
                         placeholder="Input quantity product here"
                         placeholderTextColor="#003f5c"
                         keyboardType="numeric"
-                        value={detail_product.amount}
+                        value={detail_product.amount.toString()}
                       />
                     </View>
                     <Card.Content>
@@ -293,6 +293,7 @@ const styles = StyleSheet.create({
   form_container: {
     flex: 3,
     marginTop: Constants.statusBarHeight,
+    paddingTop: 20,
   },
   picker_container: {
     alignItems: "center",
