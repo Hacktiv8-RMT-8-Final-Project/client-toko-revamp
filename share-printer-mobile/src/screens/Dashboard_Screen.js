@@ -3,7 +3,7 @@ import React from "react"
 import Ionicons from "react-native-vector-icons/Ionicons"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
-import { Add_Order_Screen, Current_Orders_Screen, Transaction_History_Screen, Profile_Settings_Screen } from "./dashboards"
+import { Add_Order_Screen, Current_Orders_Screen, Transaction_History_Screen, Profile_Settings_Screen, Order_Detail_Screen } from "./dashboards"
 
 const Tab = createBottomTabNavigator()
 function Dashboard_Screen(props) {
@@ -28,8 +28,10 @@ function Dashboard_Screen(props) {
         },
       })}
       tabBarOptions={{
-        activeTintColor: "black",
-        inactiveTintColor: "gray",
+        activeTintColor: "#3e2913",
+        inactiveTintColor: "#FEFAE0",
+        activeBackgroundColor: "#FEFAE0",
+        inactiveBackgroundColor: "#D9AD82",
       }}
     >
       <Tab.Screen name="Dashboard" component={Add_Order_Screen} />

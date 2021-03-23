@@ -36,7 +36,7 @@ function Current_Orders_Screen(props) {
                 description: "50% coverage color minimal",
               },
             },
-          ]
+          ],
         },
         files_url: "https://dummy.downloadlink.here",
         order_price: 10000,
@@ -175,28 +175,29 @@ function Current_Orders_Screen(props) {
       // setError(err)
     }
   }
-  
+
   if (loading) return <Loading_Component />
   if (error) return <Error_Component />
-  console.log(currentOrders, 'ini curr orders');
+  console.log(currentOrders, "ini curr orders")
   return (
     <>
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           {/* <Text>{JSON.stringify(currentOrders)}</Text> */}
+          <View style={styles.title_container}>
+            <Text style={styles.title_text}>CURRENT ORDERS</Text>
+          </View>
 
           {currentOrders.length === 0 ? (
-            <Card>
-              <Card.Content>
-                <Title>Your current orders are empty</Title>
-                <Paragraph>Start printing!</Paragraph>
+            <Card style={styles.card_order}>
+              <Card.Content style={{ alignItems: "center", textAlign: "center" }}>
+                <Text>Your current orders are empty</Text>
               </Card.Content>
-              <Card.Actions></Card.Actions>
             </Card>
           ) : (
             currentOrders.map((e) => {
               return (
-                <Card style={styles.card} key={e.id}>
+                <Card style={styles.card_order} key={e.id}>
                   <Card.Content>
                     <View>
                       <Title style={styles.uuid}>Order Number: </Title>
@@ -243,28 +244,36 @@ function Current_Orders_Screen(props) {
                           Receipt
                         </Button>
                         {e.payment_status === 1 ? (
-                          <Chip icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#90E3FF" }} icon="information" type="outlined">
                             Order requested
                           </Chip>
                         ) : e.payment_status === 2 ? (
-                          <Chip icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#9099FF" }} icon="information" type="outlined">
                             Paid
                           </Chip>
                         ) : e.payment_status === 3 ? (
-                          <Chip icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#9FFF90" }} icon="information" type="outlined">
                             Confirm
                           </Chip>
                         ) : e.payment_status === 4 ? (
-                          <Chip icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#90FFA6" }} icon="information" type="outlined">
                             On Progress
                           </Chip>
                         ) : e.payment_status === 5 ? (
-                          <Chip icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#9FFF90" }} icon="information" type="outlined">
                             Completed
                           </Chip>
-                        ) : (
-                          <Chip icon="information" type="outlined">
+                        ) : e.payment_status === 6 ? (
+                          <Chip style={{ backgroundColor: "#E090FF" }} icon="information" type="outlined">
                             Canceled
+                          </Chip>
+                        ) : e.payment_status === 7 ? (
+                          <Chip style={{ backgroundColor: "#FF9090" }} icon="information" type="outlined">
+                            Rejected
+                          </Chip>
+                        ) : (
+                          <Chip style={{ backgroundColor: "red" }} icon="information" type="outlined">
+                            Error
                           </Chip>
                         )}
                       </View>
@@ -286,6 +295,23 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Constants.statusBarHeight,
   },
+  title_container: {
+    marginVertical: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
+    paddingVertical: 10,
+  },
+  title_text: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  card_order: {
+    flex: 1,
+    marginVertical: 5,
+    backgroundColor: "#faedcd",
+    borderRadius: 25,
+  },
   current_order_container: {
     maxHeight: 50,
   },
@@ -295,9 +321,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 14,
   },
-  card: {
-    marginTop: 10,
-  },
+
   content: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -313,6 +337,6 @@ const styles = StyleSheet.create({
   },
   btnUpload: {
     marginVertical: 10,
-  }
+  },
 })
 export default Current_Orders_Screen

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react"
 import axios from "../../config/axios"
-import { AsyncStorage, StyleSheet, Text, SafeAreaView, ScrollView, View } from "react-native"
+import { AsyncStorage, StyleSheet, Text, SafeAreaView, ScrollView, View, TouchableOpacity } from "react-native"
 import Constants from "expo-constants"
 import { Chip, Avatar, Button, Card, Title, Paragraph, DataTable } from "react-native-paper"
 import { useIsFocused } from "@react-navigation/native"
+
+import Ionicons from "react-native-vector-icons/Ionicons"
+import * as Linking from "expo-linking"
 
 import { Loading_Component, Error_Component } from "../../components"
 
@@ -59,6 +62,13 @@ function Transaction_History_Screen(props) {
       .finally((_) => setLoading(false))
   }, [access_token, props, isFocused])
 
+  const click_info_order = (data_order) => {
+    console.log(data_order)
+    props.navigation.navigate("Order Detail", { data: data_order })
+  }
+
+  // props.navigation.navigate("Shop Profile", { shop: selectedShop })
+
   if (loading) return <Loading_Component />
   if (error) return <Error_Component />
 
@@ -67,21 +77,22 @@ function Transaction_History_Screen(props) {
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           {/* <Text>{JSON.stringify(completedOrder)}</Text> */}
+          <View style={styles.title_container}>
+            <Text style={styles.title_text}>TRANSACTION HISTORY</Text>
+          </View>
 
-          {completedOrder === undefined ? (
-            <Card>
-              <Card.Content>
-                <Title>Your transaction history is empty</Title>
-                <Paragraph>Start printing!</Paragraph>
+          {completedOrder.length === 0 ? (
+            <Card style={styles.card_order}>
+              <Card.Content style={{ alignItems: "center", textAlign: "center" }}>
+                <Text>Your transaction history is empty</Text>
               </Card.Content>
-              <Card.Actions></Card.Actions>
             </Card>
           ) : (
             // <Text>{JSON.stringify(completedOrder)}</Text>
 
             completedOrder.map((e) => {
               return (
-                <Card style={styles.card} key={e.id}>
+                <Card style={styles.card_order} key={e.id}>
                   <Card.Content>
                     <View>
                       <Title style={styles.uuid}>Order Number: </Title>
@@ -89,41 +100,71 @@ function Transaction_History_Screen(props) {
                     </View>
                     <View style={styles.content}>
                       <View style={styles.leftContent}>
-                        <Paragraph>Store</Paragraph>
-                        <Text style={{ color: "blue" }} onPress={() => Linking.openURL("http://google.com")}>
-                          File PDF
-                        </Text>
-                        <Text style={{ color: "blue" }} onPress={() => Linking.openURL("http://google.com")}>
-                          Receipt transaction
-                        </Text>
+                        <Paragraph>Store : {e.Shop.name}</Paragraph>
+                        <Paragraph>Rp {e.order_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00</Paragraph>
+                        <View style={styles.info_container}>
+                          <TouchableOpacity onPress={() => click_info_order(e)} style={styles.button_info}>
+                            <Text>
+                              <Ionicons style={styles.icon} name={"information-circle-outline"} /> Info
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={() => {
+                              Linking.openURL(`${e.files_url}`)
+                            }}
+                            style={styles.button_download}
+                          >
+                            <Text>
+                              <Ionicons style={styles.icon} name={"cloud-download-outline"} /> PDF
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
                       </View>
                       <View style={styles.rightContent}>
                         {e.payment_status === 1 ? (
-                          <Chip icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#90E3FF" }} icon="information" type="outlined">
                             Order requested
                           </Chip>
                         ) : e.payment_status === 2 ? (
-                          <Chip icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#9099FF" }} icon="information" type="outlined">
                             Paid
                           </Chip>
                         ) : e.payment_status === 3 ? (
-                          <Chip icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#9FFF90" }} icon="information" type="outlined">
                             Confirm
                           </Chip>
                         ) : e.payment_status === 4 ? (
-                          <Chip icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#90FFA6" }} icon="information" type="outlined">
                             On Progress
                           </Chip>
                         ) : e.payment_status === 5 ? (
-                          <Chip icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#D4A373" }} icon="information" type="outlined">
                             Completed
                           </Chip>
-                        ) : (
-                          <Chip icon="information" type="outlined">
+                        ) : e.payment_status === 6 ? (
+                          <Chip style={{ backgroundColor: "#E090FF" }} icon="information" type="outlined">
                             Canceled
                           </Chip>
+                        ) : e.payment_status === 7 ? (
+                          <Chip style={{ backgroundColor: "#FF9090" }} icon="information" type="outlined">
+                            Rejected
+                          </Chip>
+                        ) : (
+                          <Chip style={{ backgroundColor: "red" }} icon="information" type="outlined">
+                            Error
+                          </Chip>
                         )}
-                        <Paragraph>{e.proof_receipt_transaction}</Paragraph>
+
+                        <TouchableOpacity
+                          onPress={() => {
+                            Linking.openURL(`${e.proof_receipt_transaction}`)
+                          }}
+                          style={styles.button_transaction}
+                        >
+                          <Text>
+                            <Ionicons style={styles.icon} name={"wallet-outline"} /> Transaction
+                          </Text>
+                        </TouchableOpacity>
                       </View>
                     </View>
                   </Card.Content>
@@ -146,8 +187,22 @@ const styles = StyleSheet.create({
   scrollView: {
     marginHorizontal: 20,
   },
-  card: {
-    marginTop: 10,
+  card_order: {
+    flex: 1,
+    marginVertical: 5,
+    backgroundColor: "#faedcd",
+    borderRadius: 25,
+  },
+  title_container: {
+    marginVertical: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
+    paddingVertical: 10,
+  },
+  title_text: {
+    fontSize: 20,
+    fontWeight: "bold",
   },
   text: {
     fontSize: 14,
@@ -157,13 +212,51 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   leftContent: {
+    flex: 1,
     width: 150,
   },
   rightContent: {
     width: 140,
   },
+  info_container: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   uuid: {
     fontSize: 18,
+  },
+  button_transaction: {
+    fontSize: 12,
+    padding: 3,
+    paddingLeft: 7,
+    width: 125,
+    borderRadius: 200,
+    backgroundColor: "#CCD5AE",
+    margin: 3,
+  },
+  button_info: {
+    fontSize: 12,
+    padding: 3,
+    paddingLeft: 7,
+    width: 75,
+    borderRadius: 200,
+    backgroundColor: "#9091FF",
+    margin: 3,
+  },
+  button_download: {
+    fontSize: 12,
+    padding: 3,
+    paddingLeft: 7,
+    width: 75,
+    borderRadius: 200,
+    backgroundColor: "#b4c247",
+    margin: 3,
+  },
+  icon: {
+    fontSize: 17,
+    marginBottom: 5,
   },
 })
 export default Transaction_History_Screen
