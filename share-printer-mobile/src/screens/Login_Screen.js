@@ -38,8 +38,8 @@ function Login_Screen(props) {
         props.navigation.navigate("Dashboard")
       })
       .catch((err) => {
-        // alert(err)
         console.log(err)
+        // setError(err)
       })
   }
 

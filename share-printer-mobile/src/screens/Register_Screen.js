@@ -34,8 +34,8 @@ function Register_Screen(props) {
         props.navigation.navigate("Login")
       })
       .catch((err) => {
-        // alert(err)
         console.log(err)
+        // setError(err)
       })
   }
 
