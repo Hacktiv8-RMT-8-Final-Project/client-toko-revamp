@@ -3,40 +3,14 @@ import { TouchableOpacity, StyleSheet, TextInput, SafeAreaView, Text, View, Scro
 import Constants from "expo-constants"
 import { Card, Title, Paragraph } from "react-native-paper"
 
+import * as DocumentPicker from "expo-document-picker"
+import * as Linking from "expo-linking"
+
 import { AsyncStorage } from "react-native"
 import axios from "../../config/axios"
+import app from "../../config/firebase"
 
 import { Loading_Component, Error_Component } from "../../components"
-
-let data_backend = {
-  msg: "Successfully read shop details",
-  data: {
-    id: 1,
-    name: "toko printer",
-    products: [
-      {
-        "99f15689-6cb2-4ae0-a7b3-4e5b33a6900c": {
-          display_name: "Jilid - A3",
-          price: 5000,
-          description: "some description",
-        },
-      },
-      {
-        "2f12710a-f518-48e4-beed-05f5fba81d7a": {
-          display_name: "Print Warna A3 (Per Halaman)",
-          price: 2000,
-          description: "some description",
-        },
-      },
-    ],
-    location: "{id: 0, lat: -6.2041139879292135, lng: 106.8042508374194}",
-    status_open: true,
-    email: "printer@mail.com",
-    password: "$2a$10$no8mKFggsEZBKAVm/8zbTeMbu8KYvSxDvM5K0s5OFiwsSurcAAjce",
-    createdAt: "2021-03-21T00:41:34.009Z",
-    updatedAt: "2021-03-21T11:54:31.623Z",
-  },
-}
 
 function Form_Order_Print_Screen(props) {
   const [select_product, set_select_product] = useState([])
@@ -137,13 +111,10 @@ function Form_Order_Print_Screen(props) {
   const submit_form = () => {
     const convert_order_product = JSON.stringify(select_product)
 
-    // ! dummy html
-    set_file_url_link(`http://www.dummy.com`)
-
     let error_bucket = []
     if (!file_url_link) error_bucket.push("Please input your download file link")
     if (!convert_order_product) error_bucket.push("Please input order requirement")
-    if (!shopDetail.id) error_bucket.push("Please choose your printing shop")
+    if (total_price === 0) error_bucket.push("Please add an item")
     if (error_bucket.length > 0) {
       Alert.alert(
         "Input field form required",
@@ -161,41 +132,63 @@ function Form_Order_Print_Screen(props) {
         ],
         { cancelable: false }
       )
-    }
-
-    let input_data = {
-      files_url: file_url_link,
-      order_content: convert_order_product,
-      shop_Id: +shopDetail.id,
-      order_price: +total_price,
-    }
-    // console.log(input_data)
-
-    // props.navigation.navigate("Order Receipt", { receipt: select_product })
-
-    axios({
-      method: "POST",
-      url: `/user/form`,
-      headers: {
-        access_token: access_token || "",
-        "Content-Type": "application/json",
-      },
-      data: input_data,
-    })
-      .then((response) => {
-        // console.log(response.data.data)
-        let created_receipt_data = response.data.data
-        props.navigation.navigate("Order Receipt", { receipt: created_receipt_data })
+    } else {
+      let input_data = {
+        files_url: file_url_link,
+        order_content: convert_order_product,
+        shop_Id: +shopDetail.id,
+        order_price: +total_price,
+      }
+      // console.log(input_data)
+      // props.navigation.navigate("Order Receipt", { receipt: select_product })
+      axios({
+        method: "POST",
+        url: `/user/form`,
+        headers: {
+          access_token: access_token || "",
+          "Content-Type": "application/json",
+        },
+        data: input_data,
       })
-      .catch((err) => {
-        console.log(err)
-        // setError(err)
-      })
+        .then((response) => {
+          // console.log(response.data.data)
+          let created_receipt_data = response.data.data
+          props.navigation.navigate("Order Receipt", { receipt: created_receipt_data, shop_name: shopDetail.name, shop_id: shopDetail.id })
+        })
+        .catch((err) => {
+          console.log(err)
+          // setError(err)
+        })
+    }
   }
 
-  const upload_your_pdf_file = () => {
-    console.log("upload_your_pdf_file")
-    // set_file_url_link()
+  const upload_your_pdf_file = async () => {
+    try {
+      const file = await DocumentPicker.getDocumentAsync()
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.onload = function () {
+          resolve(xhr.response)
+        }
+        xhr.onerror = function (e) {
+          console.log(e)
+          reject(new TypeError("Network request failed"))
+        }
+        xhr.responseType = "blob"
+        xhr.open("GET", file.uri, true)
+        xhr.send(null)
+      })
+      const storageRef = await app.storage().ref()
+      const bucket = storageRef.child(file.name)
+      await bucket.put(blob)
+      const url = await bucket.getDownloadURL()
+      console.log(url)
+      set_file_url_link(url)
+      console.log("upload File")
+    } catch (err) {
+      console.log(err)
+      // setError(err)
+    }
   }
 
   if (loading) return <Loading_Component />
@@ -222,8 +215,8 @@ function Form_Order_Print_Screen(props) {
             {select_product.length === 0 ? (
               <>
                 <Card style={styles.form_card}>
-                  <Card.Content>
-                    <Title>Your orders will be displayed here</Title>
+                  <Card.Content style={{ alignItems: "center", textAlign: "center" }}>
+                    <Text>Your orders will be displayed here</Text>
                   </Card.Content>
                 </Card>
               </>
@@ -240,7 +233,7 @@ function Form_Order_Print_Screen(props) {
                         placeholder="Input quantity product here"
                         placeholderTextColor="#003f5c"
                         keyboardType="numeric"
-                        value={detail_product.amount}
+                        value={detail_product.amount.toString()}
                       />
                     </View>
                     <Card.Content>
@@ -260,11 +253,11 @@ function Form_Order_Print_Screen(props) {
           <Text>Your PDF file link here :</Text>
           {file_url_link === null ? (
             <>
-              <Text>Your PDF URL link download will be displayed here</Text>
+              <Text>Status not file uploaded</Text>
             </>
           ) : (
             <>
-              <Text style={{ color: "blue" }} onPress={() => Linking.openURL("http://google.com")}>
+              <Text style={{ color: "blue" }} onPress={() => Linking.openURL(`${file_url_link}`)}>
                 File PDF
               </Text>
             </>
@@ -293,6 +286,7 @@ const styles = StyleSheet.create({
   form_container: {
     flex: 3,
     marginTop: Constants.statusBarHeight,
+    paddingTop: 20,
   },
   picker_container: {
     alignItems: "center",
