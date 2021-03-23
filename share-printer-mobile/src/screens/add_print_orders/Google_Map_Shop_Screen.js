@@ -6,6 +6,10 @@ import MapView, { Marker } from "react-native-maps"
 
 import { Loading_Component, Error_Component } from "../../components"
 
+function isEmpty(obj) {
+  return Object.keys(obj).length === 0
+}
+
 let data_backend = {
   msg: "Successfully read list of shop including the details near your area",
   data: [
@@ -144,18 +148,20 @@ function Google_Map_Shop_Screen(props) {
     console.log(`pressed`)
     // console.log(shop)
     setSelectedShop(shop)
+    setSelectedValue(shop)
   }
 
   const on_change_picker = (shop) => {
     console.log(`clicked`)
     setSelectedValue(shop)
+    setSelectedShop(shop)
   }
 
   const confirm_choose_shop = () => {
-    if (!selectedValue) {
+    if (isEmpty(selectedValue) || isEmpty(selectedShop)) {
       Alert.alert(
         "Please choose shop",
-        "Using drop down select or google map",
+        "you didnt pick printing shop",
         [
           {
             text: "Cancel",
@@ -170,8 +176,8 @@ function Google_Map_Shop_Screen(props) {
         { cancelable: false }
       )
     } else {
-      console.log(selectedShop)
-      console.log(selectedValue)
+      // console.log(selectedShop)
+      // console.log(selectedValue)
       props.navigation.navigate("Shop Profile", { shop: selectedShop })
     }
   }
@@ -202,14 +208,14 @@ function Google_Map_Shop_Screen(props) {
         <View style={styles.container_shop}>
           {/* <Text>{JSON.stringify(shopList)}</Text> */}
 
-          <View style={styles.picker_container}>
+          {/* <View style={styles.picker_container}>
             <Picker selectedValue={selectedValue} style={styles.picker_select} onValueChange={(shop_list, index) => on_change_picker(shop_list)}>
               <Picker.Item label="Choose shop printing shop here" value={null} enabled={false} />
               {shopList.map((e, index) => {
                 return <Picker.Item key={index} label={e.name} value={e} />
               })}
             </Picker>
-          </View>
+          </View> */}
 
           <View style={styles.display_picker}>
             <Text>{selectedShop.name}</Text>
