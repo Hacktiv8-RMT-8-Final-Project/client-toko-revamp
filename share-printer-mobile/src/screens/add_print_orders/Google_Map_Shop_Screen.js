@@ -150,13 +150,13 @@ function Google_Map_Shop_Screen(props) {
     setSelectedShop(shop)
     setSelectedValue(shop)
   }
-  
+
   const on_change_picker = (shop) => {
-    if(shop && shop.location){
+    if (shop && shop.location) {
       mapRef.animateToRegion({
         ...shop.location,
         latitudeDelta: 0.1,
-        longitudeDelta: 0.1
+        longitudeDelta: 0.1,
       })
     }
     setSelectedValue(shop)
@@ -194,7 +194,7 @@ function Google_Map_Shop_Screen(props) {
     <>
       <View style={styles.container}>
         <View style={styles.container_map}>
-          <MapView style={styles.map} initialRegion={currentPosition} showsUserLocation={true} ref={ref => setMapref(ref)}>
+          <MapView style={styles.map} initialRegion={currentPosition} showsUserLocation={true} ref={(ref) => setMapref(ref)}>
             <Marker coordinate={currentPosition} image={require("../../images/person.png")} title="this is You" />
             {shop_map.map((shop) => {
               return (
@@ -213,10 +213,16 @@ function Google_Map_Shop_Screen(props) {
 
         <View style={styles.container_shop}>
           {/* <Text>{JSON.stringify(shopList)}</Text> */}
+          <Text style={styles.text_map}>You can use selector or click directly on google map</Text>
 
           <View style={styles.picker_container}>
-            <Picker selectedValue={selectedValue} style={styles.picker_select} onValueChange={(shop_list, index) => on_change_picker(shop_list)}>
-              <Picker.Item label="Choose shop printing shop here" value={null} enabled={false} />
+            <Picker
+              selectedValue={selectedValue}
+              style={styles.picker_select}
+              itemStyle={styles.item_picker}
+              onValueChange={(shop_list, index) => on_change_picker(shop_list)}
+            >
+              <Picker.Item label="Choose shop printing shop here" value={{}} enabled={false} />
               {shopList.map((e, index) => {
                 return <Picker.Item key={index} label={e.name} value={e} />
               })}
@@ -234,8 +240,6 @@ function Google_Map_Shop_Screen(props) {
             </Picker>
           </View> */}
 
-          <Text>Choose nearby printing shop</Text>
-          {/* <Text>or your personal favourite shop</Text> */}
           <TouchableOpacity onPress={confirm_choose_shop} style={styles.button}>
             <Text style={styles.button_text}>Confirm Shop</Text>
           </TouchableOpacity>
@@ -251,36 +255,42 @@ const styles = StyleSheet.create({
   },
   container_map: {
     flex: 3,
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff",
     alignItems: "center",
     justifyContent: "center",
   },
   container_shop: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#fefaf0",
     justifyContent: "flex-end",
     paddingBottom: 10,
   },
   picker_container: {
     alignItems: "center",
-    borderRadius: 10,
+    borderRadius: 25,
     borderWidth: 1,
+    borderColor: "#d4a373",
     marginHorizontal: 30,
+    marginBottom: 10,
+    backgroundColor: "#faedcd",
+  },
+  text_map: {
+    marginVertical: 10,
+    fontSize: 14,
   },
   picker_select: {
-    width: 250,
+    width: 300,
     height: 44,
-    borderWidth: 1,
-    borderColor: "black",
-    backgroundColor: "#ffffff",
     borderRadius: 10,
     textAlign: "center",
     justifyContent: "center",
   },
+  item_picker: {
+    textAlign: "center",
+  },
   display_picker: {
     width: "80%",
-    backgroundColor: "#ffffff",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -295,7 +305,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "80%",
-    backgroundColor: "#A7FF72",
+    backgroundColor: "#d4a373",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -307,6 +317,8 @@ const styles = StyleSheet.create({
   button_text: {
     fontSize: 16,
     textTransform: "uppercase",
+    color: "white",
+    fontWeight: "bold",
   },
 })
 
