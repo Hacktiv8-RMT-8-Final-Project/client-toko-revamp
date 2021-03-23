@@ -56,11 +56,17 @@ function Shop_Profile_Screen(props) {
         <View style={styles.container_detail}>
           <View style={styles.header}>
             <Text style={styles.storeName}>{shopDetail.name}</Text>
+            <Text style={{fontWeight: 'bold'}}>Welcome, to our shop!</Text>
             <View style={styles.info}>
               <Chip mode="outlined" style={{ backgroundColor: "#EFEFEF" }} icon="map-marker">
                 Location
               </Chip>
-              {shopDetail.status_open ? (
+            </View>
+          </View>
+
+          <View style={styles.statusContainer}>
+            <Text style={{marginTop: 12}}>Available Product:</Text>
+            {shopDetail.status_open ? (
                 <Chip style={{ backgroundColor: "#72EDFF" }} icon="information">
                   Open
                 </Chip>
@@ -69,9 +75,7 @@ function Shop_Profile_Screen(props) {
                   Closed
                 </Chip>
               )}
-            </View>
           </View>
-          <Text style={{ marginVertical: 10 }}>Displaying all products that are avaiable</Text>
           <ScrollView style={styles.scrollView}>
             <View style={styles.products}>
               {shopDetail.products.map((e, index) => {
@@ -82,7 +86,11 @@ function Shop_Profile_Screen(props) {
                     <Card>
                       <Card.Content>
                         <Title>{e[temp].display_name}</Title>
-                        <Paragraph>Price : Rp {e[temp].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00</Paragraph>
+                        <Paragraph style={{marginBottom: 10}}>{e[temp].description}</Paragraph>
+                        <View style={styles.priceContainer}>
+                          <Paragraph>Price : </Paragraph>
+                          <Paragraph style={{fontWeight: 'bold', marginBottom: 10}}>Rp {e[temp].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00</Paragraph>
+                        </View>
                       </Card.Content>
                     </Card>
                   </View>
@@ -93,7 +101,6 @@ function Shop_Profile_Screen(props) {
         </View>
 
         <View style={styles.buttonContainer}>
-          <Text>Welcome, to our shop!</Text>
           <TouchableOpacity onPress={fill_add_form} style={styles.button}>
             <Text style={styles.button_text}>Print Request</Text>
           </TouchableOpacity>
@@ -114,7 +121,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "80%",
-    backgroundColor: "#A7FF72",
+    backgroundColor: "#d4a373",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -126,6 +133,8 @@ const styles = StyleSheet.create({
   button_text: {
     fontSize: 16,
     textTransform: "uppercase",
+    color: 'white',
+    fontWeight: 'bold'
   },
   container_detail: {
     flex: 4,
@@ -153,8 +162,10 @@ const styles = StyleSheet.create({
   // },
   info: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "center",
     width: 530,
+    marginBottom: 50,
+    marginTop: 10
   },
   header: {
     alignItems: "center",
@@ -165,6 +176,14 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontWeight: "bold",
   },
+  statusContainer:{
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: 550
+  },
+  priceContainer: {
+    flexDirection: "row",
+  }
 })
 
 export default Shop_Profile_Screen
