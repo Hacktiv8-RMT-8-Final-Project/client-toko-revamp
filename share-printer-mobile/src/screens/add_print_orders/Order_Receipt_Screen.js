@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { TouchableOpacity, StyleSheet, SafeAreaView, Text, View, ScrollView } from "react-native"
 import Constants from "expo-constants"
 import { Card, Title, Paragraph, DataTable } from "react-native-paper"
+import Ionicons from "react-native-vector-icons/Ionicons"
 
 import { Loading_Component, Error_Component } from "../../components"
 
@@ -154,11 +155,6 @@ function Checkout_Order_Screen(props) {
           </ScrollView>
         </View>
         <View style={styles.bottom_screen_container}>
-          <TouchableOpacity onPress={upload_your_proof_receipt_transaction} style={styles.button_upload}>
-            <Text style={styles.button_text}>Upload Payment Transaction</Text>
-          </TouchableOpacity>
-
-          <Text>Your proof receipt payment transaction here:</Text>
           {proof_transaction_link === null ? (
             <>
               <Text>Status Unpaid</Text>
@@ -170,6 +166,12 @@ function Checkout_Order_Screen(props) {
               </Text>
             </>
           )}
+          <TouchableOpacity onPress={upload_your_proof_receipt_transaction} style={styles.button_upload}>
+            <Text style={styles.button_text}>
+              <Ionicons style={{ fontSize: 20 }} name={"cloud-upload"} /> Upload Proof Transaction
+            </Text>
+          </TouchableOpacity>
+          <Text style={{ fontSize: 11, marginBottom: 10 }}>*You can provide transaction later at Your Current Orders Tab</Text>
 
           <TouchableOpacity onPress={go_to_your_print_order_List} style={styles.button}>
             <Text style={styles.button_text}>Show Status Orders</Text>
@@ -194,6 +196,8 @@ const styles = StyleSheet.create({
   },
   form_card: {
     margin: 10,
+    borderRadius: 25,
+    backgroundColor: "#fefae0",
   },
   bottom_screen_container: {
     flex: 1,
@@ -205,7 +209,7 @@ const styles = StyleSheet.create({
   },
   button_upload: {
     width: "80%",
-    backgroundColor: "#FFDC72",
+    backgroundColor: "#CCD5AE",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -217,86 +221,23 @@ const styles = StyleSheet.create({
 
   button: {
     width: "80%",
-    backgroundColor: "#A7FF72",
+    backgroundColor: "#d4a373",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 10,
     marginBottom: 10,
     borderColor: "black",
   },
   button_text: {
     fontSize: 16,
     textTransform: "uppercase",
+    color: "white",
+    fontWeight: "bold",
   },
-
   uuid: {
     fontSize: 18,
   },
 })
 
 export default Checkout_Order_Screen
-
-// import React from "react"
-// import { TouchableOpacity, StyleSheet, Text, View } from "react-native"
-// import { Card, Title, Paragraph } from "react-native-paper"
-
-// function Checkout_Order_Screen(props) {
-//   const upload_your_proof_receipt_transaction = () => {
-//     console.log(`upload_your_proof_receipt_transaction`)
-//   }
-//   const go_to_your_print_order_List = () => {
-//     props.navigation.navigate("Current Orders")
-//   }
-//   return (
-//     <View style={styles.container}>
-//       <Text>Show print order card here!</Text>
-//       <Card style={styles.form_card}>
-//         <Card.Content>
-//           <Title>Form Order Print</Title>
-//           <Paragraph>Card content</Paragraph>
-//         </Card.Content>
-//         <Card.Actions>
-//           <Text>test</Text>
-//         </Card.Actions>
-//       </Card>
-// <TouchableOpacity onPress={upload_your_proof_receipt_transaction} style={styles.button}>
-//   <Text style={styles.button_text}>Upload Payment Transaction</Text>
-// </TouchableOpacity>
-
-// <Text>Your proof receipt payment transaction here:</Text>
-// <Text>XXX</Text>
-
-// <TouchableOpacity onPress={go_to_your_print_order_List} style={styles.button}>
-//   <Text style={styles.button_text}>Show Status Orders</Text>
-// </TouchableOpacity>
-//     </View>
-//   )
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//   },
-
-//   button: {
-//     width: "80%",
-//     backgroundColor: "#cdcdcd",
-//     borderRadius: 25,
-//     height: 50,
-//     alignItems: "center",
-//     justifyContent: "center",
-//     marginTop: 10,
-//     marginBottom: 10,
-//     borderColor: "black",
-//     borderWidth: 1,
-//   },
-//   button_text: {
-//     fontSize: 16,
-//     textTransform: "uppercase",
-//   },
-// })
-
-// export default Checkout_Order_Screen

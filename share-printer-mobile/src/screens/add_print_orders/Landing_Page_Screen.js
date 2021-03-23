@@ -1,7 +1,7 @@
 import React from "react"
 import { ImageBackground, TouchableOpacity, StyleSheet, Text, View, Image } from "react-native"
 import bgImage from "../../images/The-5-Best-Professional-Print-Labs-to-Use.jpg"
-import logo from '../../images/1.png'
+import logo from "../../images/1.png"
 
 function Landing_Page_Screen(props) {
   const goto_form_order_print = () => {
@@ -11,9 +11,9 @@ function Landing_Page_Screen(props) {
   return (
     <View style={styles.container}>
       <ImageBackground source={bgImage} style={styles.backgroundContainer}>
-      <Image style={styles.logo} source={logo} />
+        <Image style={styles.logo} source={logo} />
         <View style={styles.button_near_bottom}>
-          <Text style={styles.text_landing_page}>Make your order prints here!</Text>
+          <Text style={styles.text_landing_page}>Printing made easier!</Text>
           <TouchableOpacity onPress={goto_form_order_print} style={styles.button}>
             <Text style={styles.button_text}>Make an order</Text>
           </TouchableOpacity>
@@ -30,14 +30,14 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.3)'
+    backgroundColor: "rgba(0,0,0,0.3)",
   },
   logo: {
     width: 250,
     height: 250,
     marginTop: 160,
     borderRadius: 200,
-    elevation: 2
+    elevation: 2,
   },
   backgroundContainer: {
     flex: 1,
@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
   button_text: {
     fontSize: 16,
     textTransform: "uppercase",
-    color: 'white',
-    fontWeight: 'bold'
+    color: "white",
+    fontWeight: "bold",
   },
 })
 
