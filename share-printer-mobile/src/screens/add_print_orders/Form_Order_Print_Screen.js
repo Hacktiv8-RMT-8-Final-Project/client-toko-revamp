@@ -222,8 +222,8 @@ function Form_Order_Print_Screen(props) {
             {select_product.length === 0 ? (
               <>
                 <Card style={styles.form_card}>
-                  <Card.Content>
-                    <Title>Your orders will be displayed here</Title>
+                  <Card.Content style={{ alignItems: "center", textAlign: "center" }}>
+                    <Text>Your orders will be displayed here</Text>
                   </Card.Content>
                 </Card>
               </>
