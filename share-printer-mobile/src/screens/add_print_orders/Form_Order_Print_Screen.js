@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { TouchableOpacity, StyleSheet, TextInput, SafeAreaView, Text, View, ScrollView, Picker, Alert } from "react-native"
 import Constants from "expo-constants"
-import { Card, Title, Paragraph } from "react-native-paper"
+import { Card, Title, Paragraph, Divider } from "react-native-paper"
+import Ionicons from "react-native-vector-icons/Ionicons"
 
 import * as DocumentPicker from "expo-document-picker"
 import * as Linking from "expo-linking"
@@ -226,22 +227,31 @@ function Form_Order_Print_Screen(props) {
                 let detail_product = Object.values(product_detail)[0]
                 return (
                   <Card style={styles.form_card} key={index}>
-                    <View style={styles.inputView}>
-                      <TextInput
-                        onChangeText={(text) => set_amount(text, uuid_product)}
-                        style={styles.inputText}
-                        placeholder="Input quantity product here"
-                        placeholderTextColor="#003f5c"
-                        keyboardType="numeric"
-                        value={detail_product.amount.toString()}
-                      />
-                    </View>
                     <Card.Content>
                       <Title>{detail_product.display_name}</Title>
-                      <Paragraph>Price : Rp {detail_product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00</Paragraph>
-                      <TouchableOpacity onPress={() => remove_product(uuid_product)} style={styles.remove_product_button}>
-                        <Text style={styles.button_text}>Remove product</Text>
-                      </TouchableOpacity>
+                      <Paragraph style={{marginBottom: 20}}>{detail_product.description}</Paragraph>
+                      <View style={{flexDirection: 'row'}}>
+                        <Paragraph>Price : </Paragraph>
+                        <Paragraph style={{fontWeight: 'bold', marginBottom: 20}}> Rp {detail_product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00</Paragraph>
+                      </View>
+                      <View style={{flexDirection: 'row'}}>
+                      <Text style={{fontWeight:'bold', marginTop: 7, marginRight: 10}}>Copy:</Text>
+                      <View style={styles.inputView}>
+                        <TextInput
+                          onChangeText={(text) => set_amount(text, uuid_product)}
+                          style={styles.inputText}
+                          placeholder="Input quantity product here"
+                          placeholderTextColor="#003f5c"
+                          keyboardType="numeric"
+                          value={detail_product.amount.toString()}
+                        />
+                      </View>
+                    </View>
+                      <View style={{flexDirection:'row', justifyContent:'center'}}>
+                        <TouchableOpacity onPress={() => remove_product(uuid_product)} style={styles.remove_product_button}>
+                          <Text style={styles.button_text}>Remove product</Text>
+                        </TouchableOpacity>
+                      </View>
                     </Card.Content>
                   </Card>
                 )
@@ -250,10 +260,9 @@ function Form_Order_Print_Screen(props) {
           </ScrollView>
         </View>
         <View style={styles.bottom_screen_container}>
-          <Text>Your PDF file link here :</Text>
           {file_url_link === null ? (
             <>
-              <Text>Status not file uploaded</Text>
+              <Text>No file uploaded</Text>
             </>
           ) : (
             <>
@@ -262,13 +271,20 @@ function Form_Order_Print_Screen(props) {
               </Text>
             </>
           )}
+
           <TouchableOpacity onPress={upload_your_pdf_file} style={styles.upload_button}>
-            <Text style={styles.button_text}>Upload PDF File</Text>
+            <Text style={styles.button_text}><Ionicons style={{fontSize: 20}} name={'cloud-upload'} /> Upload PDF File</Text>
           </TouchableOpacity>
-
-          <Text>Total order price :</Text>
-          {total_price === 0 ? <Text>Rp 0,00</Text> : <Text>Rp {total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00 </Text>}
-
+          <Text style={{fontSize: 11, marginBottom: 10}}>*You can only upload .pdf file with maximum 20 MB size</Text>
+          
+          <View style={styles.totalPriceContainer}>
+            <Text style={{marginTop: 5}} >Total order price :</Text>
+            {
+            total_price === 0 ? <Text style={{fontWeight: 'bold', fontSize: 20}}>Rp 0,00</Text> : 
+            <Text style={{fontWeight: 'bold'}}>Rp {total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00 </Text>
+            }
+          </View>
+          
           <TouchableOpacity onPress={submit_form} style={styles.button}>
             <Text style={styles.button_text}>Confirm Order Print</Text>
           </TouchableOpacity>
@@ -322,14 +338,13 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   inputView: {
-    width: "70%",
+    width: "15%",
     backgroundColor: "white",
-    borderRadius: 25,
-    height: 50,
+    borderRadius: 5,
     marginBottom: 20,
     justifyContent: "center",
-    padding: 20,
-    borderWidth: 1,
+    borderBottomWidth: 1,
+    paddingLeft: 15
   },
   inputText: {
     height: 30,
@@ -348,8 +363,8 @@ const styles = StyleSheet.create({
   },
   upload_button: {
     width: "80%",
-    backgroundColor: "#FFDC72",
-    borderRadius: 25,
+    backgroundColor: "#CCD5AE",
+    borderRadius: 10,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
@@ -359,8 +374,8 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "80%",
-    backgroundColor: "#A7FF72",
-    borderRadius: 25,
+    backgroundColor: "#d4a373",
+    borderRadius: 10,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
@@ -371,7 +386,23 @@ const styles = StyleSheet.create({
   button_text: {
     fontSize: 16,
     textTransform: "uppercase",
+    color: 'white',
+    fontWeight: 'bold'
   },
+  totalPriceContainer: {
+    flexDirection: 'row',
+    justifyContent: "space-evenly",
+    borderBottomColor: 'grey',
+    borderTopColor: 'grey',
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+    width: '100%',
+    padding: 20
+  },
+  upload: {
+    width: 20,
+    height: 20
+  }
 })
 
 export default Form_Order_Print_Screen
