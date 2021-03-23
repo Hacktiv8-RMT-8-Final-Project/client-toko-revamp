@@ -246,7 +246,6 @@ function Form_Order_Print_Screen(props) {
                       <View style={{ flexDirection: "row" }}>
                         <Paragraph>Price : </Paragraph>
                         <Paragraph style={{ fontWeight: "bold", marginBottom: 20 }}>
-                          {" "}
                           Rp {detail_product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00
                         </Paragraph>
                       </View>
@@ -316,8 +315,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginHorizontal: 30,
     backgroundColor: "#d4a373",
-    borderWidth: 2,
-    borderColor: "#CCD5AE",
+    borderWidth: 1,
+    borderColor: "#3e2913",
   },
   picker_select: {
     width: 250,
@@ -370,7 +369,8 @@ const styles = StyleSheet.create({
   },
   upload_button: {
     width: "80%",
-    backgroundColor: "#CCD5AE",
+    // backgroundColor: "#CCD5AE",
+    backgroundColor: "#99AC5D",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
