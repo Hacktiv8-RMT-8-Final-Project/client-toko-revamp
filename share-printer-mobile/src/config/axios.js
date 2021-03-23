@@ -20,7 +20,6 @@ const instance = axios.create({
 // http://192.168.43.132:3000 - mujib
 // http://192.168.43.119:3000 - cakra
 
-
 /* // ! example from website
   import axios from "axios";
   export default axios.create({

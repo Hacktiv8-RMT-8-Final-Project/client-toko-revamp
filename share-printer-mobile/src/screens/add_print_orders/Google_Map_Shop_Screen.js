@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
   container_shop: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#fefaf0",
+    backgroundColor: "#ffffff",
     justifyContent: "flex-end",
     paddingBottom: 10,
   },
