@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react"
 import axios from "../../config/axios"
 import { Title, Chip, Card, Paragraph } from "react-native-paper"
-import { TouchableOpacity, StyleSheet, Text, View } from "react-native"
+import { AsyncStorage, ScrollView, SafeAreaView, TouchableOpacity, StyleSheet, Text, View } from "react-native"
+
+import { Loading_Component, Error_Component } from "../../components"
 
 let data_backend = {
   msg: "Successfully read shop details",
@@ -35,67 +37,63 @@ let data_backend = {
 
 function Shop_Profile_Screen(props) {
   const [loading, setLoading] = useState(false)
-  const [shopDetail, setShopDetail] = useState({})
-  // useEffect(() => {
-  //   setLoading(true)
-  //   axios({
-  //     method: 'GET',
-  // url: `/shop/detail`,
-  //   }).then(({data}) => {
-  //     setShopDetail(data)
-  //   }).catch(err => {
-  //     alert(err)
-  //     console.log(err);
-  //   }).finally(_ => {
-  //     setLoading(false)
-  //   })
-  // },[])
-  console.log(shopDetail)
+  const [error, setError] = useState(null)
+  const [shopDetail, setShopDetail] = useState(props.route.params.shop)
+
   const fill_add_form = () => {
-    props.navigation.navigate("Form Order Print")
+    props.navigation.navigate("Form Order Print", { shop: shopDetail })
   }
   const chatting_with_shop = () => {
     console.log(`chatting_with_shop`)
   }
-  if (loading) {
-    return <ActivityIndicator size="large" />
-  }
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.storeName}>{data_backend.data.name}</Text>
-        <View style={styles.info}>
-          <Text>Lokasi</Text>
-          {data_backend.data.status_open ? <Chip icon="information">Open</Chip> : <Chip icon="information">Closed</Chip>}
-        </View>
-      </View>
-      <View style={styles.products}>
-        {data_backend.data.products.map((e, index) => {
-          let temp = Object.keys(e)[0]
-          // let newData = Object.values(temp)
-          return (
-            <View style={{ width: 330, marginBottom: 5 }} key={index}>
-              <Card>
-                <Card.Content>
-                  <Title>{e[temp].display_name}</Title>
-                  <Paragraph>{e[temp].price}</Paragraph>
-                </Card.Content>
-              </Card>
-            </View>
-          )
-        })}
-      </View>
 
-      <View style={styles.buttonContainer}>
-        <Text>Detail table product print Shop here!</Text>
-        <TouchableOpacity onPress={fill_add_form} style={styles.button}>
-          <Text style={styles.button_text}>Fill add Form</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={chatting_with_shop} style={styles.button}>
+  if (loading) return <Loading_Component />
+  if (error) return <Error_Component />
+
+  return (
+    <>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.container_detail}>
+          <View style={styles.header}>
+            <Text style={styles.storeName}>{shopDetail.name}</Text>
+            <View style={styles.info}>
+              <Text>Lokasi</Text>
+              {shopDetail.status_open ? <Chip icon="information">Open</Chip> : <Chip icon="information">Closed</Chip>}
+            </View>
+          </View>
+          <Text style={{ marginVertical: 10 }}>Displaying all products that are avaiable</Text>
+          <ScrollView style={styles.scrollView}>
+            <View style={styles.products}>
+              {shopDetail.products.map((e, index) => {
+                let temp = Object.keys(e)[0]
+                // let newData = Object.values(temp)
+                return (
+                  <View style={{ width: 330, marginBottom: 5 }} key={index}>
+                    <Card>
+                      <Card.Content>
+                        <Title>{e[temp].display_name}</Title>
+                        <Paragraph>Price : Rp {e[temp].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00</Paragraph>
+                      </Card.Content>
+                    </Card>
+                  </View>
+                )
+              })}
+            </View>
+          </ScrollView>
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <Text>Welcome, displaying all products</Text>
+          <Text>that avaiable in the printing shop!</Text>
+          <TouchableOpacity onPress={fill_add_form} style={styles.button}>
+            <Text style={styles.button_text}>Fill add Form</Text>
+          </TouchableOpacity>
+          {/* <TouchableOpacity onPress={chatting_with_shop} style={styles.button}>
           <Text style={styles.button_text}>Chat with shop</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+        </TouchableOpacity> */}
+        </View>
+      </SafeAreaView>
+    </>
   )
 }
 
@@ -107,7 +105,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "80%",
-    backgroundColor: "#cdcdcd",
+    backgroundColor: "#A7FF72",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -115,16 +113,26 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     borderColor: "black",
-    borderWidth: 1,
   },
   button_text: {
     fontSize: 16,
     textTransform: "uppercase",
   },
+  container_detail: {
+    flex: 4,
+    paddingTop: 50,
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
+  scrollView: {
+    marginHorizontal: 20,
+    paddingVertical: 10,
+  },
   buttonContainer: {
     width: "100%",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-end",
+    paddingVertical: 10,
   },
   product: {
     justifyContent: "center",

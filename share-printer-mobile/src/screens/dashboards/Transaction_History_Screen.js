@@ -29,7 +29,7 @@ function Transaction_History_Screen(props) {
   }
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [completedOrder, setCompletedOrder] = useState({})
+  const [completedOrder, setCompletedOrder] = useState([])
 
   const [access_token, set_access_token] = useState("")
   useEffect(() => {
@@ -47,6 +47,7 @@ function Transaction_History_Screen(props) {
       },
     })
       .then((response) => {
+        // const input = JSON.parse(JSON.stringify(response.data.data))
         setCompletedOrder(response.data.data)
       })
       .catch((err) => {
@@ -63,72 +64,72 @@ function Transaction_History_Screen(props) {
     <>
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          <Text>{JSON.stringify(completedOrder)}</Text>
+          {/* <Text>{JSON.stringify(completedOrder)}</Text> */}
 
-          {/* { {completedOrder.length === 0 ? (
-             <Card>
+          {completedOrder === undefined ? (
+            <Card>
               <Card.Content>
                 <Title>Your transaction history is empty</Title>
                 <Paragraph>Start printing!</Paragraph>
               </Card.Content>
-              <Card.Actions>
-              </Card.Actions>
+              <Card.Actions></Card.Actions>
             </Card>
           ) : (
-            (completedOrder.map((e) => {
-            return (
-              <Card style={styles.card} key={e.id}>
-                <Card.Content>
-                  <View>
-                    <Title style={styles.uuid}>Order Number: </Title>
-                    <Paragraph>{e.order_number}</Paragraph>
-                  </View>
-                  <View style={styles.content}>
-                    <View style={styles.leftContent}>
-                      <Paragraph>Store</Paragraph>
-                      <Text style={{ color: "blue" }} onPress={() => Linking.openURL("http://google.com")}>
-                        File PDF
-                      </Text>
-                      <Text style={{ color: "blue" }} onPress={() => Linking.openURL("http://google.com")}>
-                        Receipt transaction
-                      </Text>
+            // <Text>{JSON.stringify(completedOrder)}</Text>
+
+            completedOrder.map((e) => {
+              return (
+                <Card style={styles.card} key={e.id}>
+                  <Card.Content>
+                    <View>
+                      <Title style={styles.uuid}>Order Number: </Title>
+                      <Paragraph>{e.order_number}</Paragraph>
                     </View>
-                    <View style={styles.rightContent}>
-                      {e.payment_status === 1 ? (
-                        <Chip icon="information" type="outlined">
-                          Order requested
-                        </Chip>
-                      ) : e.payment_status === 2 ? (
-                        <Chip icon="information" type="outlined">
-                          Paid
-                        </Chip>
-                      ) : e.payment_status === 3 ? (
-                        <Chip icon="information" type="outlined">
-                          Confirm
-                        </Chip>
-                      ) : e.payment_status === 4 ? (
-                        <Chip icon="information" type="outlined">
-                          On Progress
-                        </Chip>
-                      ) : e.payment_status === 5 ? (
-                        <Chip icon="information" type="outlined">
-                          Completed
-                        </Chip>
-                      ) : (
-                        <Chip icon="information" type="outlined">
-                          Canceled
-                        </Chip>
-                      )}
-                      <Paragraph>{e.proof_receipt_transaction}</Paragraph>
+                    <View style={styles.content}>
+                      <View style={styles.leftContent}>
+                        <Paragraph>Store</Paragraph>
+                        <Text style={{ color: "blue" }} onPress={() => Linking.openURL("http://google.com")}>
+                          File PDF
+                        </Text>
+                        <Text style={{ color: "blue" }} onPress={() => Linking.openURL("http://google.com")}>
+                          Receipt transaction
+                        </Text>
+                      </View>
+                      <View style={styles.rightContent}>
+                        {e.payment_status === 1 ? (
+                          <Chip icon="information" type="outlined">
+                            Order requested
+                          </Chip>
+                        ) : e.payment_status === 2 ? (
+                          <Chip icon="information" type="outlined">
+                            Paid
+                          </Chip>
+                        ) : e.payment_status === 3 ? (
+                          <Chip icon="information" type="outlined">
+                            Confirm
+                          </Chip>
+                        ) : e.payment_status === 4 ? (
+                          <Chip icon="information" type="outlined">
+                            On Progress
+                          </Chip>
+                        ) : e.payment_status === 5 ? (
+                          <Chip icon="information" type="outlined">
+                            Completed
+                          </Chip>
+                        ) : (
+                          <Chip icon="information" type="outlined">
+                            Canceled
+                          </Chip>
+                        )}
+                        <Paragraph>{e.proof_receipt_transaction}</Paragraph>
+                      </View>
                     </View>
-                  </View>
-                </Card.Content>
-                <Card.Actions></Card.Actions>
-              </Card>
-            )
-          })
-          )
-          } */}
+                  </Card.Content>
+                  <Card.Actions></Card.Actions>
+                </Card>
+              )
+            })
+          )}
         </ScrollView>
       </SafeAreaView>
     </>

@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
 
   loginBtn: {
     width: "80%",
-    backgroundColor: "#fb5b5a",
+    backgroundColor: "#A7FF72",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   },
   registerBtn: {
     width: "80%",
-    backgroundColor: "#fb0b5a",
+    backgroundColor: "#A572FF",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -133,19 +133,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
-  button: {
-    display: "flex",
-    height: 40,
-    borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    minWidth: 150,
-    margin: 5,
-    borderWidth: 1,
-    borderColor: "blue",
-
-    backgroundColor: "black",
-  },
   button_text: {
     fontSize: 16,
     textTransform: "uppercase",

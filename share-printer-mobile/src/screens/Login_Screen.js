@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
 
   loginBtn: {
     width: "80%",
-    backgroundColor: "#fb5b5a",
+    backgroundColor: "#A7FF72",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "80%",
-    backgroundColor: "#fb0b5a",
+    backgroundColor: "#728AFF",
     borderRadius: 25,
     height: 50,
     alignItems: "center",

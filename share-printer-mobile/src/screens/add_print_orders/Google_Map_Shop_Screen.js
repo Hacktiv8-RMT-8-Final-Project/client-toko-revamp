@@ -1,7 +1,10 @@
-import React from "react"
-import { TouchableOpacity, StyleSheet, Text, View, Dimensions } from "react-native"
+import React, { useState, useEffect } from "react"
+import { Alert, Picker, TouchableOpacity, StyleSheet, Text, View, Dimensions } from "react-native"
+import axios from "../../config/axios"
 
 import MapView from "react-native-maps"
+
+import { Loading_Component, Error_Component } from "../../components"
 
 let data_backend = {
   msg: "Successfully read list of shop including the details near your area",
@@ -80,17 +83,81 @@ let data_backend = {
 }
 
 function Google_Map_Shop_Screen(props) {
-  const confirm_choose_shop = () => {
-    props.navigation.navigate("Shop Profile")
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [shopList, setShopList] = useState([])
+
+  const [selectedValue, setSelectedValue] = useState(null)
+
+  useEffect(() => {
+    setLoading(true)
+    axios({
+      method: "GET",
+      url: `/user/shop_list`,
+    })
+      .then((response) => {
+        console.log(response.data.data)
+        setShopList(response.data.data)
+      })
+      .catch((err) => {
+        console.log(err)
+        // setError(err)
+      })
+      .finally((_) => setLoading(false))
+  }, [])
+
+  const on_change_picker = (shop) => {
+    console.log(`clicked`)
+    setSelectedValue(shop)
   }
+
+  const confirm_choose_shop = () => {
+    if (!selectedValue) {
+      Alert.alert(
+        "Please choose shop",
+        "Using drop down select or google map",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          {
+            text: "OK",
+            onPress: () => console.log("OK Pressed"),
+          },
+        ],
+        { cancelable: false }
+      )
+    } else {
+      props.navigation.navigate("Shop Profile", { shop: selectedValue })
+    }
+  }
+
+  if (loading) return <Loading_Component />
+  if (error) return <Error_Component />
   return (
     <>
       <View style={styles.container}>
         <View style={styles.container_map}>
           <MapView style={styles.map} />
         </View>
+
         <View style={styles.container_shop}>
-          <TouchableOpacity onPress={confirm_choose_shop} style={styles.registerBtn}>
+          {/* <Text>{JSON.stringify(shopList)}</Text> */}
+
+          <View style={styles.picker_container}>
+            <Picker selectedValue={selectedValue} style={styles.picker_select} onValueChange={(shop_list, index) => on_change_picker(shop_list)}>
+              <Picker.Item label="Choose shop printing shop here" value={null} enabled={false} />
+              {shopList.map((e, index) => {
+                return <Picker.Item key={index} label={e.name} value={e} />
+              })}
+            </Picker>
+          </View>
+
+          <Text>Choose nearby printing shop</Text>
+          <Text>or your personal favourite shop</Text>
+          <TouchableOpacity onPress={confirm_choose_shop} style={styles.button}>
             <Text style={styles.button_text}>Confirm Shop</Text>
           </TouchableOpacity>
         </View>
@@ -113,14 +180,32 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "#fff",
+    justifyContent: "flex-end",
+    paddingBottom: 10,
+  },
+  picker_container: {
+    alignItems: "center",
+    borderRadius: 10,
+    borderWidth: 1,
+    marginHorizontal: 30,
+  },
+  picker_select: {
+    width: 250,
+    height: 44,
+    borderWidth: 1,
+    borderColor: "black",
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    textAlign: "center",
+    justifyContent: "center",
   },
   map: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
-  registerBtn: {
+  button: {
     width: "80%",
-    backgroundColor: "#cdcdcd",
+    backgroundColor: "#A7FF72",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -128,7 +213,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     borderColor: "black",
-    borderWidth: 1,
   },
   button_text: {
     fontSize: 16,
