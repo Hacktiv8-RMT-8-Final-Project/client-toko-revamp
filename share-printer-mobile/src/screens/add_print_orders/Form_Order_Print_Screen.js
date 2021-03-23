@@ -3,6 +3,9 @@ import { TouchableOpacity, StyleSheet, TextInput, SafeAreaView, Text, View, Scro
 import Constants from "expo-constants"
 import { Card, Title, Paragraph } from "react-native-paper"
 
+import { AsyncStorage } from "react-native"
+import axios from "../../config/axios"
+
 import { Loading_Component, Error_Component } from "../../components"
 
 let data_backend = {
@@ -46,6 +49,11 @@ function Form_Order_Print_Screen(props) {
   const [selectedValue, setSelectedValue] = useState(null)
   const [file_url_link, set_file_url_link] = useState(null)
   const [total_price, set_total_price] = useState(0)
+
+  const [access_token, set_access_token] = useState("")
+  useEffect(() => {
+    AsyncStorage.getItem("access_token").then((data) => set_access_token(data))
+  }, [])
 
   useEffect(() => {
     set_data_product(shopDetail.products)
@@ -127,10 +135,64 @@ function Form_Order_Print_Screen(props) {
   }
 
   const submit_form = () => {
-    console.log(`submit here`)
-    console.log(select_product)
-    // props.navigation.navigate("Order Receipt")
+    const convert_order_product = JSON.stringify(select_product)
+
+    // ! dummy html
+    set_file_url_link(`http://www.dummy.com`)
+
+    let error_bucket = []
+    if (!file_url_link) error_bucket.push("Please input your download file link")
+    if (!convert_order_product) error_bucket.push("Please input order requirement")
+    if (!shopDetail.id) error_bucket.push("Please choose your printing shop")
+    if (error_bucket.length > 0) {
+      Alert.alert(
+        "Input field form required",
+        "Please fill all requirement for your checkout including your file",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          {
+            text: "OK",
+            onPress: () => console.log("OK Pressed"),
+          },
+        ],
+        { cancelable: false }
+      )
+    }
+
+    let input_data = {
+      files_url: file_url_link,
+      order_content: convert_order_product,
+      shop_Id: +shopDetail.id,
+      order_price: +total_price,
+    }
+    // console.log(input_data)
+
+    // props.navigation.navigate("Order Receipt", { receipt: select_product })
+
+    axios({
+      method: "POST",
+      url: `/user/form`,
+      headers: {
+        access_token: access_token || "",
+        "Content-Type": "application/json",
+      },
+      data: input_data,
+    })
+      .then((response) => {
+        // console.log(response.data.data)
+        let created_receipt_data = response.data.data
+        props.navigation.navigate("Order Receipt", { receipt: created_receipt_data })
+      })
+      .catch((err) => {
+        console.log(err)
+        // setError(err)
+      })
   }
+
   const upload_your_pdf_file = () => {
     console.log("upload_your_pdf_file")
     // set_file_url_link()
