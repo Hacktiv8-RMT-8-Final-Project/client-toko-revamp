@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react"
-import axios from "../../config/axios"
 import { AsyncStorage, StyleSheet, Text, SafeAreaView, ScrollView, View } from "react-native"
 import Constants from "expo-constants"
 import { Chip, Avatar, Button, Card, Title, Paragraph, DataTable } from "react-native-paper"
+
+import * as DocumentPicker from "expo-document-picker"
+import * as Linking from "expo-linking"
+
+import axios from "../../config/axios"
+import app from "../../config/firebase"
+import { useIsFocused } from "@react-navigation/native"
 
 import { Loading_Component, Error_Component } from "../../components"
 
@@ -31,10 +37,15 @@ function Current_Orders_Screen(props) {
   const [error, setError] = useState(null)
   const [currentOrders, setCurrentOrders] = useState([])
 
+  const isFocused = useIsFocused()
+
+  const [file_url_link, set_file_url_link] = useState(null)
+  const [proof_transaction_link, set_proof_transaction_link] = useState(null)
+
   const [access_token, set_access_token] = useState("")
   useEffect(() => {
     AsyncStorage.getItem("access_token").then((data) => set_access_token(data))
-  }, [])
+  }, [props])
 
   useEffect(() => {
     setLoading(true)
@@ -55,14 +66,97 @@ function Current_Orders_Screen(props) {
         // setError(err)
       })
       .finally((_) => setLoading(false))
-  }, [access_token])
+  }, [file_url_link, proof_transaction_link, props, isFocused])
 
-  const upload_file_button = (order_number) => {
-    console.log(`upload file button`, order_number)
+  const upload_your_pdf_file = async (order_id) => {
+    console.log(`upload pdf button`)
+
+    try {
+      const file = await DocumentPicker.getDocumentAsync()
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.onload = function () {
+          resolve(xhr.response)
+        }
+        xhr.onerror = function (e) {
+          console.log(e)
+          reject(new TypeError("Network request failed"))
+        }
+        xhr.responseType = "blob"
+        xhr.open("GET", file.uri, true)
+        xhr.send(null)
+      })
+      const storageRef = await app.storage().ref()
+      const bucket = storageRef.child(file.name)
+      await bucket.put(blob)
+      const url = await bucket.getDownloadURL()
+      console.log(url)
+      set_file_url_link(url)
+
+      console.log("upload a new PDF File")
+      // ! need to print file into data base
+      let input_data = {
+        links_url: url,
+        order_Id: order_id,
+      }
+      const response = await axios({
+        method: "PUT",
+        url: `/user/upload_pdf`,
+        headers: {
+          access_token: access_token || "",
+          "Content-Type": "application/json",
+        },
+        data: input_data,
+      })
+      // console.log(response)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
-  const recipe_transaction_button = (order_number) => {
-    console.log(`upload file button`, order_number)
+  const upload_proof_transaction = async (order_id) => {
+    console.log(`upload file button`)
+    try {
+      const file = await DocumentPicker.getDocumentAsync()
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.onload = function () {
+          resolve(xhr.response)
+        }
+        xhr.onerror = function (e) {
+          console.log(e)
+          reject(new TypeError("Network request failed"))
+        }
+        xhr.responseType = "blob"
+        xhr.open("GET", file.uri, true)
+        xhr.send(null)
+      })
+      const storageRef = await app.storage().ref()
+      const bucket = storageRef.child(file.name)
+      await bucket.put(blob)
+      const url = await bucket.getDownloadURL()
+      console.log(url)
+      set_proof_transaction_link(url)
+
+      console.log("upload a new PDF File")
+      // ! need to print file into data base
+      let input_data = {
+        proof_receipt_transaction: url,
+        order_Id: order_id,
+      }
+      const response = await axios({
+        method: "PUT",
+        url: `/user/upload_receipt`,
+        headers: {
+          access_token: access_token || "",
+          "Content-Type": "application/json",
+        },
+        data: input_data,
+      })
+      // console.log(response)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   if (loading) return <Loading_Component />
@@ -99,18 +193,36 @@ function Current_Orders_Screen(props) {
                             <Text>{JSON.stringify(e.order_content)}</Text>
                           </ScrollView>
                         </View>
-                        <Text style={{ color: "blue" }} onPress={() => Linking.openURL("http://google.com")}>
+                        <Text style={{ color: "blue" }} onPress={() => Linking.openURL(`${e.links_url}`)}>
                           File PDF
                         </Text>
-                        <Text style={{ color: "blue" }} onPress={() => Linking.openURL("http://google.com")}>
-                          Receipt transaction
-                        </Text>
+                        {e.proof_receipt_transaction !== null ? (
+                          <Text style={{ color: "blue" }} onPress={() => Linking.openURL(`${e.proof_receipt_transaction}`)}>
+                            Receipt transaction
+                          </Text>
+                        ) : (
+                          <Text>Not paid yet</Text>
+                        )}
                       </View>
                       <View style={styles.rightContent}>
-                        <Button style={styles.btnUpload} icon="upload" mode="outlined" onPress={() => upload_file_button(e.order_number)}>
+                        <Button
+                          style={styles.btnUpload}
+                          icon="upload"
+                          mode="outlined"
+                          onPress={() => {
+                            upload_your_pdf_file(e.id)
+                          }}
+                        >
                           Upload File
                         </Button>
-                        <Button style={styles.btnUpload} icon="upload" mode="outlined" onPress={() => recipe_transaction_button(e.order_number)}>
+                        <Button
+                          style={styles.btnUpload}
+                          icon="upload"
+                          mode="outlined"
+                          onPress={() => {
+                            upload_proof_transaction(e.id)
+                          }}
+                        >
                           Receipt
                         </Button>
                         {e.payment_status === 1 ? (
@@ -141,10 +253,7 @@ function Current_Orders_Screen(props) {
                       </View>
                     </View>
                   </Card.Content>
-                  <Card.Actions>
-                    <Button>Cancel</Button>
-                    <Button>Ok</Button>
-                  </Card.Actions>
+                  <Card.Actions></Card.Actions>
                 </Card>
               )
             })

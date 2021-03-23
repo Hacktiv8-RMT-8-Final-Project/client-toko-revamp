@@ -144,6 +144,7 @@ function Form_Order_Print_Screen(props) {
     let error_bucket = []
     if (!file_url_link) error_bucket.push("Please input your download file link")
     if (!convert_order_product) error_bucket.push("Please input order requirement")
+    if (total_price === 0) error_bucket.push("Please add an item")
     if (error_bucket.length > 0) {
       Alert.alert(
         "Input field form required",
@@ -161,36 +162,34 @@ function Form_Order_Print_Screen(props) {
         ],
         { cancelable: false }
       )
-    }
-
-    let input_data = {
-      files_url: file_url_link,
-      order_content: convert_order_product,
-      shop_Id: +shopDetail.id,
-      order_price: +total_price,
-    }
-    // console.log(input_data)
-
-    // props.navigation.navigate("Order Receipt", { receipt: select_product })
-
-    axios({
-      method: "POST",
-      url: `/user/form`,
-      headers: {
-        access_token: access_token || "",
-        "Content-Type": "application/json",
-      },
-      data: input_data,
-    })
-      .then((response) => {
-        // console.log(response.data.data)
-        let created_receipt_data = response.data.data
-        props.navigation.navigate("Order Receipt", { receipt: created_receipt_data, shop_name: shopDetail.name, shop_id: shopDetail.id })
+    } else {
+      let input_data = {
+        files_url: file_url_link,
+        order_content: convert_order_product,
+        shop_Id: +shopDetail.id,
+        order_price: +total_price,
+      }
+      // console.log(input_data)
+      // props.navigation.navigate("Order Receipt", { receipt: select_product })
+      axios({
+        method: "POST",
+        url: `/user/form`,
+        headers: {
+          access_token: access_token || "",
+          "Content-Type": "application/json",
+        },
+        data: input_data,
       })
-      .catch((err) => {
-        console.log(err)
-        // setError(err)
-      })
+        .then((response) => {
+          // console.log(response.data.data)
+          let created_receipt_data = response.data.data
+          props.navigation.navigate("Order Receipt", { receipt: created_receipt_data, shop_name: shopDetail.name, shop_id: shopDetail.id })
+        })
+        .catch((err) => {
+          console.log(err)
+          // setError(err)
+        })
+    }
   }
 
   const upload_your_pdf_file = async () => {

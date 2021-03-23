@@ -3,6 +3,7 @@ import axios from "../../config/axios"
 import { AsyncStorage, StyleSheet, Text, SafeAreaView, ScrollView, View } from "react-native"
 import Constants from "expo-constants"
 import { Chip, Avatar, Button, Card, Title, Paragraph, DataTable } from "react-native-paper"
+import { useIsFocused } from "@react-navigation/native"
 
 import { Loading_Component, Error_Component } from "../../components"
 
@@ -30,6 +31,7 @@ function Transaction_History_Screen(props) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [completedOrder, setCompletedOrder] = useState([])
+  const isFocused = useIsFocused()
 
   const [access_token, set_access_token] = useState("")
   useEffect(() => {
@@ -55,7 +57,7 @@ function Transaction_History_Screen(props) {
         // setError(err)
       })
       .finally((_) => setLoading(false))
-  }, [access_token])
+  }, [access_token, props, isFocused])
 
   if (loading) return <Loading_Component />
   if (error) return <Error_Component />
