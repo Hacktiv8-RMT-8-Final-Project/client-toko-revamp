@@ -98,6 +98,7 @@ function Checkout_Order_Screen(props) {
       console.log(response.data.data[0].proof_receipt_transaction)
     } catch (err) {
       console.log(err)
+      // setError(err)
     }
   }
 

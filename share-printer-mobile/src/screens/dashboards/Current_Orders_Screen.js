@@ -111,6 +111,7 @@ function Current_Orders_Screen(props) {
       // console.log(response)
     } catch (err) {
       console.log(err)
+      // setError(err)
     }
   }
 
@@ -156,6 +157,7 @@ function Current_Orders_Screen(props) {
       // console.log(response)
     } catch (err) {
       console.log(err)
+      // setError(err)
     }
   }
 
