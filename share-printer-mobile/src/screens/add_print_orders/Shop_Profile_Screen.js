@@ -56,25 +56,25 @@ function Shop_Profile_Screen(props) {
         <View style={styles.container_detail}>
           <View style={styles.header}>
             <Text style={styles.storeName}>{shopDetail.name}</Text>
-            <Text style={{fontWeight: 'bold'}}>Welcome, to our shop!</Text>
+            <Text style={{ fontWeight: "bold" }}>Welcome, to our shop!</Text>
             <View style={styles.info}>
-              <Chip mode="outlined" style={{ backgroundColor: "#EFEFEF" }} icon="map-marker">
+              <Chip mode="outlined" style={{ backgroundColor: "#faedcd" }} icon="map-marker">
                 Location
               </Chip>
             </View>
           </View>
 
           <View style={styles.statusContainer}>
-            <Text style={{marginTop: 12}}>Available Product:</Text>
+            <Text style={{ marginTop: 12 }}>Available Products:</Text>
             {shopDetail.status_open ? (
-                <Chip style={{ backgroundColor: "#72EDFF" }} icon="information">
-                  Open
-                </Chip>
-              ) : (
-                <Chip style={{ backgroundColor: "#FF7272" }} icon="information">
-                  Closed
-                </Chip>
-              )}
+              <Chip style={{ backgroundColor: "#d4a373" }} icon="information">
+                Open
+              </Chip>
+            ) : (
+              <Chip style={{ backgroundColor: "#ccd5ae" }} icon="information">
+                Closed
+              </Chip>
+            )}
           </View>
           <ScrollView style={styles.scrollView}>
             <View style={styles.products}>
@@ -83,13 +83,15 @@ function Shop_Profile_Screen(props) {
                 // let newData = Object.values(temp)
                 return (
                   <View style={{ width: 330, marginBottom: 5 }} key={index}>
-                    <Card>
+                    <Card style={styles.products_card}>
                       <Card.Content>
                         <Title>{e[temp].display_name}</Title>
-                        <Paragraph style={{marginBottom: 10}}>{e[temp].description}</Paragraph>
+                        <Paragraph style={{ marginBottom: 10 }}>{e[temp].description}</Paragraph>
                         <View style={styles.priceContainer}>
                           <Paragraph>Price : </Paragraph>
-                          <Paragraph style={{fontWeight: 'bold', marginBottom: 10}}>Rp {e[temp].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00</Paragraph>
+                          <Paragraph style={{ fontWeight: "bold", marginBottom: 10 }}>
+                            Rp {e[temp].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00
+                          </Paragraph>
                         </View>
                       </Card.Content>
                     </Card>
@@ -133,8 +135,8 @@ const styles = StyleSheet.create({
   button_text: {
     fontSize: 16,
     textTransform: "uppercase",
-    color: 'white',
-    fontWeight: 'bold'
+    color: "white",
+    fontWeight: "bold",
   },
   container_detail: {
     flex: 4,
@@ -156,34 +158,40 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  // products: {
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  // },
+  products_card: {
+    backgroundColor: "#faedcd",
+    borderRadius: 25,
+  },
+  button_text: {
+    fontSize: 16,
+    textTransform: "uppercase",
+    color: "white",
+    fontWeight: "bold",
+  },
   info: {
     flexDirection: "row",
     justifyContent: "center",
     width: 530,
-    marginBottom: 50,
-    marginTop: 10
+    marginVertical: 10,
   },
   header: {
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: 30,
   },
   storeName: {
     fontSize: 50,
     marginBottom: 5,
     fontWeight: "bold",
   },
-  statusContainer:{
+  statusContainer: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-    width: 550
+    width: 550,
   },
   priceContainer: {
     flexDirection: "row",
-  }
+  },
 })
 
 export default Shop_Profile_Screen
