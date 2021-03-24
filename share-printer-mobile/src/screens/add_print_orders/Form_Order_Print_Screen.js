@@ -222,7 +222,8 @@ function Form_Order_Print_Screen(props) {
                 let detail_product = Object.values(product_detail)[0]
                 return (
                   <Card style={styles.form_card} key={index}>
-                    <Card.Content>
+                    <Card.Content style={styles.cardContent}>
+                      <View>
                       <Title>{detail_product.display_name}</Title>
                       <Paragraph style={{ marginBottom: 20 }}>{detail_product.description}</Paragraph>
                       <View style={{ flexDirection: "row" }}>
@@ -246,10 +247,12 @@ function Form_Order_Print_Screen(props) {
                       </View>
 
                       <View style={{ flexDirection: "row", justifyContent: "center" }}>
-                        <TouchableOpacity onPress={() => remove_product(uuid_product, index)} style={styles.remove_product_button}>
-                          <Text style={styles.button_text}>Remove product</Text>
-                        </TouchableOpacity>
+          
                       </View>
+                      </View>
+                      <TouchableOpacity onPress={() => remove_product(uuid_product, index)} >
+                        <Ionicons style={{ fontSize: 30, color: 'red' }} name={"close"} />
+                      </TouchableOpacity>
                     </Card.Content>
                   </Card>
                 )
@@ -339,17 +342,18 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   inputView: {
-    width: "15%",
+    width: "30%",
     backgroundColor: "white",
     borderRadius: 5,
     marginBottom: 20,
     justifyContent: "center",
     borderBottomWidth: 1,
-    paddingLeft: 15,
+
   },
   inputText: {
     height: 30,
     color: "black",
+    textAlign: 'center'
   },
   remove_product_button: {
     width: "80%",
@@ -405,6 +409,10 @@ const styles = StyleSheet.create({
   upload: {
     width: 20,
     height: 20,
+  },
+  cardContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
 })
 
