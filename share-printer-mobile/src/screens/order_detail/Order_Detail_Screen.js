@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
 
   button_upload: {
     width: "80%",
-    backgroundColor: "#99AC5D",
+    backgroundColor: "#107C10",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
 
   button: {
     width: "80%",
-    backgroundColor: "#d4a373",
+    backgroundColor: "#107C10",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
 
   buttonUploadPayment: {
     width: "80%",
-    backgroundColor: "#d4a373",
+    backgroundColor: "#25D366",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
