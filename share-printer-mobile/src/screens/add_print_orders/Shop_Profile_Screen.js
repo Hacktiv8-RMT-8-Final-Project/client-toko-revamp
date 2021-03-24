@@ -104,7 +104,7 @@ function Shop_Profile_Screen(props) {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={fill_add_form} style={styles.button}>
-            <Text style={styles.button_text}>Print Request</Text>
+            <Text style={styles.button_text}>Order Request</Text>
           </TouchableOpacity>
           {/* <TouchableOpacity onPress={chatting_with_shop} style={styles.button}>
           <Text style={styles.button_text}>Chat with shop</Text>

@@ -189,19 +189,16 @@ const styles = StyleSheet.create({
   },
   form_card: {
     borderRadius: 25,
-    backgroundColor: "#fefae0",
+    backgroundColor: "#ffffff",
     marginVertical: 10,
   },
   form_card_product: {
-    borderRadius: 10,
-    backgroundColor: "#D9AD82",
-    marginVertical: 2,
+    backgroundColor: "#ffffff",
   },
   bottom_screen_container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-end",
-    backgroundColor: "white",
     paddingVertical: 10,
   },
   text_bold: {

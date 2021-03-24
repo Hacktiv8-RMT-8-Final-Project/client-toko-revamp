@@ -49,7 +49,7 @@ function Form_Order_Print_Screen(props) {
     // const new_selected_product = [...select_product]
     let key = Object.keys(product)[0]
     let objProduct = {}
-    objProduct[key + index] = {...product[key]}
+    objProduct[key + index] = { ...product[key] }
     objProduct[key + index].amount = 1
     // new_selected_product.push({ ...product, amount: 0 })
     set_select_product([...select_product, objProduct])
@@ -224,34 +224,32 @@ function Form_Order_Print_Screen(props) {
                   <Card style={styles.form_card} key={index}>
                     <Card.Content style={styles.cardContent}>
                       <View>
-                      <Title>{detail_product.display_name}</Title>
-                      <Paragraph style={{ marginBottom: 20 }}>{detail_product.description}</Paragraph>
-                      <View style={{ flexDirection: "row" }}>
-                        <Text style={{ fontWeight: "bold", marginTop: 7, marginRight: 10 }}>Amount:</Text>
-                        <View style={styles.inputView}>
-                          <TextInput
-                            onChangeText={(text) => set_amount(text, uuid_product, index)}
-                            style={styles.inputText}
-                            placeholder="Input quantity product here"
-                            placeholderTextColor="#003f5c"
-                            keyboardType="numeric"
-                            value={detail_product.amount.toString()}
-                          />
+                        <Title>{detail_product.display_name}</Title>
+                        <Paragraph style={{ marginBottom: 20 }}>{detail_product.description}</Paragraph>
+                        <View style={{ flexDirection: "row" }}>
+                          <Text style={{ fontWeight: "bold", marginTop: 7, marginRight: 10 }}>Amount:</Text>
+                          <View style={styles.inputView}>
+                            <TextInput
+                              onChangeText={(text) => set_amount(text, uuid_product, index)}
+                              style={styles.inputText}
+                              placeholder="Input quantity product here"
+                              placeholderTextColor="#003f5c"
+                              keyboardType="numeric"
+                              value={detail_product.amount.toString()}
+                            />
+                          </View>
                         </View>
-                      </View>
-                      <View style={{ flexDirection: "row" }}>
-                        <Paragraph>Price : </Paragraph>
-                        <Paragraph style={{ fontWeight: "bold", marginBottom: 20 }}>
-                          Rp {detail_product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00
-                        </Paragraph>
-                      </View>
+                        <View style={{ flexDirection: "row" }}>
+                          <Paragraph>Price : </Paragraph>
+                          <Paragraph style={{ fontWeight: "bold", marginBottom: 20 }}>
+                            Rp {detail_product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00
+                          </Paragraph>
+                        </View>
 
-                      <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          
+                        <View style={{ flexDirection: "row", justifyContent: "center" }}></View>
                       </View>
-                      </View>
-                      <TouchableOpacity onPress={() => remove_product(uuid_product, index)} >
-                        <Ionicons style={{ fontSize: 30, color: 'red' }} name={"close"} />
+                      <TouchableOpacity onPress={() => remove_product(uuid_product, index)}>
+                        <Ionicons style={{ fontSize: 30, color: "red" }} name={"close"} />
                       </TouchableOpacity>
                     </Card.Content>
                   </Card>
@@ -290,7 +288,7 @@ function Form_Order_Print_Screen(props) {
           </View>
 
           <TouchableOpacity onPress={submit_form} style={styles.button}>
-            <Text style={styles.button_text}>Confirm Order Print</Text>
+            <Text style={styles.button_text}>Confirm Order</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -348,12 +346,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     justifyContent: "center",
     borderBottomWidth: 1,
-
   },
   inputText: {
     height: 30,
     color: "black",
-    textAlign: 'center'
+    textAlign: "center",
   },
   remove_product_button: {
     width: "80%",
@@ -411,8 +408,8 @@ const styles = StyleSheet.create({
     height: 20,
   },
   cardContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 })
 

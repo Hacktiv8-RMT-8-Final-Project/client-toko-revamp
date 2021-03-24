@@ -116,10 +116,23 @@ function Google_Map_Shop_Screen(props) {
     })
     // let shops = [...data_backend.data] // Data ini Dari Server dummy
 
+    // ! OLD FILE GOOGLE MAP
+    // let map = shopList.map((item) => {
+    //   if (typeof item.location === "string") {
+    //     let latitude = +item.location.split("lat: ").slice(1).join("").split(", ")[0]
+    //     let longitude = +item.location.split("lng: ").slice(1).join("").split("}")[0]
+    //     item.location = { latitude, longitude }
+    //   }
+
+    //   return item
+    // })
+
+    // ! NEW FILE GOOGLE MAP
     let map = shopList.map((item) => {
       if (typeof item.location === "string") {
-        let latitude = +item.location.split("lat: ").slice(1).join("").split(", ")[0]
-        let longitude = +item.location.split("lng: ").slice(1).join("").split("}")[0]
+        console.log(item.location)
+        let latitude = +item.location.split("latitude: ").slice(1).join("").split(", ")[0]
+        let longitude = +item.location.split("longitude: ").slice(1).join("").split("}")[0]
         item.location = { latitude, longitude }
       }
 

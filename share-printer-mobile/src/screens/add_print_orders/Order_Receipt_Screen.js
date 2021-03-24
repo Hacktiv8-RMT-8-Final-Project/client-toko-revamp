@@ -107,8 +107,8 @@ function Checkout_Order_Screen(props) {
     props.navigation.navigate("Current Orders")
   }
 
-  function go_to_payment_methods_page () {
-    props.navigation.navigate('Payment Methods')
+  function go_to_payment_methods_page() {
+    props.navigation.navigate("Payment Methods")
   }
 
   if (loading) return <Loading_Component />
@@ -126,16 +126,16 @@ function Checkout_Order_Screen(props) {
                 <Paragraph>Store: {shop_name}</Paragraph>
                 <Paragraph>Date: {data_receipt.updatedAt.slice(0, 10)}</Paragraph>
                 {proof_transaction_link === null ? (
-                    <>
-                      <Text style={{marginTop: 5}}>Status Unpaid</Text>
-                    </>
-                  ) : (
-                    <>
-                      <Text style={{marginTop: 5, color: "blue" }} onPress={() => Linking.openURL(`${data_receipt.proof_receipt_transaction}`)}>
-                        File Proof of Transaction
-                      </Text>
-                    </>
-                  )}
+                  <>
+                    <Text style={{ marginTop: 5 }}>Status Unpaid</Text>
+                  </>
+                ) : (
+                  <>
+                    <Text style={{ marginTop: 5, color: "blue" }} onPress={() => Linking.openURL(`${data_receipt.proof_receipt_transaction}`)}>
+                      File Proof of Transaction
+                    </Text>
+                  </>
+                )}
                 {/* <View style={styles.paymentMethods}>
                   <Paragraph style={{fontWeight: 'bold'}}>Payment Methods</Paragraph>
                   <Paragraph style={{fontWeight: 'bold'}}>BCA</Paragraph>
@@ -167,7 +167,7 @@ function Checkout_Order_Screen(props) {
                   <DataTable.Row style={{ borderTopWidth: 2 }}>
                     <DataTable.Cell>Total Price</DataTable.Cell>
                     <DataTable.Cell numeric>
-                      <Text style={{fontWeight:'bold'}}>Rp {data_receipt.order_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00 </Text>
+                      <Text style={{ fontWeight: "bold" }}>Rp {data_receipt.order_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00 </Text>
                     </DataTable.Cell>
                   </DataTable.Row>
                 </DataTable>
@@ -178,12 +178,9 @@ function Checkout_Order_Screen(props) {
         </View>
         <View style={styles.bottom_screen_container}>
           <View style={styles.paymentMethods}>
-          <TouchableOpacity onPress={go_to_payment_methods_page}>
-          <Text style={{marginTop: 5, color: "blue", marginBottom:20 }} >
-              Payment Methods
-            </Text>
-          </TouchableOpacity>
-            
+            <TouchableOpacity onPress={go_to_payment_methods_page}>
+              <Text style={{ marginTop: 5, color: "blue", marginBottom: 20 }}>Payment Methods</Text>
+            </TouchableOpacity>
           </View>
           {/* {proof_transaction_link === null ? (
             <>
@@ -203,9 +200,9 @@ function Checkout_Order_Screen(props) {
           </TouchableOpacity>
           <Text style={{ fontSize: 11, marginBottom: 10 }}>*You can provide transaction later at Your Current Orders Tab</Text>
 
-          <TouchableOpacity onPress={go_to_your_print_order_List} style={styles.button}>
+          {/* <TouchableOpacity onPress={go_to_your_print_order_List} style={styles.button}>
             <Text style={styles.button_text}>Show Status Orders</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </SafeAreaView>
     </>
@@ -268,14 +265,14 @@ const styles = StyleSheet.create({
   uuid: {
     fontSize: 18,
   },
-  paymentMethods:{
-    alignItems: 'center',
-    borderBottomColor: 'grey',
+  paymentMethods: {
+    alignItems: "center",
+    borderBottomColor: "grey",
     borderBottomWidth: 0.5,
     // borderTopColor: 'grey',
     // borderTopWidth: 1,
-    width: '100%'
-  }
+    width: "100%",
+  },
 })
 
 export default Checkout_Order_Screen

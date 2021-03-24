@@ -204,48 +204,30 @@ function Current_Orders_Screen(props) {
               return (
                 <Card style={styles.card_order} key={e.id}>
                   <Card.Content>
-                    {/* <View>
-                      <Title style={styles.uuid}>Order Number: </Title>
-                      <Paragraph>{e.order_number}</Paragraph>
-                    </View> */}
                     <View style={styles.content}>
                       <View style={styles.leftContent}>
                         {/* // ! Store and Price */}
                         <TouchableOpacity onPress={() => click_info_order(e)} style={styles.button_info}>
                           <Text>
-                            <Ionicons style={styles.icon} name={"list-circle-outline"} /> Order Info
+                            &nbsp; &nbsp;
+                            <Ionicons style={styles.icon} name={"information-circle-outline"} />
+                            &nbsp;Order Info
                           </Text>
                         </TouchableOpacity>
                         <Paragraph>
-                          <Ionicons style={styles.icon} name={"home-outline"} /> : <Text style={styles.text_bold}>{e.Shop.name}</Text>
+                          <Ionicons style={styles.icon} name={"home-outline"} /> <Text style={styles.text_bold}>{e.Shop.name}</Text>
                         </Paragraph>
-                        <Paragraph>
-                          <Ionicons style={styles.icon} name={"card-outline"} /> : Rp {e.order_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                          ,00
-                        </Paragraph>
-                        {/* <View style={styles.current_order_container}>
-                          <ScrollView style={styles.scrollView}>
-                            <Text>{JSON.stringify(e.order_content)}</Text>
-                          </ScrollView>
-                        </View> */}
-
-                        {/* <View style={styles.info_container}>
-                          <TouchableOpacity onPress={() => click_info_order(e)} style={styles.button_info}>
-                            <Text>
-                              <Ionicons style={styles.icon} name={"list-circle-outline"} /> Info
-                            </Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity
-                            onPress={() => {
-                              Linking.openURL(`${e.files_url}`)
-                            }}
-                            style={styles.button_download}
-                          >
-                            <Text>
-                              <Ionicons style={styles.icon} name={"cloud-download-outline"} /> PDF
-                            </Text>
-                          </TouchableOpacity>
-                        </View> */}
+                        {e.proof_receipt_transaction !== null ? (
+                          <Paragraph style={{ color: "green" }}>
+                            <Ionicons style={styles.icon} name={"card-outline"} /> Rp {e.order_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            ,00
+                          </Paragraph>
+                        ) : (
+                          <Paragraph style={{ color: "red" }}>
+                            <Ionicons style={styles.icon} name={"card-outline"} /> Rp {e.order_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            ,00
+                          </Paragraph>
+                        )}
                       </View>
                       <View style={styles.rightContent}>
                         {e.payment_status === 1 ? (
@@ -253,23 +235,23 @@ function Current_Orders_Screen(props) {
                             Status Requested
                           </Chip>
                         ) : e.payment_status === 2 ? (
-                          <Chip style={{ backgroundColor: "#9099FF" }} icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#ffffff", borderWidth: 1, borderColor: "green" }} icon="information" type="outlined">
                             Status Paid
                           </Chip>
                         ) : e.payment_status === 3 ? (
-                          <Chip style={{ backgroundColor: "#9FFF90" }} icon="information" type="outlined">
-                            Status Confirm
+                          <Chip style={{ backgroundColor: "#04f700" }} icon="information" type="outlined">
+                            Order Confirmed
                           </Chip>
                         ) : e.payment_status === 4 ? (
-                          <Chip style={{ backgroundColor: "#90FFA6" }} icon="information" type="outlined">
-                            On Progress
+                          <Chip style={{ backgroundColor: "#ffd900" }} icon="information" type="outlined">
+                            In Progress
                           </Chip>
                         ) : e.payment_status === 5 ? (
-                          <Chip style={{ backgroundColor: "#9FFF90" }} icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#D9AD82" }} icon="information" type="outlined">
                             Completed
                           </Chip>
                         ) : e.payment_status === 6 ? (
-                          <Chip style={{ backgroundColor: "#E090FF" }} icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#FF9090" }} icon="information" type="outlined">
                             Canceled
                           </Chip>
                         ) : e.payment_status === 7 ? (
@@ -281,55 +263,8 @@ function Current_Orders_Screen(props) {
                             Error
                           </Chip>
                         )}
-                        {/*  */}
-                        {e.proof_receipt_transaction !== null ? (
-                          <TouchableOpacity
-                            onPress={() => {
-                              Linking.openURL(`${e.proof_receipt_transaction}`)
-                            }}
-                            style={styles.button_transaction}
-                          >
-                            <Text>
-                              <Ionicons style={styles.icon} name={"wallet-outline"} /> Paid
-                            </Text>
-                          </TouchableOpacity>
-                        ) : (
-                          <TouchableOpacity style={styles.button_transaction_not_paid}>
-                            <Text>
-                              <Ionicons style={styles.icon} name={"wallet-outline"} /> Not Paid
-                            </Text>
-                          </TouchableOpacity>
-                        )}
                       </View>
                     </View>
-                    {/* <View style={styles.content}>
-                      <View style={styles.leftContent}>
-                        <TouchableOpacity
-                          style={styles.button_upload_pdf}
-                          onPress={() => {
-                            upload_your_pdf_file(e.id)
-                          }}
-                        >
-                          <Text style={styles.button_text}>
-                            <Ionicons style={styles.icon} name={"cloud-upload"} />
-                            &#160;Upload File
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
-                      <View style={styles.rightContent}>
-                        <TouchableOpacity
-                          style={styles.button_upload_receipt}
-                          onPress={() => {
-                            upload_proof_transaction(e.id)
-                          }}
-                        >
-                          <Text style={styles.button_text}>
-                            <Ionicons style={styles.icon} name={"cloud-upload"} />
-                            &#160;Receipt
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View> */}
                   </Card.Content>
                   <Card.Actions></Card.Actions>
                 </Card>
@@ -361,7 +296,7 @@ const styles = StyleSheet.create({
   card_order: {
     flex: 1,
     marginVertical: 5,
-    backgroundColor: "#faedcd",
+    backgroundColor: "#ffffff",
     borderRadius: 25,
   },
   current_order_container: {
@@ -385,6 +320,7 @@ const styles = StyleSheet.create({
   rightContent: {
     flex: 1,
     width: 150,
+    justifyContent: "center",
   },
   uuid: {
     fontSize: 18,
@@ -420,8 +356,8 @@ const styles = StyleSheet.create({
     padding: 3,
     paddingLeft: 7,
     width: 125,
-    borderRadius: 200,
-    backgroundColor: "grey",
+    borderRadius: 25,
+    // backgroundColor: "grey",
     margin: 3,
     marginTop: 5,
   },
@@ -429,23 +365,23 @@ const styles = StyleSheet.create({
     fontSize: 12,
     padding: 3,
     paddingLeft: 7,
-    width: 125,
-    borderRadius: 200,
-    backgroundColor: "#CCD5AE",
+    width: 120,
+    borderRadius: 25,
+    // backgroundColor: "#9FFF90",
     margin: 3,
-    borderColor: "#D9AD82",
-    borderWidth: 1,
     marginTop: 5,
+    // borderColor: "#9FFF90",
+    // borderWidth: 5,
   },
   button_info: {
     fontSize: 12,
     padding: 3,
     width: 120,
-    borderRadius: 200,
-    backgroundColor: "#FEFAE0",
-    margin: 3,
-    borderColor: "#D9AD82",
+    borderRadius: 25,
+    backgroundColor: "#ffffff",
+    borderColor: "grey",
     borderWidth: 1,
+    textAlign: "center",
   },
   button_download: {
     fontSize: 12,
