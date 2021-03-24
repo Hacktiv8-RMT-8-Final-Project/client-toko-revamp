@@ -64,7 +64,7 @@ function Transaction_History_Screen(props) {
 
   const click_info_order = (data_order) => {
     console.log(data_order)
-    props.navigation.navigate("Order Detail", { data: data_order })
+    // props.navigation.navigate("Order Detail", { data: data_order })
   }
 
   // props.navigation.navigate("Shop Profile", { shop: selectedShop })
@@ -75,12 +75,11 @@ function Transaction_History_Screen(props) {
   return (
     <>
       <SafeAreaView style={styles.container}>
+        <View style={styles.title_container}>
+          <Text style={styles.title_text}>TRANSACTION HISTORY</Text>
+        </View>
         <ScrollView style={styles.scrollView}>
           {/* <Text>{JSON.stringify(completedOrder)}</Text> */}
-          <View style={styles.title_container}>
-            <Text style={styles.title_text}>TRANSACTION HISTORY</Text>
-          </View>
-
           {completedOrder.length === 0 ? (
             <Card style={styles.card_order}>
               <Card.Content style={{ alignItems: "center", textAlign: "center" }}>
@@ -100,12 +99,18 @@ function Transaction_History_Screen(props) {
                     </View>
                     <View style={styles.content}>
                       <View style={styles.leftContent}>
-                        <Paragraph>Store : {e.Shop.name}</Paragraph>
-                        <Paragraph>Rp {e.order_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00</Paragraph>
+                        {/* // ! Store and Price */}
+                        <Paragraph>
+                          <Ionicons style={styles.icon} name={"home-outline"} /> : {e.Shop.name}
+                        </Paragraph>
+                        <Paragraph>
+                          <Ionicons style={styles.icon} name={"card-outline"} /> : Rp {e.order_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                          ,00
+                        </Paragraph>
                         <View style={styles.info_container}>
                           <TouchableOpacity onPress={() => click_info_order(e)} style={styles.button_info}>
                             <Text>
-                              <Ionicons style={styles.icon} name={"information-circle-outline"} /> Info
+                              <Ionicons style={styles.icon} name={"list-circle-outline"} /> Info
                             </Text>
                           </TouchableOpacity>
                           <TouchableOpacity
@@ -162,7 +167,7 @@ function Transaction_History_Screen(props) {
                           style={styles.button_transaction}
                         >
                           <Text>
-                            <Ionicons style={styles.icon} name={"wallet-outline"} /> Transaction
+                            <Ionicons style={styles.icon} name={"receipt-outline"} /> Receipt Link
                           </Text>
                         </TouchableOpacity>
                       </View>
@@ -235,6 +240,9 @@ const styles = StyleSheet.create({
     borderRadius: 200,
     backgroundColor: "#CCD5AE",
     margin: 3,
+    borderColor: "#D9AD82",
+    borderWidth: 1,
+    marginTop: 5,
   },
   button_info: {
     fontSize: 12,
@@ -242,8 +250,10 @@ const styles = StyleSheet.create({
     paddingLeft: 7,
     width: 75,
     borderRadius: 200,
-    backgroundColor: "#9091FF",
+    backgroundColor: "#FEFAE0",
     margin: 3,
+    borderColor: "#D9AD82",
+    borderWidth: 1,
   },
   button_download: {
     fontSize: 12,
@@ -253,6 +263,8 @@ const styles = StyleSheet.create({
     borderRadius: 200,
     backgroundColor: "#b4c247",
     margin: 3,
+    borderColor: "#D9AD82",
+    borderWidth: 1,
   },
   icon: {
     fontSize: 17,
