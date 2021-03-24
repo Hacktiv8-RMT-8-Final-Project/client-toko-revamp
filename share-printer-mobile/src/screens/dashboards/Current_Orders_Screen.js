@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react"
-import { AsyncStorage, StyleSheet, Text, SafeAreaView, ScrollView, View, Alert, Modal, Pressable } from "react-native"
+import { AsyncStorage, TouchableOpacity, StyleSheet, Text, SafeAreaView, ScrollView, View, Alert, Modal, Pressable } from "react-native"
 
 import Constants from "expo-constants"
 import { Chip, Avatar, Button, Card, Title, Paragraph, DataTable, Provider, Portal } from "react-native-paper"
 
 import * as DocumentPicker from "expo-document-picker"
 import * as Linking from "expo-linking"
+import Ionicons from "react-native-vector-icons/Ionicons"
 
 import axios from "../../config/axios"
 import app from "../../config/firebase"
@@ -182,12 +183,11 @@ function Current_Orders_Screen(props) {
   return (
     <>
       <SafeAreaView style={styles.container}>
+        <View style={styles.title_container}>
+          <Text style={styles.title_text}>CURRENT ORDERS</Text>
+        </View>
         <ScrollView style={styles.scrollView}>
           {/* <Text>{JSON.stringify(currentOrders)}</Text> */}
-          <View style={styles.title_container}>
-            <Text style={styles.title_text}>CURRENT ORDERS</Text>
-          </View>
-
           {currentOrders.length === 0 ? (
             <Card style={styles.card_order}>
               <Card.Content style={{ alignItems: "center", textAlign: "center" }}>
@@ -205,44 +205,38 @@ function Current_Orders_Screen(props) {
                     </View>
                     <View style={styles.content}>
                       <View style={styles.leftContent}>
-                        <Title>Summary</Title>
-                        <View style={styles.current_order_container}>
+                        {/* // ! Store and Price */}
+                        <Paragraph>
+                          <Ionicons style={styles.icon} name={"home-outline"} /> : {e.Shop.name}
+                        </Paragraph>
+                        <Paragraph>
+                          <Ionicons style={styles.icon} name={"card-outline"} /> : Rp {e.order_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                          ,00
+                        </Paragraph>
+                        {/* <View style={styles.current_order_container}>
                           <ScrollView style={styles.scrollView}>
                             <Text>{JSON.stringify(e.order_content)}</Text>
                           </ScrollView>
+                        </View> */}
+                        <View style={styles.info_container}>
+                          <TouchableOpacity onPress={() => click_info_order(e)} style={styles.button_info}>
+                            <Text>
+                              <Ionicons style={styles.icon} name={"list-circle-outline"} /> Info
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={() => {
+                              Linking.openURL(`${e.files_url}`)
+                            }}
+                            style={styles.button_download}
+                          >
+                            <Text>
+                              <Ionicons style={styles.icon} name={"cloud-download-outline"} /> PDF
+                            </Text>
+                          </TouchableOpacity>
                         </View>
-                        <Text style={{ color: "blue" }} onPress={() => Linking.openURL(`${e.links_url}`)}>
-                          File PDF
-                        </Text>
-                        {e.proof_receipt_transaction !== null ? (
-                          <Text style={{ color: "blue" }} onPress={() => Linking.openURL(`${e.proof_receipt_transaction}`)}>
-                            Receipt transaction
-                          </Text>
-                        ) : (
-                          <Text>Not paid yet</Text>
-                        )}
                       </View>
                       <View style={styles.rightContent}>
-                        <Button
-                          style={styles.btnUpload}
-                          icon="upload"
-                          mode="outlined"
-                          onPress={() => {
-                            upload_your_pdf_file(e.id)
-                          }}
-                        >
-                          Upload File
-                        </Button>
-                        <Button
-                          style={styles.btnUpload}
-                          icon="upload"
-                          mode="outlined"
-                          onPress={() => {
-                            upload_proof_transaction(e.id)
-                          }}
-                        >
-                          Receipt
-                        </Button>
                         {e.payment_status === 1 ? (
                           <Chip style={{ backgroundColor: "#90E3FF" }} icon="information" type="outlined">
                             Order requested
@@ -276,6 +270,51 @@ function Current_Orders_Screen(props) {
                             Error
                           </Chip>
                         )}
+                        {/*  */}
+                        {e.proof_receipt_transaction !== null ? (
+                          <TouchableOpacity
+                            onPress={() => {
+                              Linking.openURL(`${e.proof_receipt_transaction}`)
+                            }}
+                            style={styles.button_transaction}
+                          >
+                            <Text>
+                              <Ionicons style={styles.icon} name={"receipt-outline"} /> Receipt Link
+                            </Text>
+                          </TouchableOpacity>
+                        ) : (
+                          <TouchableOpacity style={styles.button_transaction_not_paid}>
+                            <Text>
+                              <Ionicons style={styles.icon} name={"wallet-outline"} /> Not Paid
+                            </Text>
+                          </TouchableOpacity>
+                        )}
+                      </View>
+                    </View>
+                    <View style={styles.content}>
+                      <View style={styles.leftContent}>
+                        <Button
+                          style={styles.button_upload_pdf}
+                          icon="cloud-upload"
+                          mode="outlined"
+                          onPress={() => {
+                            upload_your_pdf_file(e.id)
+                          }}
+                        >
+                          Upload File
+                        </Button>
+                      </View>
+                      <View style={styles.rightContent}>
+                        <Button
+                          style={styles.button_upload_receipt}
+                          icon="cloud-upload"
+                          mode="outlined"
+                          onPress={() => {
+                            upload_proof_transaction(e.id)
+                          }}
+                        >
+                          Receipt
+                        </Button>
                       </View>
                     </View>
                   </Card.Content>
@@ -335,8 +374,69 @@ const styles = StyleSheet.create({
   uuid: {
     fontSize: 18,
   },
-  btnUpload: {
+  button_upload_pdf: {
     marginVertical: 10,
+    borderRadius: 20,
+    backgroundColor: "#99AC5D",
+  },
+  button_upload_receipt: {
+    marginVertical: 10,
+    borderRadius: 20,
+    backgroundColor: "#D9AD82",
+  },
+  info_container: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button_transaction_not_paid: {
+    fontSize: 12,
+    padding: 3,
+    paddingLeft: 7,
+    width: 125,
+    borderRadius: 200,
+    backgroundColor: "grey",
+    margin: 3,
+    marginTop: 5,
+  },
+  button_transaction: {
+    fontSize: 12,
+    padding: 3,
+    paddingLeft: 7,
+    width: 125,
+    borderRadius: 200,
+    backgroundColor: "#CCD5AE",
+    margin: 3,
+    borderColor: "#D9AD82",
+    borderWidth: 1,
+    marginTop: 5,
+  },
+  button_info: {
+    fontSize: 12,
+    padding: 3,
+    paddingLeft: 7,
+    width: 75,
+    borderRadius: 200,
+    backgroundColor: "#FEFAE0",
+    margin: 3,
+    borderColor: "#D9AD82",
+    borderWidth: 1,
+  },
+  button_download: {
+    fontSize: 12,
+    padding: 3,
+    paddingLeft: 7,
+    width: 75,
+    borderRadius: 200,
+    backgroundColor: "#b4c247",
+    margin: 3,
+    borderColor: "#D9AD82",
+    borderWidth: 1,
+  },
+  icon: {
+    fontSize: 17,
+    marginBottom: 5,
   },
 })
 export default Current_Orders_Screen

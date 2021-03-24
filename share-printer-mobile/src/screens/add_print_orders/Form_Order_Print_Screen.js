@@ -275,7 +275,7 @@ function Form_Order_Print_Screen(props) {
             </>
           )}
 
-          <TouchableOpacity onPress={upload_your_pdf_file} style={styles.upload_button}>
+          <TouchableOpacity onPress={upload_your_pdf_file} style={styles.button_upload}>
             <Text style={styles.button_text}>
               <Ionicons style={{ fontSize: 20 }} name={"cloud-upload"} /> Upload PDF File
             </Text>
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderColor: "black",
   },
-  upload_button: {
+  button_upload: {
     width: "80%",
     // backgroundColor: "#CCD5AE",
     backgroundColor: "#99AC5D",
