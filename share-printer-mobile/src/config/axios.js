@@ -6,10 +6,11 @@ import axios from "axios"
 // AsyncStorage.getItem("access_token").then((data) => (access_token = data))
 
 const instance = axios.create({
+  // ! Heroku
   // baseURL: `https://share-printer-finalproject.herokuapp.com/`,
-  baseURL: `http://192.168.43.119:3000`,
+  // ! local host
+  baseURL: `http://192.168.100.13:3000`,
   // baseURL: 'http://localhost:3000'
-
   // headers: {
   //   access_token: access_token || "",
   //   "Content-Type": "application/json",
@@ -22,17 +23,5 @@ const instance = axios.create({
 // http://192.168.43.132:3000 - mujib
 // http://192.168.43.119:3000 - cakra
 // https://share-printer-finalproject.herokuapp.com/ - heroku database
-
-/* // ! example from website
-  import axios from "axios";
-  export default axios.create({
-    timeout: 10000,
-    baseURL: "http://localhost:3000",
-    headers: {
-      access_token: localStorage.getItem("access_token") || "",
-      "Content-Type": "application/json"
-    }
-  });
-*/
 
 export default instance

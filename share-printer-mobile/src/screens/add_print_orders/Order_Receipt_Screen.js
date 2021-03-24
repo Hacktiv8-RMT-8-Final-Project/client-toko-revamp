@@ -179,7 +179,17 @@ function Checkout_Order_Screen(props) {
         <View style={styles.bottom_screen_container}>
           <View style={styles.paymentMethods}>
             <TouchableOpacity onPress={go_to_payment_methods_page}>
-              <Text style={{ marginTop: 5, color: "blue", marginBottom: 20 }}>Payment Methods</Text>
+              <Text
+                style={{
+                  color: "grey",
+                  fontSize: 16,
+                  textTransform: "uppercase",
+                  fontWeight: "bold",
+                  marginVertical: 5,
+                }}
+              >
+                Payment Methods
+              </Text>
             </TouchableOpacity>
           </View>
           {/* {proof_transaction_link === null ? (
@@ -215,7 +225,7 @@ const styles = StyleSheet.create({
     marginTop: Constants.statusBarHeight,
   },
   table_scroll_container: {
-    flex: 3,
+    flex: 6,
     marginHorizontal: 20,
   },
   scroll_view_screen: {
@@ -224,7 +234,7 @@ const styles = StyleSheet.create({
   form_card: {
     margin: 10,
     borderRadius: 25,
-    backgroundColor: "#fefae0",
+    backgroundColor: "#ffffff",
   },
   bottom_screen_container: {
     flex: 1,

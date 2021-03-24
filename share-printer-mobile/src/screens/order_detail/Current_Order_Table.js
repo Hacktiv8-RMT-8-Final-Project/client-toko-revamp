@@ -60,33 +60,31 @@ function Current_Orders_Screen(props) {
 
   const [access_token, set_access_token] = useState("")
   useEffect(() => {
-    AsyncStorage.getItem("access_token").then((data) => set_access_token(data))
-  }, [props])
-
-  useEffect(() => {
-    setLoading(true)
-    axios({
-      method: "GET",
-      url: `/user/status_orders`,
-      headers: {
-        access_token: access_token || "",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        // console.log(response)
+    const funcAsync = async () => {
+      try {
+        setLoading(true)
+        await AsyncStorage.getItem("access_token").then((data) => set_access_token(data))
+        let response = await axios({
+          method: "GET",
+          url: `/user/status_orders`,
+          headers: {
+            access_token: access_token || "",
+            "Content-Type": "application/json",
+          },
+        })
         setCurrentOrders(response.data.data)
-      })
-      .catch((err) => {
+        setLoading(false)
+      } catch (err) {
         console.log(err)
-        // setError(err)
-      })
-      .finally((_) => setLoading(false))
+      }
+    }
+
+    funcAsync()
   }, [file_url_link, proof_transaction_link, props, isFocused, access_token])
 
   const click_info_order = (data_order) => {
     // console.log(data_order)
-    props.navigation.navigate("Order Detail", { data: data_order })
+    props.navigation.navigate("Order Detail", { data: data_order, from_page: "current_order" })
   }
 
   const upload_your_pdf_file = async (order_id) => {
@@ -231,7 +229,7 @@ function Current_Orders_Screen(props) {
                       </View>
                       <View style={styles.rightContent}>
                         {e.payment_status === 1 ? (
-                          <Chip style={{ backgroundColor: "#90E3FF" }} icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#90E3FF" }} icon="bell-circle-outline" type="outlined">
                             Status Requested
                           </Chip>
                         ) : e.payment_status === 2 ? (
