@@ -107,6 +107,10 @@ function Checkout_Order_Screen(props) {
     props.navigation.navigate("Current Orders")
   }
 
+  function go_to_payment_methods_page () {
+    props.navigation.navigate('Payment Methods')
+  }
+
   if (loading) return <Loading_Component />
   if (error) return <Error_Component />
 
@@ -119,9 +123,27 @@ function Checkout_Order_Screen(props) {
               <Card.Content>
                 <Title style={styles.uuid}>Order Number: </Title>
                 <Paragraph>{data_receipt.order_number}</Paragraph>
-
                 <Paragraph>Store: {shop_name}</Paragraph>
                 <Paragraph>Date: {data_receipt.updatedAt.slice(0, 10)}</Paragraph>
+                {proof_transaction_link === null ? (
+                    <>
+                      <Text style={{marginTop: 5}}>Status Unpaid</Text>
+                    </>
+                  ) : (
+                    <>
+                      <Text style={{marginTop: 5, color: "blue" }} onPress={() => Linking.openURL(`${data_receipt.proof_receipt_transaction}`)}>
+                        File Proof of Transaction
+                      </Text>
+                    </>
+                  )}
+                {/* <View style={styles.paymentMethods}>
+                  <Paragraph style={{fontWeight: 'bold'}}>Payment Methods</Paragraph>
+                  <Paragraph style={{fontWeight: 'bold'}}>BCA</Paragraph>
+                  <Paragraph>8610941177 a/n PT Delta Neva Angkasa</Paragraph>
+                  <Paragraph>or</Paragraph>
+                  <Paragraph style={{fontWeight: 'bold'}}>Mandiri</Paragraph>
+                  <Paragraph>1370012937096 a/n PT Delta Neva Angkasa</Paragraph>
+                </View> */}
                 <DataTable>
                   <DataTable.Header>
                     <DataTable.Title>Product</DataTable.Title>
@@ -134,7 +156,7 @@ function Checkout_Order_Screen(props) {
                     return (
                       <DataTable.Row key={index}>
                         <DataTable.Cell>
-                          {e[temp].amount} {e[temp].display_name}
+                          {e[temp].amount} x {e[temp].display_name}
                         </DataTable.Cell>
                         <DataTable.Cell numeric>
                           <Text>Rp {e[temp].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00 </Text>
@@ -145,7 +167,7 @@ function Checkout_Order_Screen(props) {
                   <DataTable.Row style={{ borderTopWidth: 2 }}>
                     <DataTable.Cell>Total Price</DataTable.Cell>
                     <DataTable.Cell numeric>
-                      <Text>Rp {data_receipt.order_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00 </Text>
+                      <Text style={{fontWeight:'bold'}}>Rp {data_receipt.order_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00 </Text>
                     </DataTable.Cell>
                   </DataTable.Row>
                 </DataTable>
@@ -155,17 +177,25 @@ function Checkout_Order_Screen(props) {
           </ScrollView>
         </View>
         <View style={styles.bottom_screen_container}>
-          {proof_transaction_link === null ? (
+          <View style={styles.paymentMethods}>
+          <TouchableOpacity onPress={go_to_payment_methods_page}>
+          <Text style={{marginTop: 5, color: "blue", marginBottom:20 }} >
+              Payment Methods
+            </Text>
+          </TouchableOpacity>
+            
+          </View>
+          {/* {proof_transaction_link === null ? (
             <>
-              <Text>Status Unpaid</Text>
+              <Text style={{marginTop: 5}}>Status Unpaid</Text>
             </>
           ) : (
             <>
-              <Text style={{ color: "blue" }} onPress={() => Linking.openURL(`${data_receipt.proof_receipt_transaction}`)}>
+              <Text style={{marginTop: 5, color: "blue" }} onPress={() => Linking.openURL(`${data_receipt.proof_receipt_transaction}`)}>
                 File Proof of Transaction
               </Text>
             </>
-          )}
+          )} */}
           <TouchableOpacity onPress={upload_your_proof_receipt_transaction} style={styles.button_upload}>
             <Text style={styles.button_text}>
               <Ionicons style={{ fontSize: 20 }} name={"cloud-upload"} /> Upload Proof Transaction
@@ -204,8 +234,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-end",
     backgroundColor: "white",
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingTop: 40,
+    paddingBottom: 20,
   },
   button_upload: {
     width: "80%",
@@ -238,6 +268,14 @@ const styles = StyleSheet.create({
   uuid: {
     fontSize: 18,
   },
+  paymentMethods:{
+    alignItems: 'center',
+    borderBottomColor: 'grey',
+    borderBottomWidth: 0.5,
+    // borderTopColor: 'grey',
+    // borderTopWidth: 1,
+    width: '100%'
+  }
 })
 
 export default Checkout_Order_Screen

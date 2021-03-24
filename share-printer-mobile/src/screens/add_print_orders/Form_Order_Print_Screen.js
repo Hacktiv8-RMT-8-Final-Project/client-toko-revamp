@@ -45,36 +45,30 @@ function Form_Order_Print_Screen(props) {
     return () => {}
   }, [select_product])
 
-  const on_change_picker = (product) => {
-    const new_selected_product = [...select_product]
-    // console.log(product)
+  const on_change_picker = (product, index) => {
+    // const new_selected_product = [...select_product]
     let key = Object.keys(product)[0]
-    let objProduct = { ...product }
-    objProduct[key].amount = 0
-    // console.log(objProduct)
+    let objProduct = {}
+    objProduct[key + index] = {...product[key]}
+    objProduct[key + index].amount = 1
     // new_selected_product.push({ ...product, amount: 0 })
     set_select_product([...select_product, objProduct])
   }
 
-  const set_amount = (text, uuid_product) => {
+  const set_amount = (text, uuid_product, indexProd) => {
     const new_selected_product = [...select_product]
-    // console.log(text, uuid_product)
-    // console.log(new_selected_product)
-    new_selected_product.map((detail_product) => {
-      // console.log(detail_product, `<<<`)
+    new_selected_product.forEach((detail_product, index) => {
       let key = Object.keys(detail_product)[0]
       let objProduct = { ...detail_product }
-      // console.log(key)
-      if (key === uuid_product) {
+      if (indexProd === index) {
         objProduct[key].amount = +text
       }
-      // console.log(objProduct, `<<<`)
     })
+    console.log(new_selected_product)
     set_select_product(new_selected_product)
   }
 
-  const remove_product = (uuid_product) => {
-    console.log(uuid_product)
+  const remove_product = (uuid_product, indexProd) => {
     Alert.alert(
       "Delete selected product?",
       "You can re add it again",
@@ -88,10 +82,11 @@ function Form_Order_Print_Screen(props) {
           text: "OK",
           onPress: () => {
             const existing_selected_product = [...select_product]
-            const updated_product_finder = existing_selected_product.filter((product) => {
+            const updated_product_finder = existing_selected_product.filter((product, index) => {
               let key = Object.keys(product)[0]
-              if (key !== uuid_product) return product
+              if (indexProd !== index) return product
             })
+            // console.log(updated_product_finder)
             set_select_product(updated_product_finder)
           },
         },
@@ -203,7 +198,7 @@ function Form_Order_Print_Screen(props) {
             <Picker
               selectedValue={selectedValue}
               style={styles.picker_select}
-              onValueChange={(data_product, index) => on_change_picker(data_product)}
+              onValueChange={(data_product, index) => on_change_picker(data_product, index)}
             >
               <Picker.Item label="CHOOSE SHOP PRODUCTS" enabled={false} />
               {data_product.map((e, index) => {
@@ -227,14 +222,15 @@ function Form_Order_Print_Screen(props) {
                 let detail_product = Object.values(product_detail)[0]
                 return (
                   <Card style={styles.form_card} key={index}>
-                    <Card.Content>
+                    <Card.Content style={styles.cardContent}>
+                      <View>
                       <Title>{detail_product.display_name}</Title>
                       <Paragraph style={{ marginBottom: 20 }}>{detail_product.description}</Paragraph>
                       <View style={{ flexDirection: "row" }}>
                         <Text style={{ fontWeight: "bold", marginTop: 7, marginRight: 10 }}>Amount:</Text>
                         <View style={styles.inputView}>
                           <TextInput
-                            onChangeText={(text) => set_amount(text, uuid_product)}
+                            onChangeText={(text) => set_amount(text, uuid_product, index)}
                             style={styles.inputText}
                             placeholder="Input quantity product here"
                             placeholderTextColor="#003f5c"
@@ -251,10 +247,12 @@ function Form_Order_Print_Screen(props) {
                       </View>
 
                       <View style={{ flexDirection: "row", justifyContent: "center" }}>
-                        <TouchableOpacity onPress={() => remove_product(uuid_product)} style={styles.remove_product_button}>
-                          <Text style={styles.button_text}>Remove product</Text>
-                        </TouchableOpacity>
+          
                       </View>
+                      </View>
+                      <TouchableOpacity onPress={() => remove_product(uuid_product, index)} >
+                        <Ionicons style={{ fontSize: 30, color: 'red' }} name={"close"} />
+                      </TouchableOpacity>
                     </Card.Content>
                   </Card>
                 )
@@ -344,17 +342,18 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   inputView: {
-    width: "15%",
+    width: "30%",
     backgroundColor: "white",
     borderRadius: 5,
     marginBottom: 20,
     justifyContent: "center",
     borderBottomWidth: 1,
-    paddingLeft: 15,
+
   },
   inputText: {
     height: 30,
     color: "black",
+    textAlign: 'center'
   },
   remove_product_button: {
     width: "80%",
@@ -410,6 +409,10 @@ const styles = StyleSheet.create({
   upload: {
     width: 20,
     height: 20,
+  },
+  cardContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
 })
 
