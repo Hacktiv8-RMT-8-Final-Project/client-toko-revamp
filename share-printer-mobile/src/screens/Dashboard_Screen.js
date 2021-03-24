@@ -28,10 +28,10 @@ function Dashboard_Screen(props) {
         },
       })}
       tabBarOptions={{
-        activeTintColor: "black",
-        inactiveTintColor: "grey",
-        activeBackgroundColor: "white",
-        inactiveBackgroundColor: "black",
+        activeTintColor: "white",
+        inactiveTintColor: "#107C10",
+        activeBackgroundColor: "#107C10",
+        inactiveBackgroundColor: "white",
       }}
     >
       <Tab.Screen name="Dashboard" component={Add_Order_Screen} />
