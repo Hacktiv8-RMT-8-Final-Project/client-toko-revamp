@@ -86,6 +86,12 @@ const styles = StyleSheet.create({
     fontSize: 17,
     marginBottom: 5,
   },
+  button_text: {
+    fontSize: 16,
+    textTransform: "uppercase",
+    color: "white",
+    fontWeight: "bold",
+  },
 })
 
 export default Profile_Settings_Screen

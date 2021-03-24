@@ -84,6 +84,11 @@ function Current_Orders_Screen(props) {
       .finally((_) => setLoading(false))
   }, [file_url_link, proof_transaction_link, props, isFocused])
 
+  const click_info_order = (data_order) => {
+    console.console.log(data_order)
+    // props.navigation.navigate("Order Detail", { data: data_order })
+  }
+
   const upload_your_pdf_file = async (order_id) => {
     console.log(`upload pdf button`)
 
@@ -293,28 +298,30 @@ function Current_Orders_Screen(props) {
                     </View>
                     <View style={styles.content}>
                       <View style={styles.leftContent}>
-                        <Button
+                        <TouchableOpacity
                           style={styles.button_upload_pdf}
-                          icon="cloud-upload"
-                          mode="outlined"
                           onPress={() => {
                             upload_your_pdf_file(e.id)
                           }}
                         >
-                          Upload File
-                        </Button>
+                          <Text style={styles.button_text}>
+                            <Ionicons style={styles.icon} name={"cloud-upload"} />
+                            &#160;Upload File
+                          </Text>
+                        </TouchableOpacity>
                       </View>
                       <View style={styles.rightContent}>
-                        <Button
+                        <TouchableOpacity
                           style={styles.button_upload_receipt}
-                          icon="cloud-upload"
-                          mode="outlined"
                           onPress={() => {
                             upload_proof_transaction(e.id)
                           }}
                         >
-                          Receipt
-                        </Button>
+                          <Text style={styles.button_text}>
+                            <Ionicons style={styles.icon} name={"cloud-upload"} />
+                            &#160;Receipt
+                          </Text>
+                        </TouchableOpacity>
                       </View>
                     </View>
                   </Card.Content>
@@ -375,14 +382,20 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   button_upload_pdf: {
-    marginVertical: 10,
-    borderRadius: 20,
+    padding: 5,
+    borderRadius: 25,
     backgroundColor: "#99AC5D",
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
   },
   button_upload_receipt: {
-    marginVertical: 10,
-    borderRadius: 20,
+    padding: 5,
+    borderRadius: 25,
     backgroundColor: "#D9AD82",
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
   },
   info_container: {
     flex: 1,
@@ -437,6 +450,12 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 17,
     marginBottom: 5,
+  },
+  button_text: {
+    fontSize: 16,
+    textTransform: "uppercase",
+    color: "white",
+    fontWeight: "bold",
   },
 })
 export default Current_Orders_Screen
