@@ -194,6 +194,16 @@ function Form_Order_Print_Screen(props) {
     <>
       <SafeAreaView style={styles.container}>
         <View style={styles.form_container}>
+          {/*  */}
+          <View style={styles.upload_container}>
+            <TouchableOpacity onPress={upload_your_pdf_file} style={styles.button_upload}>
+              <Text style={styles.button_text}>
+                <Ionicons style={{ fontSize: 20 }} name={"cloud-upload"} /> Upload PDF File
+              </Text>
+            </TouchableOpacity>
+            <Text style={{ fontSize: 11, marginBottom: 10 }}>*You can only upload .pdf file with maximum 20 MB size</Text>
+          </View>
+
           <View style={styles.picker_container}>
             <Picker
               selectedValue={selectedValue}
@@ -223,11 +233,9 @@ function Form_Order_Print_Screen(props) {
                 return (
                   <Card style={styles.form_card} key={index}>
                     <Card.Content style={styles.cardContent}>
-                      <View>
-                        <Title>{detail_product.display_name}</Title>
-                        <Paragraph style={{ marginBottom: 20 }}>{detail_product.description}</Paragraph>
-                        <View style={{ flexDirection: "row" }}>
-                          <Text style={{ fontWeight: "bold", marginTop: 7, marginRight: 10 }}>Amount:</Text>
+                      <View style={{ flex: 1 }}>
+                        <View style={{ flexDirection: "row", flex: 1 }}>
+                          {/* <Text style={{ fontWeight: "bold", marginTop: 7, marginRight: 10 }}>Amount:</Text> */}
                           <View style={styles.inputView}>
                             <TextInput
                               onChangeText={(text) => set_amount(text, uuid_product, index)}
@@ -238,18 +246,22 @@ function Form_Order_Print_Screen(props) {
                               value={detail_product.amount.toString()}
                             />
                           </View>
-                        </View>
-                        <View style={{ flexDirection: "row" }}>
-                          <Paragraph>Price : </Paragraph>
-                          <Paragraph style={{ fontWeight: "bold", marginBottom: 20 }}>
-                            Rp {detail_product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00
-                          </Paragraph>
+                          <Text style={{ fontWeight: "bold", marginTop: 7, marginRight: 10 }}>&nbsp;&nbsp;pcs. {detail_product.display_name}</Text>
                         </View>
 
-                        <View style={{ flexDirection: "row", justifyContent: "center" }}></View>
+                        <View style={{ flex: 1, backgroundColor: "white" }}>
+                          <Text>{detail_product.description}</Text>
+                        </View>
+                        <View style={{ flex: 1, flexDirection: "row" }}>
+                          <Text>Price : </Text>
+                          <Text style={{ fontWeight: "bold", marginBottom: 20 }}>
+                            Rp {detail_product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00
+                          </Text>
+                        </View>
                       </View>
-                      <TouchableOpacity onPress={() => remove_product(uuid_product, index)}>
-                        <Ionicons style={{ fontSize: 30, color: "red" }} name={"close"} />
+                      {/*  */}
+                      <TouchableOpacity style={{ position: "relative", top: 5, right: 5 }} onPress={() => remove_product(uuid_product, index)}>
+                        <Ionicons style={{ fontSize: 30, color: "red" }} name={"close-circle-outline"} />
                       </TouchableOpacity>
                     </Card.Content>
                   </Card>
@@ -261,22 +273,29 @@ function Form_Order_Print_Screen(props) {
         <View style={styles.bottom_screen_container}>
           {file_url_link === null ? (
             <>
-              <Text>No file uploaded</Text>
+              <Text style={{ marginVertical: 5 }}>
+                <Ionicons style={styles.icon} name={"close-circle-outline"} />
+                &nbsp;No file uploaded
+              </Text>
             </>
           ) : (
             <>
-              <Text style={{ color: "blue" }} onPress={() => Linking.openURL(`${file_url_link}`)}>
-                You can download link PDF File
+              <Text style={{ marginVertical: 5 }}>
+                <Ionicons style={styles.icon} name={"checkmark-circle-outline"} />
+                &nbsp;File PDF uploaded
               </Text>
+              {/* <Text style={{ color: "blue" }} onPress={() => Linking.openURL(`${file_url_link}`)}>
+                You can download link PDF File
+              </Text> */}
             </>
           )}
 
-          <TouchableOpacity onPress={upload_your_pdf_file} style={styles.button_upload}>
+          {/* <TouchableOpacity onPress={upload_your_pdf_file} style={styles.button_upload}>
             <Text style={styles.button_text}>
               <Ionicons style={{ fontSize: 20 }} name={"cloud-upload"} /> Upload PDF File
             </Text>
           </TouchableOpacity>
-          <Text style={{ fontSize: 11, marginBottom: 10 }}>*You can only upload .pdf file with maximum 20 MB size</Text>
+          <Text style={{ fontSize: 11, marginBottom: 10 }}>*You can only upload .pdf file with maximum 20 MB size</Text> */}
 
           <View style={styles.totalPriceContainer}>
             <Text>Total order price :</Text>
@@ -302,9 +321,21 @@ const styles = StyleSheet.create({
     marginTop: Constants.statusBarHeight,
   },
   form_container: {
-    flex: 3,
+    flex: 4,
     marginTop: Constants.statusBarHeight,
     paddingTop: 20,
+  },
+  cardContent: {
+    flexDirection: "row",
+  },
+  bottom_screen_container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-end",
+    paddingVertical: 10,
+  },
+  upload_container: {
+    alignItems: "center",
   },
   picker_container: {
     alignItems: "center",
@@ -321,12 +352,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     color: "white",
   },
-  bottom_screen_container: {
-    alignItems: "center",
-    justifyContent: "flex-end",
-    backgroundColor: "#ffffff",
-    paddingVertical: 10,
-  },
+
   scrollView: {
     marginHorizontal: 20,
   },
@@ -336,16 +362,15 @@ const styles = StyleSheet.create({
   form_card: {
     flex: 1,
     margin: 10,
-    backgroundColor: "#faedcd",
+    // backgroundColor: "#ffffff",
     borderRadius: 25,
   },
   inputView: {
-    width: "30%",
-    backgroundColor: "white",
+    width: 50,
+    // backgroundColor: "blue",
     borderRadius: 5,
-    marginBottom: 20,
     justifyContent: "center",
-    borderBottomWidth: 1,
+    borderWidth: 1,
   },
   inputText: {
     height: 30,
@@ -359,8 +384,6 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 10,
-    marginBottom: 10,
     borderColor: "black",
   },
   button_upload: {
@@ -406,10 +429,6 @@ const styles = StyleSheet.create({
   upload: {
     width: 20,
     height: 20,
-  },
-  cardContent: {
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
 })
 
