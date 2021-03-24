@@ -329,10 +329,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   bottom_screen_container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "flex-end",
     paddingVertical: 10,
+    // backgroundColor: "#ffffff",
   },
   upload_container: {
     alignItems: "center",
