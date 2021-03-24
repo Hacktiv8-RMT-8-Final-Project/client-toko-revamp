@@ -6,7 +6,7 @@ import axios from "axios"
 // AsyncStorage.getItem("access_token").then((data) => (access_token = data))
 
 const instance = axios.create({
-  baseURL: `http://192.168.1.7:3000`,
+  baseURL: `http://192.168.43.119:3000`,
   // baseURL: 'http://localhost:3000'
   // headers: {
   //   access_token: access_token || "",
