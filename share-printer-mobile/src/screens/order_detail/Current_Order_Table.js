@@ -231,35 +231,39 @@ function Current_Orders_Screen(props) {
                       </View>
                       <View style={styles.rightContent}>
                         {e.payment_status === 1 ? (
-                          <Chip style={{ backgroundColor: "#90E3FF" }} icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#90E3FF" }} icon="bell-circle-outline" type="outlined">
                             Status Requested
                           </Chip>
                         ) : e.payment_status === 2 ? (
-                          <Chip style={{ backgroundColor: "#ffffff", borderWidth: 1, borderColor: "green" }} icon="information" type="outlined">
+                          <Chip
+                            style={{ backgroundColor: "#ffffff", borderWidth: 1, borderColor: "green" }}
+                            icon="checkbox-marked-circle-outline"
+                            type="outlined"
+                          >
                             Status Paid
                           </Chip>
                         ) : e.payment_status === 3 ? (
-                          <Chip style={{ backgroundColor: "#04f700" }} icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#04f700" }} icon="check-underline-circle-outline" type="outlined">
                             Order Confirmed
                           </Chip>
                         ) : e.payment_status === 4 ? (
-                          <Chip style={{ backgroundColor: "#ffd900" }} icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#ffd900" }} icon="circle-slice-3" type="outlined">
                             In Progress
                           </Chip>
                         ) : e.payment_status === 5 ? (
-                          <Chip style={{ backgroundColor: "#D9AD82" }} icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#D9AD82" }} icon="check-circle-outline" type="outlined">
                             Completed
                           </Chip>
                         ) : e.payment_status === 6 ? (
-                          <Chip style={{ backgroundColor: "#FF9090" }} icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#FF9090" }} icon="close-circle-outline" type="outlined">
                             Canceled
                           </Chip>
                         ) : e.payment_status === 7 ? (
-                          <Chip style={{ backgroundColor: "#FF9090" }} icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#FF9090" }} icon="minus-circle-outline" type="outlined">
                             Rejected
                           </Chip>
                         ) : (
-                          <Chip style={{ backgroundColor: "red" }} icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "red" }} icon="alert-circle-outline" type="outlined">
                             Error
                           </Chip>
                         )}
