@@ -1,8 +1,9 @@
 import React, { useState } from "react"
 import { AsyncStorage } from "react-native"
 import axios from "../config/axios"
+import logo from '../images/1.png'
 
-import { TouchableOpacity, Text, TextInput, View, StyleSheet, ImageBackground } from "react-native"
+import { TouchableOpacity, Text, TextInput, View, StyleSheet, ImageBackground, Image } from "react-native"
 
 // import bgImage from "../images/background_login_register.jpg"
 // <ImageBackground source={bgImage} style={styles.backgroundContainer}>
@@ -51,7 +52,7 @@ function Login_Screen(props) {
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.title}>Share Printer</Text>
+      <Image style={styles.logo} source={logo} />
 
         <View style={styles.inputView}>
           <TextInput onChangeText={onChangeEmail} style={styles.inputText} placeholder="Email" placeholderTextColor="#003f5c" />
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 25,
     height: 50,
-    marginBottom: 20,
+    marginBottom: 10,
     justifyContent: "center",
     padding: 20,
   },
@@ -143,6 +144,13 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     color: "black",
     fontWeight: "bold",
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    borderRadius: 200,
+    marginVertical: 50
+
   },
 })
 
