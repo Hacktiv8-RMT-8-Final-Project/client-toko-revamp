@@ -58,7 +58,7 @@ function Shop_Profile_Screen(props) {
             <Text style={styles.storeName}>{shopDetail.name}</Text>
             <Text style={{ fontWeight: "bold" }}>Welcome, to our shop!</Text>
             <View style={styles.info}>
-              <Chip mode="outlined" style={{ backgroundColor: "#faedcd" }} icon="map-marker">
+              <Chip mode="outlined" style={{ backgroundColor: "#ffffff", borderColor: "black", borderWidth: 1 }} icon="map-marker">
                 Location
               </Chip>
             </View>
@@ -67,12 +67,12 @@ function Shop_Profile_Screen(props) {
           <View style={styles.statusContainer}>
             <Text style={{ marginTop: 12 }}>Available Products:</Text>
             {shopDetail.status_open ? (
-              <Chip style={{ backgroundColor: "#d4a373" }} icon="information">
+              <Chip style={{ borderColor: "#0062ff", borderWidth: 1, backgroundColor: "#ffffff" }} icon="store">
                 Open
               </Chip>
             ) : (
-              <Chip style={{ backgroundColor: "#ccd5ae" }} icon="information">
-                Closed
+              <Chip style={{ borderColor: "red", borderWidth: 1, backgroundColor: "#ffffff" }} icon="block-helper">
+                <Text style={{ color: "red" }}>Closed</Text>
               </Chip>
             )}
           </View>
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   products_card: {
-    backgroundColor: "#faedcd",
+    backgroundColor: "#ffffff",
     borderRadius: 25,
   },
   button_text: {
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   header: {
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 30,
+    marginBottom: 10,
   },
   storeName: {
     fontSize: 50,
