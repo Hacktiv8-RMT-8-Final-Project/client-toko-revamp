@@ -73,6 +73,34 @@ function Order_Detail_Screen(props) {
   //     // setError(err)
   //   }
   // }
+  const upload_your_pdf_file = async () => {
+    try {
+      const file = await DocumentPicker.getDocumentAsync()
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.onload = function () {
+          resolve(xhr.response)
+        }
+        xhr.onerror = function (e) {
+          console.log(e)
+          reject(new TypeError("Network request failed"))
+        }
+        xhr.responseType = "blob"
+        xhr.open("GET", file.uri, true)
+        xhr.send(null)
+      })
+      const storageRef = await app.storage().ref()
+      const bucket = storageRef.child(file.name)
+      await bucket.put(blob)
+      const url = await bucket.getDownloadURL()
+      console.log(url)
+      set_file_url_link(url)
+      console.log("upload File")
+    } catch (err) {
+      console.log(err)
+      // setError(err)
+    }
+  }
 
   const go_to_your_print_order_List = () => {
     props.navigation.goBack()
@@ -89,12 +117,10 @@ function Order_Detail_Screen(props) {
             {/* <Text>{JSON.stringify(data_receipt)}</Text> */}
             <Card style={styles.form_card}>
               <Card.Content>
-                <Title style={styles.uuid}>Order Number: </Title>
-                <Paragraph>{data_receipt.order_number}</Paragraph>
-
-                <Paragraph>Store : {data_receipt.Shop.name}</Paragraph>
-                <Paragraph>Date : {data_receipt.updatedAt.slice(0, 10)}</Paragraph>
-                <Paragraph style={styles.text_bold}>Selected Products :</Paragraph>
+                <Title style={styles.uuid}>{data_receipt.Shop.name} </Title>
+                <Paragraph style={{fontWeight: 'bold', marginBottom: 10}}>Order Number : <Paragraph>{data_receipt.order_number}</Paragraph></Paragraph>
+                <Paragraph style={{marginBottom: 10}}><Paragraph style={{fontWeight: 'bold'}}>Date : </Paragraph>{data_receipt.updatedAt.slice(0, 10)}</Paragraph>
+                <Paragraph style={{fontWeight: 'bold'}}>Selected Products :</Paragraph>
                 {data_receipt.order_content.map((product, index) => {
                   // console.log(product)
                   let uuid_product = Object.keys(product)[0]
@@ -105,14 +131,14 @@ function Order_Detail_Screen(props) {
                         <View style={styles.content}>
                           <View style={styles.leftContent}>
                             <Text style={styles.text_bold}>
-                              {detail_product.amount} pcs. {detail_product.display_name}
+                              {detail_product.amount} pcs x {detail_product.display_name}
                             </Text>
                             <Text>{detail_product.description}</Text>
                           </View>
                           <View style={styles.rightContent}>
                             <Text style={styles.rightContent_left}>Rp</Text>
                             <Text style={styles.rightContent_right}>
-                              {detail_product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                              {(detail_product.price * detail_product.amount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                               ,00
                             </Text>
                           </View>
@@ -144,6 +170,11 @@ function Order_Detail_Screen(props) {
                   </Card.Content>
                 </Card>
               </Card.Content>
+              <TouchableOpacity onPress={upload_your_pdf_file} style={styles.buttonUploadPayment}>
+                <Text style={styles.button_text}>
+                  <Ionicons style={{ fontSize: 20 }} name={"cloud-upload"} /> Upload PDF File
+                </Text>
+              </TouchableOpacity>
             </Card>
           </ScrollView>
         </View>
@@ -165,10 +196,9 @@ function Order_Detail_Screen(props) {
             </Text>
           </TouchableOpacity> */}
           {/* <Text style={{ fontSize: 11, marginBottom: 10 }}>*You can provide transaction later at Your Current Orders Tab</Text> */}
-
-          <TouchableOpacity onPress={go_to_your_print_order_List} style={styles.button}>
-            <Text style={styles.button_text}>Back to Orders list</Text>
-          </TouchableOpacity>
+            <TouchableOpacity onPress={go_to_your_print_order_List} style={styles.button}>
+              <Text style={styles.button_text}>Back to Orders list</Text>
+            </TouchableOpacity>
         </View>
       </SafeAreaView>
     </>
@@ -262,6 +292,20 @@ const styles = StyleSheet.create({
   uuid: {
     fontSize: 18,
   },
+
+  buttonUploadPayment: {
+    width: "80%",
+    backgroundColor: "#d4a373",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+    borderColor: "black",
+    marginVertical: 10,
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  }
 })
 
 export default Order_Detail_Screen
