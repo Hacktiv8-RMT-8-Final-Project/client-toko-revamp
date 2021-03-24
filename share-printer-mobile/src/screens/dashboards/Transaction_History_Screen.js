@@ -221,6 +221,7 @@ const styles = StyleSheet.create({
     width: 150,
   },
   rightContent: {
+    flex: 1,
     width: 140,
   },
   info_container: {
@@ -247,7 +248,6 @@ const styles = StyleSheet.create({
   button_info: {
     fontSize: 12,
     padding: 3,
-    paddingLeft: 7,
     width: 75,
     borderRadius: 200,
     backgroundColor: "#FEFAE0",

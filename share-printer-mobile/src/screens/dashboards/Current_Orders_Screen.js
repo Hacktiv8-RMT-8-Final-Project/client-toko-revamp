@@ -373,9 +373,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   leftContent: {
+    flex: 1,
     width: 150,
   },
   rightContent: {
+    flex: 1,
     width: 150,
   },
   uuid: {
@@ -388,6 +390,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignItems: "center",
     justifyContent: "center",
+    marginHorizontal: 10,
+    marginTop: 5,
   },
   button_upload_receipt: {
     padding: 5,
@@ -396,6 +400,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignItems: "center",
     justifyContent: "center",
+    marginHorizontal: 10,
+    marginTop: 5,
   },
   info_container: {
     flex: 1,
@@ -428,7 +434,6 @@ const styles = StyleSheet.create({
   button_info: {
     fontSize: 12,
     padding: 3,
-    paddingLeft: 7,
     width: 75,
     borderRadius: 200,
     backgroundColor: "#FEFAE0",
