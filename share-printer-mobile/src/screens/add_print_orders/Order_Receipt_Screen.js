@@ -119,9 +119,16 @@ function Checkout_Order_Screen(props) {
               <Card.Content>
                 <Title style={styles.uuid}>Order Number: </Title>
                 <Paragraph>{data_receipt.order_number}</Paragraph>
-
                 <Paragraph>Store: {shop_name}</Paragraph>
                 <Paragraph>Date: {data_receipt.updatedAt.slice(0, 10)}</Paragraph>
+                <View style={styles.paymentMethods}>
+                  <Paragraph style={{fontWeight: 'bold'}}>Payment Methods</Paragraph>
+                  <Paragraph style={{fontWeight: 'bold'}}>BCA</Paragraph>
+                  <Paragraph>8610941177 a/n PT Delta Neva Angkasa</Paragraph>
+                  <Paragraph>or</Paragraph>
+                  <Paragraph style={{fontWeight: 'bold'}}>Mandiri</Paragraph>
+                  <Paragraph>1370012937096 a/n PT Delta Neva Angkasa</Paragraph>
+                </View>
                 <DataTable>
                   <DataTable.Header>
                     <DataTable.Title>Product</DataTable.Title>
@@ -134,7 +141,7 @@ function Checkout_Order_Screen(props) {
                     return (
                       <DataTable.Row key={index}>
                         <DataTable.Cell>
-                          {e[temp].amount} {e[temp].display_name}
+                          {e[temp].amount} x {e[temp].display_name}
                         </DataTable.Cell>
                         <DataTable.Cell numeric>
                           <Text>Rp {e[temp].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00 </Text>
@@ -145,7 +152,7 @@ function Checkout_Order_Screen(props) {
                   <DataTable.Row style={{ borderTopWidth: 2 }}>
                     <DataTable.Cell>Total Price</DataTable.Cell>
                     <DataTable.Cell numeric>
-                      <Text>Rp {data_receipt.order_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00 </Text>
+                      <Text style={{fontWeight:'bold'}}>Rp {data_receipt.order_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")},00 </Text>
                     </DataTable.Cell>
                   </DataTable.Row>
                 </DataTable>
@@ -157,11 +164,11 @@ function Checkout_Order_Screen(props) {
         <View style={styles.bottom_screen_container}>
           {proof_transaction_link === null ? (
             <>
-              <Text>Status Unpaid</Text>
+              <Text style={{marginTop: 5}}>Status Unpaid</Text>
             </>
           ) : (
             <>
-              <Text style={{ color: "blue" }} onPress={() => Linking.openURL(`${data_receipt.proof_receipt_transaction}`)}>
+              <Text style={{marginTop: 5, color: "blue" }} onPress={() => Linking.openURL(`${data_receipt.proof_receipt_transaction}`)}>
                 File Proof of Transaction
               </Text>
             </>
@@ -238,6 +245,15 @@ const styles = StyleSheet.create({
   uuid: {
     fontSize: 18,
   },
+  paymentMethods:{
+    marginTop: 30,
+    marginBottom: 30,
+    alignItems: 'center',
+    borderBottomColor: 'grey',
+    borderBottomWidth: 1,
+    borderTopColor: 'grey',
+    borderTopWidth: 1,
+  }
 })
 
 export default Checkout_Order_Screen
