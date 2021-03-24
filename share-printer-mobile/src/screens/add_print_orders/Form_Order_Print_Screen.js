@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
     borderColor: "#3e2913",
   },
   picker_select: {
-    width: 250,
+    width: 275,
     height: 44,
     textAlign: "center",
     justifyContent: "center",
