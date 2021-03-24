@@ -3,7 +3,7 @@ import React from "react"
 import Ionicons from "react-native-vector-icons/Ionicons"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
-import { Add_Order_Screen, Current_Orders_Screen, Transaction_History_Screen, Profile_Settings_Screen, Order_Detail_Screen } from "./dashboards"
+import { Add_Order_Screen, Current_Orders_Screen, Transaction_History_Screen, Profile_Settings_Screen } from "./dashboards"
 
 const Tab = createBottomTabNavigator()
 function Dashboard_Screen(props) {
