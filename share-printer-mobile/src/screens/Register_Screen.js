@@ -59,11 +59,11 @@ function Register_Screen(props) {
             placeholderTextColor="#003f5c"
           />
         </View>
-        <TouchableOpacity style={styles.loginBtn} onPress={submit_register_account}>
-          <Text style={styles.loginText}>REGISTER</Text>
+        <TouchableOpacity style={styles.button_confirm} onPress={submit_register_account}>
+          <Text style={styles.button_text}>REGISTER</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.registerBtn} onPress={go_to_login_screen}>
-          <Text style={styles.loginText}>ALREADY HAVE ACCOUNT</Text>
+        <TouchableOpacity style={styles.button_cancel} onPress={go_to_login_screen}>
+          <Text style={styles.button_text}>ALREADY HAVE ACCOUNT</Text>
         </TouchableOpacity>
 
         <TouchableOpacity>
@@ -112,9 +112,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
-  loginBtn: {
+  button_confirm: {
     width: "80%",
-    backgroundColor: "#A7FF72",
+    backgroundColor: "#D9AD82",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -122,9 +122,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
   },
-  registerBtn: {
+  button_cancel: {
     width: "80%",
-    backgroundColor: "#A572FF",
+    backgroundColor: "#FAEDCD",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -132,10 +132,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-
   button_text: {
     fontSize: 16,
     textTransform: "uppercase",
+    color: "black",
+    fontWeight: "bold",
   },
 })
 
