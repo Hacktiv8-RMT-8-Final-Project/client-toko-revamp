@@ -82,10 +82,10 @@ function Current_Orders_Screen(props) {
         // setError(err)
       })
       .finally((_) => setLoading(false))
-  }, [file_url_link, proof_transaction_link, props, isFocused])
+  }, [file_url_link, proof_transaction_link, props, isFocused, access_token])
 
   const click_info_order = (data_order) => {
-    console.log(data_order)
+    // console.log(data_order)
     props.navigation.navigate("Order Detail", { data: data_order })
   }
 
@@ -184,7 +184,7 @@ function Current_Orders_Screen(props) {
 
   if (loading) return <Loading_Component />
   if (error) return <Error_Component />
-  console.log(currentOrders, "ini curr orders")
+  // console.log(currentOrders, "ini curr orders")
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -204,15 +204,20 @@ function Current_Orders_Screen(props) {
               return (
                 <Card style={styles.card_order} key={e.id}>
                   <Card.Content>
-                    <View>
+                    {/* <View>
                       <Title style={styles.uuid}>Order Number: </Title>
                       <Paragraph>{e.order_number}</Paragraph>
-                    </View>
+                    </View> */}
                     <View style={styles.content}>
                       <View style={styles.leftContent}>
                         {/* // ! Store and Price */}
+                        <TouchableOpacity onPress={() => click_info_order(e)} style={styles.button_info}>
+                          <Text>
+                            <Ionicons style={styles.icon} name={"list-circle-outline"} /> Order Info
+                          </Text>
+                        </TouchableOpacity>
                         <Paragraph>
-                          <Ionicons style={styles.icon} name={"home-outline"} /> : {e.Shop.name}
+                          <Ionicons style={styles.icon} name={"home-outline"} /> : <Text style={styles.text_bold}>{e.Shop.name}</Text>
                         </Paragraph>
                         <Paragraph>
                           <Ionicons style={styles.icon} name={"card-outline"} /> : Rp {e.order_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
@@ -223,7 +228,8 @@ function Current_Orders_Screen(props) {
                             <Text>{JSON.stringify(e.order_content)}</Text>
                           </ScrollView>
                         </View> */}
-                        <View style={styles.info_container}>
+
+                        {/* <View style={styles.info_container}>
                           <TouchableOpacity onPress={() => click_info_order(e)} style={styles.button_info}>
                             <Text>
                               <Ionicons style={styles.icon} name={"list-circle-outline"} /> Info
@@ -239,20 +245,20 @@ function Current_Orders_Screen(props) {
                               <Ionicons style={styles.icon} name={"cloud-download-outline"} /> PDF
                             </Text>
                           </TouchableOpacity>
-                        </View>
+                        </View> */}
                       </View>
                       <View style={styles.rightContent}>
                         {e.payment_status === 1 ? (
                           <Chip style={{ backgroundColor: "#90E3FF" }} icon="information" type="outlined">
-                            Order requested
+                            Status Requested
                           </Chip>
                         ) : e.payment_status === 2 ? (
                           <Chip style={{ backgroundColor: "#9099FF" }} icon="information" type="outlined">
-                            Paid
+                            Status Paid
                           </Chip>
                         ) : e.payment_status === 3 ? (
                           <Chip style={{ backgroundColor: "#9FFF90" }} icon="information" type="outlined">
-                            Confirm
+                            Status Confirm
                           </Chip>
                         ) : e.payment_status === 4 ? (
                           <Chip style={{ backgroundColor: "#90FFA6" }} icon="information" type="outlined">
@@ -284,7 +290,7 @@ function Current_Orders_Screen(props) {
                             style={styles.button_transaction}
                           >
                             <Text>
-                              <Ionicons style={styles.icon} name={"receipt-outline"} /> Receipt Link
+                              <Ionicons style={styles.icon} name={"wallet-outline"} /> Paid
                             </Text>
                           </TouchableOpacity>
                         ) : (
@@ -296,7 +302,7 @@ function Current_Orders_Screen(props) {
                         )}
                       </View>
                     </View>
-                    <View style={styles.content}>
+                    {/* <View style={styles.content}>
                       <View style={styles.leftContent}>
                         <TouchableOpacity
                           style={styles.button_upload_pdf}
@@ -323,7 +329,7 @@ function Current_Orders_Screen(props) {
                           </Text>
                         </TouchableOpacity>
                       </View>
-                    </View>
+                    </View> */}
                   </Card.Content>
                   <Card.Actions></Card.Actions>
                 </Card>
@@ -434,7 +440,7 @@ const styles = StyleSheet.create({
   button_info: {
     fontSize: 12,
     padding: 3,
-    width: 75,
+    width: 120,
     borderRadius: 200,
     backgroundColor: "#FEFAE0",
     margin: 3,
@@ -451,6 +457,9 @@ const styles = StyleSheet.create({
     margin: 3,
     borderColor: "#D9AD82",
     borderWidth: 1,
+  },
+  text_bold: {
+    fontWeight: "bold",
   },
   icon: {
     fontSize: 17,

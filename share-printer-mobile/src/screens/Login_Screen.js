@@ -66,10 +66,10 @@ function Login_Screen(props) {
           />
         </View>
         <TouchableOpacity style={styles.loginBtn} onPress={go_to_dashboard_screen}>
-          <Text style={styles.loginText}>LOGIN</Text>
+          <Text style={styles.button_text}>LOGIN</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={go_to_register_screen}>
-          <Text style={styles.loginText}>REGISTER</Text>
+          <Text style={styles.button_text}>REGISTER</Text>
         </TouchableOpacity>
 
         <TouchableOpacity>
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
 
   loginBtn: {
     width: "80%",
-    backgroundColor: "#A7FF72",
+    backgroundColor: "#D9AD82",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "80%",
-    backgroundColor: "#728AFF",
+    backgroundColor: "#FAEDCD",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -141,6 +141,8 @@ const styles = StyleSheet.create({
   button_text: {
     fontSize: 16,
     textTransform: "uppercase",
+    color: "black",
+    fontWeight: "bold",
   },
 })
 
