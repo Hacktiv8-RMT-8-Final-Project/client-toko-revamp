@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import axios from "../config/axios"
-import { TouchableOpacity, Text, TextInput, View, StyleSheet, ImageBackground } from "react-native"
+import { TouchableOpacity, Text, TextInput, View, StyleSheet, ImageBackground, Image } from "react-native"
+import logo from '../images/1.png'
 
 function Register_Screen(props) {
   const [username, setUsername] = useState("")
@@ -42,7 +43,7 @@ function Register_Screen(props) {
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.title}>Register</Text>
+        <Image style={styles.logo} source={logo} />
 
         <View style={styles.inputView}>
           <TextInput onChangeText={onChangeUsername} style={styles.inputText} placeholder="Username" placeholderTextColor="#003f5c" />
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 25,
     height: 50,
-    marginBottom: 20,
+    marginBottom: 10,
     justifyContent: "center",
     padding: 20,
   },
@@ -137,6 +138,13 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     color: "black",
     fontWeight: "bold",
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    borderRadius: 200,
+    marginVertical: 50
+
   },
 })
 
