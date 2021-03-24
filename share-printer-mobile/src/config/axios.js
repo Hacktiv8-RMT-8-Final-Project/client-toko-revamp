@@ -6,8 +6,16 @@ import axios from "axios"
 // AsyncStorage.getItem("access_token").then((data) => (access_token = data))
 
 const instance = axios.create({
+  // ! Rofi
   // baseURL: `https://share-printer-finalproject.herokuapp.com/`,
-  baseURL: `http://192.168.43.119:3000`,
+
+
+  // ! Mujib
+  // baseURL: `https://share-printer-finalproject.herokuapp.com/`,
+
+  // ! local host
+  baseURL: `http://192.168.100.13:3000`,
+
   // baseURL: 'http://localhost:3000'
 
   // headers: {

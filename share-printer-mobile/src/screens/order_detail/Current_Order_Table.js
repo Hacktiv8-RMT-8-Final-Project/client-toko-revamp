@@ -231,7 +231,7 @@ function Current_Orders_Screen(props) {
                       </View>
                       <View style={styles.rightContent}>
                         {e.payment_status === 1 ? (
-                          <Chip style={{ backgroundColor: "#90E3FF" }} icon="information" type="outlined">
+                          <Chip style={{ backgroundColor: "#90E3FF" }} icon="bell-circle-outline" type="outlined">
                             Status Requested
                           </Chip>
                         ) : e.payment_status === 2 ? (
