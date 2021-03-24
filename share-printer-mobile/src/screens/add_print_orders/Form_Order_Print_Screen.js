@@ -46,13 +46,28 @@ function Form_Order_Print_Screen(props) {
   }, [select_product])
 
   const on_change_picker = (product, index) => {
-    // const new_selected_product = [...select_product]
     let key = Object.keys(product)[0]
-    let objProduct = {}
-    objProduct[key + index] = { ...product[key] }
-    objProduct[key + index].amount = 1
-    // new_selected_product.push({ ...product, amount: 0 })
-    set_select_product([...select_product, objProduct])
+    if (!select_product.length) {
+      let objProduct = {}
+      objProduct[key] = { ...product[key] }
+      objProduct[key].amount = 1
+      let undeleteProduct = data_product.filter((product) => {
+        let key1 = Object.keys(product)[0]
+        return key !== key1
+      })
+      set_data_product(undeleteProduct)
+      set_select_product([objProduct])
+    } else {
+      let objProduct = {}
+      let undeleteProduct = data_product.filter((product) => {
+        let key1 = Object.keys(product)[0]
+        return key !== key1
+      })
+      objProduct[key] = { ...product[key] }
+      objProduct[key].amount = 1
+      set_data_product(undeleteProduct)
+      set_select_product([...select_product, objProduct])
+    }
   }
 
   const set_amount = (text, uuid_product, indexProd) => {
@@ -82,10 +97,17 @@ function Form_Order_Print_Screen(props) {
           text: "OK",
           onPress: () => {
             const existing_selected_product = [...select_product]
+            let temp = {}
             const updated_product_finder = existing_selected_product.filter((product, index) => {
               let key = Object.keys(product)[0]
-              if (indexProd !== index) return product
+              if (indexProd !== index) {
+                return product
+              } else {
+                temp = product
+              }
             })
+
+            set_data_product([...data_product, temp])
             // console.log(updated_product_finder)
             set_select_product(updated_product_finder)
           },

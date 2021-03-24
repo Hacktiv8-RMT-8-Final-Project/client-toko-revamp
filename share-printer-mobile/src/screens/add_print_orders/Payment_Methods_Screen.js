@@ -24,7 +24,7 @@ function Payment_Methods_Screen(props) {
             </View>
 
             <View style={{ marginBottom: 10 }}>
-              <Title>Mandiri Bank</Title>
+              <Title>Mandiri</Title>
               <Paragraph>1370012937096 a/n PT Delta Neva Angkasa</Paragraph>
             </View>
           </View>
@@ -35,7 +35,7 @@ function Payment_Methods_Screen(props) {
             <Paragraph>3. Enter your pin</Paragraph>
             <Paragraph>4. Choose Transfer</Paragraph>
             <Paragraph>
-              5. Input rekening number <Text style={{ fontWeight: "bold" }}>BCA 8610941177 a/n PT Delta Neva Angkasa </Text> or{" "}
+              5. Input account number <Text style={{ fontWeight: "bold" }}>BCA 8610941177 a/n PT Delta Neva Angkasa </Text> or{" "}
               <Text style={{ fontWeight: "bold" }}> Mandiri 1370012937096 a/n PT Delta Neva Angkasa </Text>
             </Paragraph>
             <Paragraph>6. Input nominal transfer </Paragraph>
