@@ -14,8 +14,10 @@ import axios from "../../config/axios"
 import app from "../../config/firebase"
 
 function Order_Detail_Screen(props) {
+  console.log(props)
   // console.log(props.route.params.data)
 
+  const [from_page, set_from_page] = useState(props.route.params.from_page)
   const [data_receipt, set_data_shop] = useState(props.route.params.data)
   // const [shop_id, set_shop_id] = useState(props.route.params.shop_id)
   // const [data_receipt, set_data_receipt] = useState(props.route.params.receipt)
@@ -118,9 +120,14 @@ function Order_Detail_Screen(props) {
             <Card style={styles.form_card}>
               <Card.Content>
                 <Title style={styles.uuid}>{data_receipt.Shop.name} </Title>
-                <Paragraph style={{fontWeight: 'bold', marginBottom: 10}}>Order Number : <Paragraph>{data_receipt.order_number}</Paragraph></Paragraph>
-                <Paragraph style={{marginBottom: 10}}><Paragraph style={{fontWeight: 'bold'}}>Date : </Paragraph>{data_receipt.updatedAt.slice(0, 10)}</Paragraph>
-                <Paragraph style={{fontWeight: 'bold'}}>Selected Products :</Paragraph>
+                <Paragraph style={{ fontWeight: "bold", marginBottom: 10 }}>
+                  Order Number : <Paragraph>{data_receipt.order_number}</Paragraph>
+                </Paragraph>
+                <Paragraph style={{ marginBottom: 10 }}>
+                  <Paragraph style={{ fontWeight: "bold" }}>Date : </Paragraph>
+                  {data_receipt.updatedAt.slice(0, 10)}
+                </Paragraph>
+                <Paragraph style={{ fontWeight: "bold" }}>Selected Products :</Paragraph>
                 {data_receipt.order_content.map((product, index) => {
                   // console.log(product)
                   let uuid_product = Object.keys(product)[0]
@@ -170,35 +177,34 @@ function Order_Detail_Screen(props) {
                   </Card.Content>
                 </Card>
               </Card.Content>
-              <TouchableOpacity onPress={upload_your_pdf_file} style={styles.buttonUploadPayment}>
-                <Text style={styles.button_text}>
-                  <Ionicons style={{ fontSize: 20 }} name={"cloud-upload"} /> Upload PDF File
-                </Text>
-              </TouchableOpacity>
+              {from_page === "current_order" ? (
+                <>
+                  <TouchableOpacity onPress={upload_your_pdf_file} style={styles.buttonUploadPayment}>
+                    <Text style={styles.button_text}>
+                      <Ionicons style={{ fontSize: 20 }} name={"cloud-upload"} /> Upload PDF File
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              ) : (
+                <></>
+              )}
             </Card>
           </ScrollView>
         </View>
         <View style={styles.bottom_screen_container}>
-          {/* {data_receipt.proof_receipt_transaction === null ? (
+          {from_page === "current_order" ? (
             <>
-              <Text>Status Unpaid</Text>
+              <TouchableOpacity onPress={go_to_your_print_order_List} style={styles.button}>
+                <Text style={styles.button_text}>Back to Orders list</Text>
+              </TouchableOpacity>
             </>
           ) : (
             <>
-              <Text style={{ color: "blue" }} onPress={() => Linking.openURL(`${data_receipt.proof_receipt_transaction}`)}>
-                File Proof of Transaction
-              </Text>
+              <TouchableOpacity onPress={go_to_your_print_order_List} style={styles.button}>
+                <Text style={styles.button_text}>Back to History list</Text>
+              </TouchableOpacity>
             </>
-          )} */}
-          {/* <TouchableOpacity onPress={upload_your_proof_receipt_transaction} style={styles.button_upload}>
-            <Text style={styles.button_text}>
-              <Ionicons style={{ fontSize: 20 }} name={"cloud-upload"} /> Upload Proof Transaction
-            </Text>
-          </TouchableOpacity> */}
-          {/* <Text style={{ fontSize: 11, marginBottom: 10 }}>*You can provide transaction later at Your Current Orders Tab</Text> */}
-            <TouchableOpacity onPress={go_to_your_print_order_List} style={styles.button}>
-              <Text style={styles.button_text}>Back to Orders list</Text>
-            </TouchableOpacity>
+          )}
         </View>
       </SafeAreaView>
     </>
@@ -303,9 +309,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderColor: "black",
     marginVertical: 10,
-    marginLeft: 'auto',
-    marginRight: 'auto'
-  }
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
 })
 
 export default Order_Detail_Screen

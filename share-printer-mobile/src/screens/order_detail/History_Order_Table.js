@@ -38,33 +38,31 @@ function Transaction_History_Screen(props) {
 
   const [access_token, set_access_token] = useState("")
   useEffect(() => {
-    AsyncStorage.getItem("access_token").then((data) => set_access_token(data))
-  }, [])
-
-  useEffect(() => {
-    setLoading(true)
-    axios({
-      method: "GET",
-      url: `/user/transaction_history`,
-      headers: {
-        access_token: access_token || "",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        // const input = JSON.parse(JSON.stringify(response.data.data))
+    const funcAsync = async () => {
+      try {
+        setLoading(true)
+        await AsyncStorage.getItem("access_token").then((data) => set_access_token(data))
+        let response = await axios({
+          method: "GET",
+          url: `/user/transaction_history`,
+          headers: {
+            access_token: access_token || "",
+            "Content-Type": "application/json",
+          },
+        })
         setCompletedOrder(response.data.data)
-      })
-      .catch((err) => {
+        setLoading(false)
+      } catch (err) {
         console.log(err)
-        // setError(err)
-      })
-      .finally((_) => setLoading(false))
+      }
+    }
+
+    funcAsync()
   }, [access_token, props, isFocused])
 
   const click_info_order = (data_order) => {
     console.log(data_order)
-    props.navigation.navigate("Order Detail", { data: data_order })
+    props.navigation.navigate("Order Detail", { data: data_order, from_page: "order_history" })
   }
 
   // props.navigation.navigate("Shop Profile", { shop: selectedShop })
