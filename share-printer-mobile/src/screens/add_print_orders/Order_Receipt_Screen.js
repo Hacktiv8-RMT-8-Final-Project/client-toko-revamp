@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
   },
   button_upload: {
     width: "80%",
-    backgroundColor: "#99AC5D",
+    backgroundColor: "#107C10",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
