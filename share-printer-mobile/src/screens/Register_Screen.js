@@ -61,10 +61,10 @@ function Register_Screen(props) {
           />
         </View>
         <TouchableOpacity style={styles.button_confirm} onPress={submit_register_account}>
-          <Text style={styles.button_text}>REGISTER</Text>
+          <Text style={styles.button_text_register}>REGISTER</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button_cancel} onPress={go_to_login_screen}>
-          <Text style={styles.button_text}>ALREADY HAVE ACCOUNT</Text>
+          <Text style={styles.button_text_cancel}>ALREADY HAVE ACCOUNT</Text>
         </TouchableOpacity>
 
         <TouchableOpacity>
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
 
   button_confirm: {
     width: "80%",
-    backgroundColor: "#D9AD82",
+    backgroundColor: "#107C10",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -125,18 +125,20 @@ const styles = StyleSheet.create({
   },
   button_cancel: {
     width: "80%",
-    backgroundColor: "#FAEDCD",
+    backgroundColor: "white",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 10,
     marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "#107C10"
   },
-  button_text: {
+  button_text_register: {
     fontSize: 16,
     textTransform: "uppercase",
-    color: "black",
+    color: "white",
     fontWeight: "bold",
   },
   logo: {
@@ -145,6 +147,12 @@ const styles = StyleSheet.create({
     borderRadius: 200,
     marginVertical: 50
 
+  },
+  button_text_cancel: {
+    fontSize: 16,
+    textTransform: "uppercase",
+    color: "#107C10",
+    fontWeight: "bold",
   },
 })
 

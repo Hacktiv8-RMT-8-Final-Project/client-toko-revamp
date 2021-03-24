@@ -310,16 +310,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 25,
     marginHorizontal: 30,
-    backgroundColor: "#d4a373",
+    backgroundColor: "white",
     borderWidth: 1,
-    borderColor: "#3e2913",
+    borderColor: "#107C10",
   },
   picker_select: {
     width: 275,
     height: 44,
     textAlign: "center",
     justifyContent: "center",
-    color: "white",
+    color: "#107C10",
   },
   bottom_screen_container: {
     alignItems: "center",
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
   form_card: {
     flex: 1,
     margin: 10,
-    backgroundColor: "#faedcd",
+    backgroundColor: "white",
     borderRadius: 25,
   },
   inputView: {
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "80%",
-    backgroundColor: "#d4a373",
+    backgroundColor: "#107C10",
     borderRadius: 25,
     height: 50,
     alignItems: "center",

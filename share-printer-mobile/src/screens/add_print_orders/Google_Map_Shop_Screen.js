@@ -283,10 +283,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 25,
     borderWidth: 1,
-    borderColor: "#d4a373",
+    borderColor: "#107C10",
     marginHorizontal: 30,
     marginBottom: 10,
-    backgroundColor: "#faedcd",
+    backgroundColor: "white",
   },
   text_map: {
     marginVertical: 10,
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "80%",
-    backgroundColor: "#d4a373",
+    backgroundColor: "#107C10",
     borderRadius: 25,
     height: 50,
     alignItems: "center",

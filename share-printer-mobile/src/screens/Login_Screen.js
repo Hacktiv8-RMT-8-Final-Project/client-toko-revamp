@@ -67,10 +67,10 @@ function Login_Screen(props) {
           />
         </View>
         <TouchableOpacity style={styles.loginBtn} onPress={go_to_dashboard_screen}>
-          <Text style={styles.button_text}>LOGIN</Text>
+          <Text style={styles.button_text_login}>LOGIN</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={go_to_register_screen}>
-          <Text style={styles.button_text}>REGISTER</Text>
+          <Text style={styles.button_text_register}>REGISTER</Text>
         </TouchableOpacity>
 
         <TouchableOpacity>
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
 
   loginBtn: {
     width: "80%",
-    backgroundColor: "#D9AD82",
+    backgroundColor: "#107C10",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -131,18 +131,20 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "80%",
-    backgroundColor: "#FAEDCD",
+    backgroundColor: "white",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 10,
     marginBottom: 10,
+    borderColor: '#107C10',
+    borderWidth: 1
   },
-  button_text: {
+  button_text_login: {
     fontSize: 16,
     textTransform: "uppercase",
-    color: "black",
+    color: "white",
     fontWeight: "bold",
   },
   logo: {
@@ -151,6 +153,12 @@ const styles = StyleSheet.create({
     borderRadius: 200,
     marginVertical: 50
 
+  },
+  button_text_register: {
+    fontSize: 16,
+    textTransform: "uppercase",
+    color: "#107C10",
+    fontWeight: "bold",
   },
 })
 

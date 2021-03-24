@@ -58,7 +58,7 @@ function Shop_Profile_Screen(props) {
             <Text style={styles.storeName}>{shopDetail.name}</Text>
             <Text style={{ fontWeight: "bold" }}>Welcome, to our shop!</Text>
             <View style={styles.info}>
-              <Chip mode="outlined" style={{ backgroundColor: "#faedcd" }} icon="map-marker">
+              <Chip mode="outlined" style={styles.tagLocation} icon="map-marker">
                 Location
               </Chip>
             </View>
@@ -67,7 +67,7 @@ function Shop_Profile_Screen(props) {
           <View style={styles.statusContainer}>
             <Text style={{ marginTop: 12 }}>Available Products:</Text>
             {shopDetail.status_open ? (
-              <Chip style={{ backgroundColor: "#d4a373" }} icon="information">
+              <Chip style={{ borderColor: "#107C10", borderWidth: 2, backgroundColor: 'white' }} icon="information">
                 Open
               </Chip>
             ) : (
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "80%",
-    backgroundColor: "#d4a373",
+    backgroundColor: "#107C10",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   products_card: {
-    backgroundColor: "#faedcd",
+    backgroundColor: "white",
     borderRadius: 25,
   },
   button_text: {
@@ -192,6 +192,11 @@ const styles = StyleSheet.create({
   priceContainer: {
     flexDirection: "row",
   },
+  tagLocation: {
+    backgroundColor: 'white',
+    borderColor: '#107C10',
+    borderWidth: 1
+  }
 })
 
 export default Shop_Profile_Screen
