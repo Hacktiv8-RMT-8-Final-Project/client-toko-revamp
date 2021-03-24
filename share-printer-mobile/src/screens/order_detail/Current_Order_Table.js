@@ -229,36 +229,44 @@ function Current_Orders_Screen(props) {
                       </View>
                       <View style={styles.rightContent}>
                         {e.payment_status === 1 ? (
-                          <Chip style={{ backgroundColor: "#90E3FF" }} icon="bell-circle-outline" type="outlined">
-                            Status Requested
+                          <Chip style={{ backgroundColor: "#90E3FF" }} type="outlined">
+                            <Ionicons style={styles.icon} name={"chatbubble-ellipses-outline"} />
+                            &nbsp;Status Requested
                           </Chip>
                         ) : e.payment_status === 2 ? (
                           <Chip style={{ backgroundColor: "#ffffff", borderWidth: 1, borderColor: "green" }} type="outlined">
-                            <Ionicons style={styles.icon} name={"checkmark-circle"} /> Status Paid
+                            <Ionicons style={styles.icon} name={"checkmark-circle-outline"} />
+                            &nbsp;Status Paid
                           </Chip>
                         ) : e.payment_status === 3 ? (
                           <Chip style={{ backgroundColor: "#04f700" }} type="outlined">
-                            <Ionicons style={styles.icon} name={"thumbs-up"} /> Order Confirmed
+                            <Ionicons style={styles.icon} name={"thumbs-up-outline"} />
+                            &nbsp;Order Confirmed
                           </Chip>
                         ) : e.payment_status === 4 ? (
                           <Chip style={{ backgroundColor: "#ffd900" }} type="outlined">
-                            <Ionicons style={styles.icon} name={"cog"} />In Progress
+                            <Ionicons style={styles.icon} name={"time-outline"} />
+                            &nbsp;In Progress
                           </Chip>
                         ) : e.payment_status === 5 ? (
-                          <Chip style={{ backgroundColor: "#D9AD82" }} icon="information" type="outlined">
-                            <Ionicons style={styles.icon} name={"checkmark-done-circle"} />  Completed
+                          <Chip style={{ backgroundColor: "#107C10" }} type="outlined">
+                            <Ionicons style={styles.icon} name={"checkmark-done-circle-outline"} />
+                            &nbsp;Completed
                           </Chip>
                         ) : e.payment_status === 6 ? (
                           <Chip style={{ backgroundColor: "#FF9090" }} type="outlined">
-                           <Ionicons style={styles.icon} name={"close-circle"} /> Canceled
+                            <Ionicons style={styles.icon} name={"close-circle-outline"} />
+                            &nbsp;Canceled
                           </Chip>
                         ) : e.payment_status === 7 ? (
                           <Chip style={{ backgroundColor: "#FF9090" }} type="outlined">
-                           <Ionicons style={styles.icon} name={"close-circle"} /> Rejected
+                            <Ionicons style={styles.icon} name={"close-circle-outline"} />
+                            &nbsp;Rejected
                           </Chip>
                         ) : (
                           <Chip style={{ backgroundColor: "red" }} type="outlined">
-                            <Ionicons style={styles.icon} name={"bug"} /> Error
+                            <Ionicons style={styles.icon} name={"bug"} />
+                            &nbsp;Error
                           </Chip>
                         )}
                       </View>
@@ -380,7 +388,7 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     borderWidth: 1,
     textAlign: "center",
-    marginBottom: 10
+    marginBottom: 10,
   },
   button_download: {
     fontSize: 12,

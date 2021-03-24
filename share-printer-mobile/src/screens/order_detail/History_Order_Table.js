@@ -118,52 +118,46 @@ function Transaction_History_Screen(props) {
                       </View>
                       <View style={styles.rightContent}>
                         {e.payment_status === 1 ? (
-                          <Chip style={{ backgroundColor: "#90E3FF" }} icon="bell-circle-outline" type="outlined">
-                            Status Requested
+                          <Chip style={{ backgroundColor: "#90E3FF" }} type="outlined">
+                            <Ionicons style={styles.icon} name={"chatbubble-ellipses-outline"} />
+                            &nbsp;Status Requested
                           </Chip>
                         ) : e.payment_status === 2 ? (
-                          <Chip
-                            style={{ backgroundColor: "#ffffff", borderWidth: 1, borderColor: "green" }}
-                            icon="checkbox-marked-circle-outline"
-                            type="outlined"
-                          >
-                            Status Paid
+                          <Chip style={{ backgroundColor: "#ffffff", borderWidth: 1, borderColor: "green" }} type="outlined">
+                            <Ionicons style={styles.icon} name={"checkmark-circle-outline"} />
+                            &nbsp;Status Paid
                           </Chip>
                         ) : e.payment_status === 3 ? (
-                          <Chip style={{ backgroundColor: "#04f700" }} icon="check-underline-circle-outline" type="outlined">
-                            Order Confirmed
+                          <Chip style={{ backgroundColor: "#04f700" }} type="outlined">
+                            <Ionicons style={styles.icon} name={"thumbs-up-outline"} />
+                            &nbsp;Order Confirmed
                           </Chip>
                         ) : e.payment_status === 4 ? (
-                          <Chip style={{ backgroundColor: "#ffd900" }} icon="circle-slice-3" type="outlined">
-                            In Progress
+                          <Chip style={{ backgroundColor: "#ffd900" }} type="outlined">
+                            <Ionicons style={styles.icon} name={"time-outline"} />
+                            &nbsp;In Progress
                           </Chip>
                         ) : e.payment_status === 5 ? (
-                          <Chip style={{ backgroundColor: "#D9AD82" }} icon="check-circle-outline" type="outlined">
-                            Completed
+                          <Chip style={{ backgroundColor: "#107C10" }} type="outlined">
+                            <Ionicons style={styles.icon_completed} name={"shield-checkmark-outline"} />
+                            <Text style={{ color: "white" }}>&nbsp;Completed</Text>
                           </Chip>
                         ) : e.payment_status === 6 ? (
-                          <Chip style={{ backgroundColor: "#FF9090" }} icon="close-circle-outline" type="outlined">
-                            Canceled
+                          <Chip style={{ backgroundColor: "#FF9090" }} type="outlined">
+                            <Ionicons style={styles.icon} name={"close-circle-outline"} />
+                            &nbsp;Canceled
                           </Chip>
                         ) : e.payment_status === 7 ? (
-                          <Chip style={{ backgroundColor: "#FF9090" }} icon="minus-circle-outline" type="outlined">
-                            Rejected
+                          <Chip style={{ backgroundColor: "#FF9090" }} type="outlined">
+                            <Ionicons style={styles.icon} name={"close-circle-outline"} />
+                            &nbsp;Rejected
                           </Chip>
                         ) : (
-                          <Chip style={{ backgroundColor: "red" }} icon="alert-circle-outline" type="outlined">
-                            Error
+                          <Chip style={{ backgroundColor: "red" }} type="outlined">
+                            <Ionicons style={styles.icon} name={"bug"} />
+                            &nbsp;Error
                           </Chip>
                         )}
-                        {/* <TouchableOpacity
-                          onPress={() => {
-                            Linking.openURL(`${e.proof_receipt_transaction}`)
-                          }}
-                          style={styles.button_transaction}
-                        >
-                          <Text>
-                            <Ionicons style={styles.icon} name={"receipt-outline"} /> Receipt Link
-                          </Text>
-                        </TouchableOpacity> */}
                       </View>
                     </View>
                   </Card.Content>
@@ -301,6 +295,11 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 17,
     marginBottom: 5,
+  },
+  icon_completed: {
+    fontSize: 17,
+    marginBottom: 5,
+    color: "white",
   },
   button_text: {
     fontSize: 16,

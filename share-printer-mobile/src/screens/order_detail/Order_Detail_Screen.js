@@ -32,49 +32,50 @@ function Order_Detail_Screen(props) {
     AsyncStorage.getItem("access_token").then((data) => set_access_token(data))
   }, [])
 
-  // const upload_your_proof_receipt_transaction = async () => {
-  //   try {
-  //     const file = await DocumentPicker.getDocumentAsync()
-  //     const blob = await new Promise((resolve, reject) => {
-  //       const xhr = new XMLHttpRequest()
-  //       xhr.onload = function () {
-  //         resolve(xhr.response)
-  //       }
-  //       xhr.onerror = function (e) {
-  //         console.log(e)
-  //         reject(new TypeError("Network request failed"))
-  //       }
-  //       xhr.responseType = "blob"
-  //       xhr.open("GET", file.uri, true)
-  //       xhr.send(null)
-  //     })
-  //     const storageRef = await app.storage().ref()
-  //     const bucket = storageRef.child(file.name)
-  //     await bucket.put(blob)
-  //     const url = await bucket.getDownloadURL()
-  //     console.log(url)
-  //     set_proof_transaction_link(url)
-  //     console.log("upload File")
-  //     // ! Printed into database after upload
-  //     const input = {
-  //       proof_receipt_transaction: url,
-  //       order_Id: data_receipt.id,
-  //     }
-  //     const response = await axios({
-  //       method: "PUT",
-  //       url: `/user/upload_receipt`,
-  //       headers: {
-  //         access_token: access_token || "",
-  //         "Content-Type": "application/json",
-  //       },
-  //       data: input,
-  //     })
-  //     console.log(response.data.data[0].proof_receipt_transaction)
-  //   } catch (err) {
-  //     console.log(err)
-  //     // setError(err)
-  //   }
-  // }
+  const upload_your_proof_receipt_transaction = async () => {
+    try {
+      const file = await DocumentPicker.getDocumentAsync()
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.onload = function () {
+          resolve(xhr.response)
+        }
+        xhr.onerror = function (e) {
+          console.log(e)
+          reject(new TypeError("Network request failed"))
+        }
+        xhr.responseType = "blob"
+        xhr.open("GET", file.uri, true)
+        xhr.send(null)
+      })
+      const storageRef = await app.storage().ref()
+      const bucket = storageRef.child(file.name)
+      await bucket.put(blob)
+      const url = await bucket.getDownloadURL()
+      console.log(url)
+      set_proof_transaction_link(url)
+      console.log("upload File")
+      // ! Printed into database after upload
+      const input = {
+        proof_receipt_transaction: url,
+        order_Id: data_receipt.id,
+      }
+      const response = await axios({
+        method: "PUT",
+        url: `/user/upload_receipt`,
+        headers: {
+          access_token: access_token || "",
+          "Content-Type": "application/json",
+        },
+        data: input,
+      })
+      console.log(response.data.data[0].proof_receipt_transaction)
+    } catch (err) {
+      console.log(err)
+      // setError(err)
+    }
+  }
+
   const upload_your_pdf_file = async () => {
     try {
       const file = await DocumentPicker.getDocumentAsync()
@@ -181,7 +182,12 @@ function Order_Detail_Screen(props) {
                 <>
                   <TouchableOpacity onPress={upload_your_pdf_file} style={styles.buttonUploadPayment}>
                     <Text style={styles.button_text}>
-                      <Ionicons style={{ fontSize: 20 }} name={"cloud-upload"} /> Upload PDF File
+                      <Ionicons style={{ fontSize: 20 }} name={"cloud-upload"} /> Reupload PDF File
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={upload_your_proof_receipt_transaction} style={styles.buttonUploadTransaction}>
+                    <Text style={styles.button_text}>
+                      <Ionicons style={{ fontSize: 20 }} name={"cloud-upload"} /> Reupload Transaction
                     </Text>
                   </TouchableOpacity>
                 </>
@@ -227,6 +233,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: "#ffffff",
     marginVertical: 10,
+    paddingVertical: 10,
   },
   form_card_product: {
     backgroundColor: "#ffffff",
@@ -302,6 +309,19 @@ const styles = StyleSheet.create({
   buttonUploadPayment: {
     width: "80%",
     backgroundColor: "#25D366",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+    borderColor: "black",
+    marginVertical: 10,
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  buttonUploadTransaction: {
+    width: "80%",
+    backgroundColor: "#107C10",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
