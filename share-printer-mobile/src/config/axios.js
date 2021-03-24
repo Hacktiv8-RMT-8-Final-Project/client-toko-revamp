@@ -15,6 +15,7 @@ const instance = axios.create({
 
   // ! local host
   baseURL: `http://192.168.100.13:3000`,
+
   // baseURL: 'http://localhost:3000'
 
   // headers: {
