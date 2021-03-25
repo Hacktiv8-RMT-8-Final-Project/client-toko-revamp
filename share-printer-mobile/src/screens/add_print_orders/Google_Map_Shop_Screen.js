@@ -199,6 +199,8 @@ function Google_Map_Shop_Screen(props) {
     }
   }
 
+  if (shop_map.length === 0) return <Loading_Component />
+
   if (loading) return <Loading_Component />
   if (error) return <Error_Component />
   return (
