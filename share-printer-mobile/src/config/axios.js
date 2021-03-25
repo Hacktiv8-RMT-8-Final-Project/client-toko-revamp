@@ -7,9 +7,9 @@ import axios from "axios"
 
 const instance = axios.create({
   // ! Heroku
-  // baseURL: `https://share-printer-finalproject.herokuapp.com/`,
+  baseURL: `https://share-printer-finalproject.herokuapp.com/`,
   // ! local host
-  baseURL: `http://192.168.100.13:3000`,
+  // baseURL: `http://192.168.100.13:3000`,
   // baseURL: 'http://localhost:3000'
   // headers: {
   //   access_token: access_token || "",
